@@ -4,7 +4,12 @@ spring:
     password: 246260
     url: jdbc:mysql://121.4.87.152:3306/seven_ums
     driver-class-name: com.mysql.cj.jdbc.Driver
-
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 121.4.87.152:8848
+  application:
+    name: seven-member
 mybatis-plus:
   global-config:
     db-config:

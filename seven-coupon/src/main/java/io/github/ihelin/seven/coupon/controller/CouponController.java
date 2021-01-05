@@ -5,9 +5,12 @@ import io.github.ihelin.common.utils.R;
 import io.github.ihelin.seven.coupon.entity.CouponEntity;
 import io.github.ihelin.seven.coupon.service.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -21,11 +24,30 @@ import java.util.Map;
  * @email ihelin@outlook.com
  * @date 2021-01-05 12:40:34
  */
+@RefreshScope
 @RestController
 @RequestMapping("coupon/coupon")
 public class CouponController {
     @Autowired
     private CouponService couponService;
+
+    @Value("${coupon.user.name}")
+    private String name;
+
+    @Value("${coupon.user.age}")
+    private int age;
+
+    @GetMapping("/test")
+    public R testConfig(){
+        return R.ok().put("name", name).put("age", age);
+    }
+
+    @RequestMapping("/member/list")
+    public R memberCoupons(){
+        CouponEntity couponEntity = new CouponEntity();
+        couponEntity.setCouponName("满100减10");
+        return R.ok().put("coupons", Collections.singletonList(couponEntity));
+    }
 
     /**
      * 列表

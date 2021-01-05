@@ -1,4 +1,8 @@
+server:
+  port: 7000
 spring:
+  application:
+    name: seven-coupon
   datasource:
     username: root
     password: 246260
@@ -8,12 +12,7 @@ spring:
     nacos:
       discovery:
         server-addr: 121.4.87.152:8848
-  application:
-    name: seven-coupon
-
 mybatis-plus:
   global-config:
     db-config:
       id-type: auto
-server:
-  port: 7000

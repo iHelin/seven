@@ -21,7 +21,6 @@ import java.util.Date;
  *
  * @author Mark sunlightcs@gmail.com
  */
-@Data
 @TableName("tb_user")
 public class UserEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -5,9 +5,9 @@ spring:
     url: jdbc:mysql://121.4.87.152:3306/seven_pms
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-#mybatis-plus:
 mybatis-plus:
   global-config:
     db-config:
       id-type: auto
-#  mapper-locations: classpath:
+server:
+  port: 10000

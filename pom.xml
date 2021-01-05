@@ -15,7 +15,6 @@
         <module>seven-order</module>
         <module>seven-product</module>
         <module>seven-ware</module>
-<!--        <module>common</module>-->
         <module>renren-fast</module>
         <module>renren-generator</module>
         <module>seven-common</module>

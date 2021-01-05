@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    username: root
+    password: 246260
+    url: jdbc:mysql://121.4.87.152:3306/seven_wms
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
+server:
+  port: 11000

@@ -1,7 +1,7 @@
 package io.github.ihelin.seven.coupon.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import io.github.ihelin.common.utils.PageUtils;
+import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.coupon.entity.SkuFullReductionEntity;
 
 import java.util.Map;

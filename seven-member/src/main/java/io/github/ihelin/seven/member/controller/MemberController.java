@@ -1,7 +1,7 @@
 package io.github.ihelin.seven.member.controller;
 
-import io.github.ihelin.common.utils.PageUtils;
-import io.github.ihelin.common.utils.R;
+import io.github.ihelin.seven.common.utils.PageUtils;
+import io.github.ihelin.seven.common.utils.R;
 import io.github.ihelin.seven.member.entity.MemberEntity;
 import io.github.ihelin.seven.member.feign.CouponFeignService;
 import io.github.ihelin.seven.member.service.MemberService;

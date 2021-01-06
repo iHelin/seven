@@ -1,6 +1,6 @@
 package io.github.ihelin.seven.product.controller;
 
-import io.github.ihelin.common.utils.R;
+import io.github.ihelin.seven.common.utils.R;
 import io.github.ihelin.seven.product.entity.CategoryEntity;
 import io.github.ihelin.seven.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;

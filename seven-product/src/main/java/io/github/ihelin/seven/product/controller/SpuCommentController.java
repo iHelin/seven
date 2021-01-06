@@ -1,7 +1,7 @@
 package io.github.ihelin.seven.product.controller;
 
-import io.github.ihelin.common.utils.PageUtils;
-import io.github.ihelin.common.utils.R;
+import io.github.ihelin.seven.common.utils.PageUtils;
+import io.github.ihelin.seven.common.utils.R;
 import io.github.ihelin.seven.product.entity.SpuCommentEntity;
 import io.github.ihelin.seven.product.service.SpuCommentService;
 import org.springframework.beans.factory.annotation.Autowired;

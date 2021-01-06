@@ -1,4 +1,4 @@
-package io.github.ihelin.common.xss;
+package io.github.ihelin.seven.common.xss;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

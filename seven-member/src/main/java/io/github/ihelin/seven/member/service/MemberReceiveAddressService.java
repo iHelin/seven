@@ -1,7 +1,7 @@
 package io.github.ihelin.seven.member.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import io.github.ihelin.common.utils.PageUtils;
+import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.member.entity.MemberReceiveAddressEntity;
 
 import java.util.Map;

@@ -6,9 +6,9 @@
  * 版权所有，侵权必究！
  */
 
-package io.github.ihelin.common.xss;
+package io.github.ihelin.seven.common.xss;
 
-import io.github.ihelin.common.exception.RRException;
+import io.github.ihelin.seven.common.exception.RRException;
 import org.apache.commons.lang.StringUtils;
 
 /**

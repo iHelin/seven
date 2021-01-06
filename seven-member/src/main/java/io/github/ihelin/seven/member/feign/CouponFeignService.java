@@ -1,6 +1,6 @@
 package io.github.ihelin.seven.member.feign;
 
-import io.github.ihelin.common.utils.R;
+import io.github.ihelin.seven.common.utils.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 

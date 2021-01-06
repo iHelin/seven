@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.github.ihelin.seven.coupon.entity.HomeSubjectEntity;
 import io.github.ihelin.seven.coupon.service.HomeSubjectService;
-import io.github.ihelin.common.utils.PageUtils;
-import io.github.ihelin.common.utils.R;
+import io.github.ihelin.seven.common.utils.PageUtils;
+import io.github.ihelin.seven.common.utils.R;
 
 
 

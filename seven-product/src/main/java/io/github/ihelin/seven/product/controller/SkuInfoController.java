@@ -1,7 +1,7 @@
 package io.github.ihelin.seven.product.controller;
 
-import io.github.ihelin.common.utils.PageUtils;
-import io.github.ihelin.common.utils.R;
+import io.github.ihelin.seven.common.utils.PageUtils;
+import io.github.ihelin.seven.common.utils.R;
 import io.github.ihelin.seven.product.entity.SkuInfoEntity;
 import io.github.ihelin.seven.product.service.SkuInfoService;
 import org.springframework.beans.factory.annotation.Autowired;

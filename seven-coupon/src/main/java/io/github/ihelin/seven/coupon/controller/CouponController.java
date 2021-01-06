@@ -1,7 +1,7 @@
 package io.github.ihelin.seven.coupon.controller;
 
-import io.github.ihelin.common.utils.PageUtils;
-import io.github.ihelin.common.utils.R;
+import io.github.ihelin.seven.common.utils.PageUtils;
+import io.github.ihelin.seven.common.utils.R;
 import io.github.ihelin.seven.coupon.entity.CouponEntity;
 import io.github.ihelin.seven.coupon.service.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;

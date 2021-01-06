@@ -6,7 +6,7 @@
  * 版权所有，侵权必究！
  */
 
-package io.github.ihelin.common.utils;
+package io.github.ihelin.seven.common.utils;
 
 /**
  * 常量

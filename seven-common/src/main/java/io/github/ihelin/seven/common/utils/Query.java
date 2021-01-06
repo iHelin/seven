@@ -6,12 +6,12 @@
  * 版权所有，侵权必究！
  */
 
-package io.github.ihelin.common.utils;
+package io.github.ihelin.seven.common.utils;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.github.ihelin.common.xss.SQLFilter;
+import io.github.ihelin.seven.common.xss.SQLFilter;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Map;

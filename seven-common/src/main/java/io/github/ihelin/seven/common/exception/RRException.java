@@ -6,7 +6,7 @@
  * 版权所有，侵权必究！
  */
 
-package io.github.ihelin.common.exception;
+package io.github.ihelin.seven.common.exception;
 
 /**
  * 自定义异常

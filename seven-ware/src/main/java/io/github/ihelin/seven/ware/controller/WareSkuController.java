@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.github.ihelin.seven.ware.entity.WareSkuEntity;
 import io.github.ihelin.seven.ware.service.WareSkuService;
-import io.github.ihelin.common.utils.PageUtils;
-import io.github.ihelin.common.utils.R;
+import io.github.ihelin.seven.common.utils.PageUtils;
+import io.github.ihelin.seven.common.utils.R;
 
 
 

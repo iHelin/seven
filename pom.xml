@@ -10,14 +10,15 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>seven-common</module>
         <module>seven-coupon</module>
+        <module>seven-gateway</module>
         <module>seven-member</module>
         <module>seven-order</module>
         <module>seven-product</module>
         <module>seven-ware</module>
         <module>renren-fast</module>
         <module>renren-generator</module>
-        <module>seven-common</module>
     </modules>
 
 </project>

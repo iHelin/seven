@@ -1,15 +1,11 @@
 package io.github.ihelin.seven.generator.service;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import io.github.ihelin.seven.generator.dao.MySQLGeneratorDao;
 import io.github.ihelin.seven.generator.entity.ColumnEntity;
 import io.github.ihelin.seven.generator.entity.TableEntity;
 import io.github.ihelin.seven.generator.utils.DateUtils;
-import io.github.ihelin.seven.generator.utils.PageUtils;
-import io.github.ihelin.seven.generator.utils.Query;
 import io.github.ihelin.seven.generator.utils.RRException;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
@@ -42,7 +38,7 @@ public class GeneratorService {
     private FreeMarkerConfigurer freeMarkerConfigurer;
 
     @Autowired
-    private MySQLGeneratorDao generatorDao;
+    private MySQLGeneratorDao mySQLGeneratorDao;
 
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<>();
@@ -58,13 +54,13 @@ public class GeneratorService {
         return templates;
     }
 
-    public void generatorCode(String[] tableNames, OutputStream outputStream) {
+    public void generatorCode(String tableSchema, String[] tableNames, OutputStream outputStream) {
         ZipOutputStream zip = new ZipOutputStream(outputStream);
         for (String tableName : tableNames) {
             //查询表信息
-            Map<String, String> table = queryTable(tableName);
+            Map<String, String> table = queryTable(tableName, tableSchema);
             //查询列信息
-            List<Map<String, String>> columns = queryColumns(tableName);
+            List<Map<String, String>> columns = queryColumns(tableName, tableSchema);
             //生成代码
             generatorCode(table, columns, zip);
         }
@@ -72,19 +68,19 @@ public class GeneratorService {
         IOUtils.closeQuietly(zip);
     }
 
-    public PageUtils queryList(Query query) {
-        Page<?> page = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<Map<String, Object>> list = generatorDao.queryList(query);
-        int total = (int) page.getTotal();
-        return new PageUtils(list, total, query.getLimit(), query.getPage());
+    public List<Map<String, Object>> queryTables(String schemaName) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("schemaName", schemaName);
+        List<Map<String, Object>> list = mySQLGeneratorDao.queryList(params);
+        return list;
     }
 
-    public Map<String, String> queryTable(String tableName) {
-        return generatorDao.queryTable(tableName);
+    public Map<String, String> queryTable(String tableName, String tableSchema) {
+        return mySQLGeneratorDao.queryTable(tableName, tableSchema);
     }
 
-    public List<Map<String, String>> queryColumns(String tableName) {
-        return generatorDao.queryColumns(tableName);
+    public List<Map<String, String>> queryColumns(String tableName, String tableSchema) {
+        return mySQLGeneratorDao.queryColumns(tableName, tableSchema);
     }
 
     /**
@@ -261,4 +257,8 @@ public class GeneratorService {
         return null;
     }
 
+    public List<String> listAllSchema() {
+        List<String> schemaNames = mySQLGeneratorDao.querySchemas();
+        return schemaNames;
+    }
 }

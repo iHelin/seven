@@ -27,7 +27,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-freemarker</artifactId>
-<!--			<version></version>-->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -64,11 +63,6 @@
 			<artifactId>fastjson</artifactId>
 			<version>${fastjson.version}</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<artifactId>velocity</artifactId>-->
-<!--			<groupId>org.apache.velocity</groupId>-->
-<!--			<version>${velocity.version}</version>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper-spring-boot-starter</artifactId>

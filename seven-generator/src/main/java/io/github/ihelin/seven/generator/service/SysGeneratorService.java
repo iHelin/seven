@@ -10,10 +10,7 @@ package io.github.ihelin.seven.generator.service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import io.github.ihelin.seven.generator.config.MongoManager;
-import io.github.ihelin.seven.generator.dao.GeneratorDao;
-import io.github.ihelin.seven.generator.dao.MongoDBGeneratorDao;
-import io.github.ihelin.seven.generator.factory.MongoDBCollectionFactory;
+import io.github.ihelin.seven.generator.dao.MySQLGeneratorDao;
 import io.github.ihelin.seven.generator.utils.GenUtils;
 import io.github.ihelin.seven.generator.utils.PageUtils;
 import io.github.ihelin.seven.generator.utils.Query;
@@ -33,17 +30,15 @@ import java.util.zip.ZipOutputStream;
  */
 @Service
 public class SysGeneratorService {
+
     @Autowired
-    private GeneratorDao generatorDao;
+    private MySQLGeneratorDao generatorDao;
 
 
     public PageUtils queryList(Query query) {
         Page<?> page = PageHelper.startPage(query.getPage(), query.getLimit());
         List<Map<String, Object>> list = generatorDao.queryList(query);
         int total = (int) page.getTotal();
-        if (generatorDao instanceof MongoDBGeneratorDao) {
-            total = MongoDBCollectionFactory.getCollectionTotal(query);
-        }
         return new PageUtils(list, total, query.getLimit(), query.getPage());
     }
 
@@ -66,9 +61,6 @@ public class SysGeneratorService {
             List<Map<String, String>> columns = queryColumns(tableName);
             //生成代码
             GenUtils.generatorCode(table, columns, zip);
-        }
-        if (MongoManager.isMongo()) {
-            GenUtils.generatorMongoCode(tableNames, zip);
         }
 
 

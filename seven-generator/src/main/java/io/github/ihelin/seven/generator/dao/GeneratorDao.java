@@ -26,6 +26,7 @@ import java.util.Map;
  * @since 2018-07-24
  */
 public interface GeneratorDao {
+
     List<Map<String, Object>> queryList(Map<String, Object> map);
 
     Map<String, String> queryTable(String tableName);

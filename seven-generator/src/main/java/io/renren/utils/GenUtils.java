@@ -34,7 +34,7 @@ public class GenUtils {
     private static String currentTableName;
 
     public static List<String> getTemplates() {
-        List<String> templates = new ArrayList<String>();
+        List<String> templates = new ArrayList<>();
         templates.add("template/Entity.java.vm");
         templates.add("template/Dao.xml.vm");
 
@@ -82,7 +82,7 @@ public class GenUtils {
         tableEntity.setClassname(StringUtils.uncapitalize(className));
 
         //列信息
-        List<ColumnEntity> columsList = new ArrayList<>();
+        List<ColumnEntity> columnList = new ArrayList<>();
         for (Map<String, String> column : columns) {
             ColumnEntity columnEntity = new ColumnEntity();
             columnEntity.setColumnName(column.get("columnName"));
@@ -111,9 +111,9 @@ public class GenUtils {
                 tableEntity.setPk(columnEntity);
             }
 
-            columsList.add(columnEntity);
+            columnList.add(columnEntity);
         }
-        tableEntity.setColumns(columsList);
+        tableEntity.setColumns(columnList);
 
         //没主键，则第一个字段为主键
         if (tableEntity.getPk() == null) {
@@ -124,8 +124,6 @@ public class GenUtils {
         Properties prop = new Properties();
         prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         Velocity.init(prop);
-        String mainPath = config.getString("mainPath");
-        mainPath = StringUtils.isBlank(mainPath) ? "io.renren" : mainPath;
         //封装模板数据
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", tableEntity.getTableName());
@@ -137,7 +135,6 @@ public class GenUtils {
         map.put("columns", tableEntity.getColumns());
         map.put("hasBigDecimal", hasBigDecimal);
         map.put("hasList", hasList);
-        map.put("mainPath", mainPath);
         map.put("package", config.getString("package"));
         map.put("moduleName", config.getString("moduleName"));
         map.put("author", config.getString("author"));
@@ -222,8 +219,6 @@ public class GenUtils {
         Properties prop = new Properties();
         prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         Velocity.init(prop);
-        String mainPath = config.getString("mainPath");
-        mainPath = StringUtils.isBlank(mainPath) ? "io.renren" : mainPath;
         //封装模板数据
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", tableEntity.getTableName());
@@ -234,7 +229,6 @@ public class GenUtils {
         map.put("pathName", tableEntity.getClassname().toLowerCase());
         map.put("columns", tableEntity.getColumns());
         map.put("hasList", hasList);
-        map.put("mainPath", mainPath);
         map.put("package", config.getString("package"));
         map.put("moduleName", config.getString("moduleName"));
         map.put("author", config.getString("author"));

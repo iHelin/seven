@@ -31,7 +31,6 @@ public class CategoryController {
      * 列表
      */
     @RequestMapping("/list/tree")
-    // @RequiresPermissions("product:category:list")
     public R list() {
         List<CategoryEntity> entities = categoryService.listWithTree();
         return R.ok().put("data", entities);
@@ -46,7 +45,7 @@ public class CategoryController {
     public R info(@PathVariable("catId") Long catId){
 		CategoryEntity category = categoryService.getById(catId);
 
-        return R.ok().put("category", category);
+        return R.ok().put("data", category);
     }
 
     /**
@@ -63,11 +62,18 @@ public class CategoryController {
     /**
      * 修改
      */
+    @RequestMapping("/update/sort")
+    public R updateSort(@RequestBody List<CategoryEntity> categoryEntities){
+        categoryService.updateBatchById(categoryEntities);
+        return R.ok();
+    }
+
+    /**
+     * 修改
+     */
     @RequestMapping("/update")
-    //@RequiresPermissions("product:category:update")
     public R update(@RequestBody CategoryEntity category){
 		categoryService.updateById(category);
-
         return R.ok();
     }
 
@@ -75,9 +81,8 @@ public class CategoryController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("product:category:delete")
     public R delete(@RequestBody Long[] catIds){
-		categoryService.removeByIds(Arrays.asList(catIds));
+		categoryService.removeMenuByIds(Arrays.asList(catIds));
 
         return R.ok();
     }

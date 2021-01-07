@@ -2,6 +2,7 @@ package io.github.ihelin.seven.product.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
@@ -38,6 +39,7 @@ public class CategoryEntity implements Serializable {
     /**
      * ÊÇ·ñÏÔÊ¾[0-²»ÏÔÊ¾£¬1ÏÔÊ¾]
      */
+    @TableLogic
     private Integer showStatus;
     /**
      * ÅÅÐò
@@ -100,7 +102,7 @@ public class CategoryEntity implements Serializable {
     }
 
     public Integer getSort() {
-        return sort == null ? 0 : sort;
+        return sort;
     }
 
     public void setSort(Integer sort) {

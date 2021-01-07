@@ -16,8 +16,8 @@ public interface MySQLGeneratorDao {
 
     List<Map<String, Object>> queryList(Map<String, Object> map);
 
-    Map<String, String> queryTable(String tableName,String tableSchema);
+    Map<String, String> queryTable(String schemaName, String tableName);
 
-    List<Map<String, String>> queryColumns(String tableName,String tableSchema);
+    List<Map<String, String>> queryColumns(String schemaName, String tableName);
 
 }

@@ -54,13 +54,13 @@ public class GeneratorService {
         return templates;
     }
 
-    public void generatorCode(String tableSchema, String[] tableNames, OutputStream outputStream) {
+    public void generatorCode(String schemaName, String[] tableNames, OutputStream outputStream) {
         ZipOutputStream zip = new ZipOutputStream(outputStream);
         for (String tableName : tableNames) {
             //查询表信息
-            Map<String, String> table = queryTable(tableName, tableSchema);
+            Map<String, String> table = queryTable(schemaName, tableName);
             //查询列信息
-            List<Map<String, String>> columns = queryColumns(tableName, tableSchema);
+            List<Map<String, String>> columns = queryColumns(schemaName, tableName);
             //生成代码
             generatorCode(table, columns, zip);
         }
@@ -75,12 +75,12 @@ public class GeneratorService {
         return list;
     }
 
-    public Map<String, String> queryTable(String tableName, String tableSchema) {
-        return mySQLGeneratorDao.queryTable(tableName, tableSchema);
+    public Map<String, String> queryTable(String schemaName, String tableName) {
+        return mySQLGeneratorDao.queryTable(schemaName, tableName);
     }
 
-    public List<Map<String, String>> queryColumns(String tableName, String tableSchema) {
-        return mySQLGeneratorDao.queryColumns(tableName, tableSchema);
+    public List<Map<String, String>> queryColumns(String schemaName, String tableName) {
+        return mySQLGeneratorDao.queryColumns(schemaName, tableName);
     }
 
     /**

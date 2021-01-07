@@ -12,9 +12,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @MapperScan("io.github.ihelin.seven.generator.dao")
-public class GeneratorApplication {
+public class SevenGeneratorApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GeneratorApplication.class, args);
+        SpringApplication.run(SevenGeneratorApplication.class, args);
     }
 }

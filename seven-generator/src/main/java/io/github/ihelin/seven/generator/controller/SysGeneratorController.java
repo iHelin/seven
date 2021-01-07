@@ -1,10 +1,9 @@
 package io.github.ihelin.seven.generator.controller;
 
-import io.github.ihelin.seven.generator.service.SysGeneratorService;
+import io.github.ihelin.seven.generator.service.GeneratorService;
 import io.github.ihelin.seven.generator.utils.PageUtils;
 import io.github.ihelin.seven.generator.utils.Query;
 import io.github.ihelin.seven.generator.utils.R;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +24,9 @@ import java.util.Map;
 @Controller
 @RequestMapping("/sys/generator")
 public class SysGeneratorController {
+
     @Autowired
-    private SysGeneratorService sysGeneratorService;
+    private GeneratorService generatorService;
 
     /**
      * 列表
@@ -34,18 +34,8 @@ public class SysGeneratorController {
     @ResponseBody
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
-        PageUtils pageUtil = sysGeneratorService.queryList(new Query(params));
+        PageUtils pageUtil = generatorService.queryList(new Query(params));
         return R.ok().put("page", pageUtil);
-    }
-
-    /**
-     * 列表
-     */
-    @ResponseBody
-    @RequestMapping("/test")
-    public String test(String tableName) {
-        String data = sysGeneratorService.getTemplateString(tableName);
-        return data;
     }
 
     /**
@@ -53,13 +43,9 @@ public class SysGeneratorController {
      */
     @GetMapping("/code")
     public void code(String tables, HttpServletResponse response) throws IOException {
-        byte[] data = sysGeneratorService.generatorCode(tables.split(","));
+        generatorService.generatorCode(tables.split(","), response.getOutputStream());
 
-        response.reset();
-        response.setHeader("Content-Disposition", "attachment; filename=\"renren.zip\"");
-        response.addHeader("Content-Length", "" + data.length);
+        response.setHeader("Content-Disposition", "attachment; filename=\"seven.zip\"");
         response.setContentType("application/octet-stream; charset=UTF-8");
-
-        IOUtils.write(data, response.getOutputStream());
     }
 }

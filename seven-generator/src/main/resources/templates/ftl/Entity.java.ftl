@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 <#if hasBigDecimal==true>
-import java.math.BigDecimal;
+    import java.math.BigDecimal;
 </#if>
 import java.io.Serializable;
 import java.util.Date;
@@ -24,9 +24,29 @@ private static final long serialVersionUID = 1L;
     * ${column.comments}
     */
     <#if column.columnName == pk.columnName>
-    @TableId
+        @TableId
     </#if>
     private ${column.attrType} ${column.attrname};
 </#list>
+
+<#list columns as column>
+
+    public ${column.attrType} get${column.attrName}(){
+        return ${column.attrname}
+    }
+
+    public set${column.attrName}(${column.attrType} ${column.attrname}){
+        this.${column.attrname} = ${column.attrname}
+    }
+</#list>
+
+    @Override
+    public String toString() {
+        return "${className}Entity{" +
+<#list columns as column>
+        "${column.attrname}='" + ${column.attrname} + '\'' +
+</#list>
+        '}';
+    }
 
 }

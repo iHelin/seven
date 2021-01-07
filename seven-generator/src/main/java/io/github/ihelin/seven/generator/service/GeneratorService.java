@@ -1,9 +1,16 @@
-package io.github.ihelin.seven.generator.utils;
+package io.github.ihelin.seven.generator.service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import io.github.ihelin.seven.generator.dao.MySQLGeneratorDao;
 import io.github.ihelin.seven.generator.entity.ColumnEntity;
 import io.github.ihelin.seven.generator.entity.TableEntity;
+import io.github.ihelin.seven.generator.utils.DateUtils;
+import io.github.ihelin.seven.generator.utils.PageUtils;
+import io.github.ihelin.seven.generator.utils.Query;
+import io.github.ihelin.seven.generator.utils.RRException;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -17,6 +24,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -28,10 +36,13 @@ import java.util.zip.ZipOutputStream;
  * @since 2021-01-07 12:43
  */
 @Component
-public class GenUtils {
+public class GeneratorService {
 
     @Autowired
     private FreeMarkerConfigurer freeMarkerConfigurer;
+
+    @Autowired
+    private MySQLGeneratorDao generatorDao;
 
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<>();
@@ -45,6 +56,35 @@ public class GenUtils {
         templates.add("Service.java.ftl");
         templates.add("ServiceImpl.java.ftl");
         return templates;
+    }
+
+    public void generatorCode(String[] tableNames, OutputStream outputStream) {
+        ZipOutputStream zip = new ZipOutputStream(outputStream);
+        for (String tableName : tableNames) {
+            //查询表信息
+            Map<String, String> table = queryTable(tableName);
+            //查询列信息
+            List<Map<String, String>> columns = queryColumns(tableName);
+            //生成代码
+            generatorCode(table, columns, zip);
+        }
+
+        IOUtils.closeQuietly(zip);
+    }
+
+    public PageUtils queryList(Query query) {
+        Page<?> page = PageHelper.startPage(query.getPage(), query.getLimit());
+        List<Map<String, Object>> list = generatorDao.queryList(query);
+        int total = (int) page.getTotal();
+        return new PageUtils(list, total, query.getLimit(), query.getPage());
+    }
+
+    public Map<String, String> queryTable(String tableName) {
+        return generatorDao.queryTable(tableName);
+    }
+
+    public List<Map<String, String>> queryColumns(String tableName) {
+        return generatorDao.queryColumns(tableName);
     }
 
     /**
@@ -105,10 +145,6 @@ public class GenUtils {
             tableEntity.setPk(tableEntity.getColumns().get(0));
         }
 
-        //设置velocity资源加载器
-        Properties prop = new Properties();
-        prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-//        Velocity.init(prop);
         //封装模板数据
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", tableEntity.getTableName());
@@ -225,99 +261,4 @@ public class GenUtils {
         return null;
     }
 
-    private static String splitInnerName(String name) {
-        name = name.replaceAll("\\.", "_");
-        return name;
-    }
-
-    public String getTemplateString(Map<String, String> table, List<Map<String, String>> columns) {
-        //配置信息
-        Configuration config = getConfig();
-        boolean hasBigDecimal = false;
-        boolean hasList = false;
-        //表信息
-        TableEntity tableEntity = new TableEntity();
-        tableEntity.setTableName(table.get("tableName"));
-        tableEntity.setComments(table.get("tableComment"));
-        //表名转换成Java类名
-        String className = tableToJava(tableEntity.getTableName(), config.getStringArray("tablePrefix"));
-        tableEntity.setClassName(className);
-        tableEntity.setClassname(StringUtils.uncapitalize(className));
-
-        //列信息
-        List<ColumnEntity> columnList = new ArrayList<>();
-        for (Map<String, String> column : columns) {
-            ColumnEntity columnEntity = new ColumnEntity();
-            columnEntity.setColumnName(column.get("columnName"));
-            columnEntity.setDataType(column.get("dataType"));
-            columnEntity.setComments(column.get("columnComment"));
-            columnEntity.setExtra(column.get("extra"));
-
-            //列名转换成Java属性名
-            String attrName = columnToJava(columnEntity.getColumnName());
-            columnEntity.setAttrName(attrName);
-            columnEntity.setAttrname(StringUtils.uncapitalize(attrName));
-
-            //列的数据类型，转换成Java类型
-            String attrType = config.getString(columnEntity.getDataType(), columnToJava(columnEntity.getDataType()));
-            columnEntity.setAttrType(attrType);
-
-
-            if (!hasBigDecimal && attrType.equals("BigDecimal")) {
-                hasBigDecimal = true;
-            }
-            if (!hasList && "array".equals(columnEntity.getExtra())) {
-                hasList = true;
-            }
-            //是否主键
-            if ("PRI".equalsIgnoreCase(column.get("columnKey")) && tableEntity.getPk() == null) {
-                tableEntity.setPk(columnEntity);
-            }
-
-            columnList.add(columnEntity);
-        }
-        tableEntity.setColumns(columnList);
-
-        //没主键，则第一个字段为主键
-        if (tableEntity.getPk() == null) {
-            tableEntity.setPk(tableEntity.getColumns().get(0));
-        }
-
-        //设置velocity资源加载器
-        Properties prop = new Properties();
-        prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-//        Velocity.init(prop);
-        //封装模板数据
-        Map<String, Object> map = new HashMap<>();
-        map.put("tableName", tableEntity.getTableName());
-        map.put("comments", tableEntity.getComments());
-        map.put("pk", tableEntity.getPk());
-        map.put("className", tableEntity.getClassName());
-        map.put("classname", tableEntity.getClassname());
-        map.put("pathName", tableEntity.getClassname().toLowerCase());
-        map.put("columns", tableEntity.getColumns());
-        map.put("hasBigDecimal", hasBigDecimal);
-        map.put("hasList", hasList);
-        map.put("package", config.getString("package"));
-        map.put("moduleName", config.getString("moduleName"));
-        map.put("author", config.getString("author"));
-        map.put("email", config.getString("email"));
-        map.put("datetime", DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
-
-        //获取模板列表
-        List<String> templates = getTemplates();
-        String templateString = "";
-        for (String template : templates) {
-            //渲染模板
-            try {
-                Template freemarkerTemplate = freeMarkerConfigurer.getConfiguration().getTemplate("ftl/" + template);
-                 templateString += FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerTemplate, map);
-
-                //添加到zip
-            } catch (IOException | TemplateException e) {
-                throw new RRException("渲染模板失败，表名：" + tableEntity.getTableName(), e);
-            }
-        }
-        return templateString;
-    }
 }

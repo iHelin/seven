@@ -2,10 +2,9 @@ package io.github.ihelin.seven.generator.entity;
 
 /**
  * 列的属性
- * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2016年12月20日 上午12:01:45
+ *
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-07 12:43
  */
 public class ColumnEntity {
 	//列名

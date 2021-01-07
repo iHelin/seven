@@ -2,10 +2,9 @@ package io.github.ihelin.seven.generator.utils;
 
 /**
  * 自定义异常
- * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2016年10月27日 下午10:11:27
+ *
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-07 12:43
  */
 public class RRException extends RuntimeException {
 	private static final long serialVersionUID = 1L;

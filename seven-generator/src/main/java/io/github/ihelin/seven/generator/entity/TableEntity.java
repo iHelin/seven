@@ -4,10 +4,9 @@ import java.util.List;
 
 /**
  * 表数据
- * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2016年12月20日 上午12:02:55
+ *
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-07 12:43
  */
 public class TableEntity {
 	//表的名称

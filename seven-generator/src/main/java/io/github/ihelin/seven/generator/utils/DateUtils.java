@@ -5,10 +5,9 @@ import java.util.Date;
 
 /**
  * 日期处理
- * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2016年12月21日 下午12:53:33
+ *
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-07 12:43
  */
 public class DateUtils {
 	/** 时间格式(yyyy-MM-dd) */

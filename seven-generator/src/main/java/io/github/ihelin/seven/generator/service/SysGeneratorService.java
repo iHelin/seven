@@ -1,11 +1,3 @@
-/**
- * Copyright (c) 2018 人人开源 All rights reserved.
- * <p>
- * https://www.renren.io
- * <p>
- * 版权所有，侵权必究！
- */
-
 package io.github.ihelin.seven.generator.service;
 
 import com.github.pagehelper.Page;
@@ -26,13 +18,17 @@ import java.util.zip.ZipOutputStream;
 /**
  * 代码生成器
  *
- * @author Mark sunlightcs@gmail.com
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-07 12:43
  */
 @Service
 public class SysGeneratorService {
 
     @Autowired
     private MySQLGeneratorDao generatorDao;
+
+    @Autowired
+    private GenUtils genUtils;
 
 
     public PageUtils queryList(Query query) {
@@ -60,11 +56,19 @@ public class SysGeneratorService {
             //查询列信息
             List<Map<String, String>> columns = queryColumns(tableName);
             //生成代码
-            GenUtils.generatorCode(table, columns, zip);
+            genUtils.generatorCode(table, columns, zip);
         }
-
 
         IOUtils.closeQuietly(zip);
         return outputStream.toByteArray();
+    }
+
+    public String getTemplateString(String tableName){
+        //查询表信息
+        Map<String, String> table = queryTable(tableName);
+        //查询列信息
+        List<Map<String, String>> columns = queryColumns(tableName);
+        //生成代码
+        return genUtils.getTemplateString(table, columns);
     }
 }

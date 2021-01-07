@@ -10,8 +10,12 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
-  resources:
-    static-locations: classpath:/static/,classpath:/views/
+  freemarker:
+    request-context-attribute: request
+    cache: true
+    suffix: ftl
+#  resources:
+#    static-locations: classpath:/static/,classpath:/views/
 
 mybatis-plus:
   mapperLocations: classpath:mapper/**/*.xml
@@ -19,3 +23,6 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+  #freemarker配置
+#  spring.freemarker.request-context-attribute=request
+#  spring.freemarker.cache=false

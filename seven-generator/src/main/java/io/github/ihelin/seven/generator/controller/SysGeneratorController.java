@@ -9,9 +9,9 @@
 package io.github.ihelin.seven.generator.controller;
 
 import io.github.ihelin.seven.generator.service.SysGeneratorService;
-import io.github.ihelin.seven.generator.utils.R;
 import io.github.ihelin.seven.generator.utils.PageUtils;
 import io.github.ihelin.seven.generator.utils.Query;
+import io.github.ihelin.seven.generator.utils.R;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

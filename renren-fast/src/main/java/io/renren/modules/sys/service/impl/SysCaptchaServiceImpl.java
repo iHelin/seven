@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
+ * <p>
  * https://www.renren.io
- *
+ * <p>
  * 版权所有，侵权必究！
  */
 
@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
-import java.util.Date;
+import java.time.Instant;
 
 /**
  * 验证码
@@ -36,7 +36,7 @@ public class SysCaptchaServiceImpl extends ServiceImpl<SysCaptchaDao, SysCaptcha
 
     @Override
     public BufferedImage getCaptcha(String uuid) {
-        if(StringUtils.isBlank(uuid)){
+        if (StringUtils.isBlank(uuid)) {
             throw new RRException("uuid不能为空");
         }
         //生成文字验证码
@@ -46,7 +46,7 @@ public class SysCaptchaServiceImpl extends ServiceImpl<SysCaptchaDao, SysCaptcha
         captchaEntity.setUuid(uuid);
         captchaEntity.setCode(code);
         //5分钟后过期
-        captchaEntity.setExpireTime(DateUtils.addDateMinutes(new Date(), 5));
+        captchaEntity.setExpireTime(DateUtils.addDateMinutes(Instant.now(), 5));
         this.save(captchaEntity);
 
         return producer.createImage(code);
@@ -55,14 +55,14 @@ public class SysCaptchaServiceImpl extends ServiceImpl<SysCaptchaDao, SysCaptcha
     @Override
     public boolean validate(String uuid, String code) {
         SysCaptchaEntity captchaEntity = this.getOne(new QueryWrapper<SysCaptchaEntity>().eq("uuid", uuid));
-        if(captchaEntity == null){
+        if (captchaEntity == null) {
             return false;
         }
 
         //删除验证码
         this.removeById(uuid);
 
-        if(captchaEntity.getCode().equalsIgnoreCase(code) && captchaEntity.getExpireTime().getTime() >= System.currentTimeMillis()){
+        if (captchaEntity.getCode().equalsIgnoreCase(code) && captchaEntity.getExpireTime().getTime() >= System.currentTimeMillis()) {
             return true;
         }
 

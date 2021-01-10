@@ -24,16 +24,12 @@
 		<mysql.version>8.0.17</mysql.version>
 		<quartz.version>2.3.2</quartz.version>
 		<commons.fileupload.version>1.3.3</commons.fileupload.version>
-		<commons.io.version>2.5</commons.io.version>
-		<commons.codec.version>1.10</commons.codec.version>
-		<commons.configuration.version>1.10</commons.configuration.version>
 		<shiro.version>1.7.0</shiro.version>
 		<jwt.version>0.7.0</jwt.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<qiniu.version>7.2.23</qiniu.version>
 		<aliyun.oss.version>2.8.3</aliyun.oss.version>
 		<qcloud.cos.version>4.4</qcloud.cos.version>
-		<joda.time.version>2.9.9</joda.time.version>
 		<gson.version>2.8.5</gson.version>
 		<fastjson.version>1.2.72</fastjson.version>
 		<hutool.version>4.1.12</hutool.version>
@@ -155,11 +151,6 @@
 					<artifactId>slf4j-log4j12</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-			<version>${joda.time.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>

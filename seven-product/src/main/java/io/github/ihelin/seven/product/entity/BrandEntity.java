@@ -3,6 +3,7 @@ package io.github.ihelin.seven.product.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -24,6 +25,7 @@ public class BrandEntity implements Serializable {
 	/**
 	 * Æ·ÅÆÃû
 	 */
+	@NotBlank
 	private String name;
 	/**
 	 * Æ·ÅÆlogoµØÖ·

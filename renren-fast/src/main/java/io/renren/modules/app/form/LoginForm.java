@@ -19,6 +19,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Data
 public class LoginForm {
+    
     @NotBlank(message="手机号不能为空")
     private String mobile;
 

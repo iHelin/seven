@@ -1,7 +1,6 @@
 # Tomcat
 server:
   tomcat:
-    uri-encoding: UTF-8
     max-threads: 1000
     min-spare-threads: 30
   port: 8080
@@ -9,7 +8,6 @@ server:
     context-path: /renren-fast
 
 spring:
-  # 环境 dev|test|prod
   profiles:
     active: dev
   # jackson时间格式化
@@ -45,7 +43,6 @@ spring:
 #  resources:
 #    add-mappings: false
 
-
 #mybatis
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
@@ -66,7 +63,6 @@ mybatis-plus:
     call-setters-on-nulls: true
     jdbc-type-for-null: 'null'
 
-
 renren:
   redis:
     open: false
@@ -79,3 +75,7 @@ renren:
     # token有效时长，7天，单位秒
     expire: 604800
     header: token
+
+logging:
+  level:
+    io.renren: debug

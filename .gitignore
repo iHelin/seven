@@ -22,4 +22,4 @@ bin-release/
 **/.mvn
 **/target
 .idea
-*.iml
+**.iml

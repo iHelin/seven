@@ -22,13 +22,14 @@ import java.util.Map;
 @RestController
 @RequestMapping("product/brand")
 public class BrandController {
+
     @Autowired
     private BrandService brandService;
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = brandService.queryPage(params);
 
@@ -49,7 +50,7 @@ public class BrandController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@Valid @RequestBody BrandEntity brand/* , BindingResult result*/) {
 //        if (result.hasErrors()) {
 //            Map<String, String> map = new HashMap<>();
@@ -79,7 +80,7 @@ public class BrandController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     //@RequiresPermissions("product:brand:delete")
     public R delete(@RequestBody Long[] brandIds) {
         brandService.removeByIds(Arrays.asList(brandIds));

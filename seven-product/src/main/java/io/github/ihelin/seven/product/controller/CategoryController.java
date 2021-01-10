@@ -4,10 +4,7 @@ import io.github.ihelin.seven.common.utils.R;
 import io.github.ihelin.seven.product.entity.CategoryEntity;
 import io.github.ihelin.seven.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("product/category")
 public class CategoryController {
+
     @Autowired
     private CategoryService categoryService;
 
@@ -41,7 +39,6 @@ public class CategoryController {
      * 信息
      */
     @RequestMapping("/info/{catId}")
-    //@RequiresPermissions("product:category:info")
     public R info(@PathVariable("catId") Long catId){
 		CategoryEntity category = categoryService.getById(catId);
 
@@ -52,7 +49,6 @@ public class CategoryController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:category:save")
     public R save(@RequestBody CategoryEntity category){
 		categoryService.save(category);
 
@@ -80,7 +76,7 @@ public class CategoryController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] catIds){
 		categoryService.removeMenuByIds(Arrays.asList(catIds));
 

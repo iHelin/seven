@@ -21,3 +21,10 @@ server:
 logging:
   level:
     io.github.ihelin.seven: debug
+alibaba:
+  cloud:
+    access-key: LTAI4G4vjs2kdp8no5mu6pJ2
+    secret-key: rAtf9iaChsbnnxEbYnnpIU2hrjzW6X
+    oss:
+      endpoint: oss-cn-shanghai.aliyuncs.com
+

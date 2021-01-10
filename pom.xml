@@ -21,6 +21,7 @@
         <module>seven-order</module>
         <module>seven-product</module>
         <module>seven-ware</module>
+        <module>seven-open</module>
         <module>renren-fast</module>
     </modules>
 

@@ -1,0 +1,19 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 121.4.87.152:8848
+  application:
+    name: seven-open
+server:
+  port: 13000
+logging:
+  level:
+    io.github.ihelin.seven: debug
+alibaba:
+  cloud:
+    access-key: LTAI4G4vjs2kdp8no5mu6pJ2
+    secret-key: rAtf9iaChsbnnxEbYnnpIU2hrjzW6X
+    oss:
+      endpoint: oss-cn-shanghai.aliyuncs.com
+

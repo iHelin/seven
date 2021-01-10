@@ -4,7 +4,7 @@
 seven mall
 
 #### 软件架构
-软件架构说明
+Spring Cloud
 
 
 #### 安装教程

@@ -9,6 +9,11 @@
     <description>聚合工程</description>
     <packaging>pom</packaging>
 
+    <properties>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
+    </properties>
+
     <modules>
         <module>seven-common</module>
         <module>seven-coupon</module>
@@ -17,7 +22,6 @@
         <module>seven-order</module>
         <module>seven-product</module>
         <module>seven-ware</module>
-        <module>seven-generator</module>
         <module>renren-fast</module>
     </modules>
 

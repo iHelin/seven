@@ -23,6 +23,7 @@ public class BrandEntity implements Serializable {
      * brandId
      */
     @TableId
+    @NotNull
     @Null(groups = AddGroup.class)
     @NotNull(groups = UpdateGroup.class)
     private Long brandId;
@@ -48,6 +49,7 @@ public class BrandEntity implements Serializable {
     /**
      * showStatus
      */
+    @NotNull
     @NotNull(groups = {AddGroup.class, UpdateGroup.class})
     private Integer showStatus;
 

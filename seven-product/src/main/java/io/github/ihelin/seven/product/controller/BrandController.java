@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -64,6 +65,15 @@ public class BrandController {
     public R update(@Validated({UpdateGroup.class}) @RequestBody BrandEntity brand) {
         brandService.updateById(brand);
 
+        return R.ok();
+    }
+
+    /**
+     * 修改显示状态
+     */
+    @PutMapping("/update/status")
+    public R updateStatus(@Valid @RequestBody BrandEntity brand) {
+        brandService.updateById(brand);
         return R.ok();
     }
 

@@ -13,46 +13,43 @@ import java.util.Map;
 
 
 /**
- * ÉÌÆ·ÆÀ¼Û
+ * pms_spu_comment
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-04 22:13:30
+ * @author iHelin ihelin@outlook.com
+ * @date 2021-01-11 11:52:40
  */
 @RestController
 @RequestMapping("product/spucomment")
 public class SpuCommentController {
+
     @Autowired
     private SpuCommentService spuCommentService;
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    // @RequiresPermissions("product:spucomment:list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = spuCommentService.queryPage(params);
 
-        return R.ok().put("page", page);
+        return R.ok().put("data", page);
     }
 
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
-    //@RequiresPermissions("product:spucomment:info")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		SpuCommentEntity spuComment = spuCommentService.getById(id);
 
-        return R.ok().put("spuComment", spuComment);
+        return R.ok().put("data", spuComment);
     }
 
     /**
-     * 保存
+     * 新增
      */
-    @RequestMapping("/save")
-    //@RequiresPermissions("product:spucomment:save")
+    @PostMapping("/save")
     public R save(@RequestBody SpuCommentEntity spuComment){
 		spuCommentService.save(spuComment);
 
@@ -62,8 +59,7 @@ public class SpuCommentController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    //@RequiresPermissions("product:spucomment:update")
+    @PutMapping("/update")
     public R update(@RequestBody SpuCommentEntity spuComment){
 		spuCommentService.updateById(spuComment);
 
@@ -73,8 +69,7 @@ public class SpuCommentController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("product:spucomment:delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		spuCommentService.removeByIds(Arrays.asList(ids));
 

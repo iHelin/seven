@@ -7,11 +7,10 @@ import io.github.ihelin.seven.product.entity.CategoryBrandRelationEntity;
 import java.util.Map;
 
 /**
- * Æ·ÅÆ·ÖÀà¹ØÁª
+ * pms_category_brand_relation
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-04 22:13:30
+ * @author iHelin ihelin@outlook.com
+ * @date 2021-01-11 11:52:41
  */
 public interface CategoryBrandRelationService extends IService<CategoryBrandRelationEntity> {
 

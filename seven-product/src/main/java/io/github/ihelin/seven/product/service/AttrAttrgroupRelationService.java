@@ -7,11 +7,10 @@ import io.github.ihelin.seven.product.entity.AttrAttrgroupRelationEntity;
 import java.util.Map;
 
 /**
- * ÊôÐÔ&ÊôÐÔ·Ö×é¹ØÁª
+ * pms_attr_attrgroup_relation
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-04 22:13:31
+ * @author iHelin ihelin@outlook.com
+ * @date 2021-01-11 11:52:41
  */
 public interface AttrAttrgroupRelationService extends IService<AttrAttrgroupRelationEntity> {
 

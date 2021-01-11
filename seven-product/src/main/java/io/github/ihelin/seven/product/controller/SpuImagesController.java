@@ -13,46 +13,43 @@ import java.util.Map;
 
 
 /**
- * spuÍ¼Æ¬
+ * pms_spu_images
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-04 22:13:30
+ * @author iHelin ihelin@outlook.com
+ * @date 2021-01-11 11:52:40
  */
 @RestController
 @RequestMapping("product/spuimages")
 public class SpuImagesController {
+
     @Autowired
     private SpuImagesService spuImagesService;
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    // @RequiresPermissions("product:spuimages:list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = spuImagesService.queryPage(params);
 
-        return R.ok().put("page", page);
+        return R.ok().put("data", page);
     }
 
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
-    //@RequiresPermissions("product:spuimages:info")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		SpuImagesEntity spuImages = spuImagesService.getById(id);
 
-        return R.ok().put("spuImages", spuImages);
+        return R.ok().put("data", spuImages);
     }
 
     /**
-     * 保存
+     * 新增
      */
-    @RequestMapping("/save")
-    //@RequiresPermissions("product:spuimages:save")
+    @PostMapping("/save")
     public R save(@RequestBody SpuImagesEntity spuImages){
 		spuImagesService.save(spuImages);
 
@@ -62,8 +59,7 @@ public class SpuImagesController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    //@RequiresPermissions("product:spuimages:update")
+    @PutMapping("/update")
     public R update(@RequestBody SpuImagesEntity spuImages){
 		spuImagesService.updateById(spuImages);
 
@@ -73,8 +69,7 @@ public class SpuImagesController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("product:spuimages:delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		spuImagesService.removeByIds(Arrays.asList(ids));
 

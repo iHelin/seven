@@ -1,18 +1,23 @@
 package io.github.ihelin.seven.product.service.impl;
 
-import org.springframework.stereotype.Service;
-import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.Query;
-
 import io.github.ihelin.seven.product.dao.AttrDao;
 import io.github.ihelin.seven.product.entity.AttrEntity;
 import io.github.ihelin.seven.product.service.AttrService;
+import org.springframework.stereotype.Service;
 
+import java.util.Map;
 
+/**
+* pms_attr
+*
+* @author iHelin ihelin@outlook.com
+* @date 2021-01-11 11:52:41
+*/
 @Service("attrService")
 public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements AttrService {
 

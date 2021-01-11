@@ -6,36 +6,87 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 
 /**
- * Æ·ÅÆ·ÖÀà¹ØÁª
- * 
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-04 22:13:30
- */
+* pms_category_brand_relation
+*
+* @author iHelin ihelin@outlook.com
+* @since 2021-01-11 11:52:41
+*/
 @TableName("pms_category_brand_relation")
 public class CategoryBrandRelationEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+private static final long serialVersionUID = 1L;
 
-	/**
-	 * 
-	 */
-	@TableId
-	private Long id;
-	/**
-	 * Æ·ÅÆid
-	 */
-	private Long brandId;
-	/**
-	 * ·ÖÀàid
-	 */
-	private Long catelogId;
-	/**
-	 * 
-	 */
-	private String brandName;
-	/**
-	 * 
-	 */
-	private String catelogName;
+    /**
+    * 
+    */
+        @TableId
+    private Long id;
+    /**
+    * Æ·ÅÆid
+    */
+    private Long brandId;
+    /**
+    * ·ÖÀàid
+    */
+    private Long catelogId;
+    /**
+    * 
+    */
+    private String brandName;
+    /**
+    * 
+    */
+    private String catelogName;
+
+
+    public Long getId(){
+        return id;
+    }
+
+    public void setId(Long id){
+        this.id = id;
+    }
+
+    public Long getBrandId(){
+        return brandId;
+    }
+
+    public void setBrandId(Long brandId){
+        this.brandId = brandId;
+    }
+
+    public Long getCatelogId(){
+        return catelogId;
+    }
+
+    public void setCatelogId(Long catelogId){
+        this.catelogId = catelogId;
+    }
+
+    public String getBrandName(){
+        return brandName;
+    }
+
+    public void setBrandName(String brandName){
+        this.brandName = brandName;
+    }
+
+    public String getCatelogName(){
+        return catelogName;
+    }
+
+    public void setCatelogName(String catelogName){
+        this.catelogName = catelogName;
+    }
+
+    @Override
+    public String toString() {
+        return "CategoryBrandRelationEntity{" +
+        "id='" + id + '\'' +
+        "brandId='" + brandId + '\'' +
+        "catelogId='" + catelogId + '\'' +
+        "brandName='" + brandName + '\'' +
+        "catelogName='" + catelogName + '\'' +
+        '}';
+    }
 
 }

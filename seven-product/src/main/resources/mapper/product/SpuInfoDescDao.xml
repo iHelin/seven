@@ -3,10 +3,10 @@
 
 <mapper namespace="io.github.ihelin.seven.product.dao.SpuInfoDescDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.github.ihelin.seven.product.entity.SpuInfoDescEntity" id="spuInfoDescMap">
-        <result property="spuId" column="spu_id"/>
-        <result property="decript" column="decript"/>
+            <result property="spuId" column="spu_id"/>
+            <result property="decript" column="decript"/>
     </resultMap>
 
 

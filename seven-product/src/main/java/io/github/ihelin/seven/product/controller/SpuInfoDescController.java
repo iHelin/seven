@@ -15,44 +15,41 @@ import java.util.Map;
 /**
  * spuÐÅÏ¢½éÉÜ
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-04 22:13:30
+ * @author iHelin ihelin@outlook.com
+ * @date 2021-01-11 11:52:41
  */
 @RestController
 @RequestMapping("product/spuinfodesc")
 public class SpuInfoDescController {
+
     @Autowired
     private SpuInfoDescService spuInfoDescService;
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    // @RequiresPermissions("product:spuinfodesc:list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = spuInfoDescService.queryPage(params);
 
-        return R.ok().put("page", page);
+        return R.ok().put("data", page);
     }
 
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{spuId}")
-    //@RequiresPermissions("product:spuinfodesc:info")
+    @GetMapping("/info/{spuId}")
     public R info(@PathVariable("spuId") Long spuId){
 		SpuInfoDescEntity spuInfoDesc = spuInfoDescService.getById(spuId);
 
-        return R.ok().put("spuInfoDesc", spuInfoDesc);
+        return R.ok().put("data", spuInfoDesc);
     }
 
     /**
-     * 保存
+     * 新增
      */
-    @RequestMapping("/save")
-    //@RequiresPermissions("product:spuinfodesc:save")
+    @PostMapping("/save")
     public R save(@RequestBody SpuInfoDescEntity spuInfoDesc){
 		spuInfoDescService.save(spuInfoDesc);
 
@@ -62,8 +59,7 @@ public class SpuInfoDescController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    //@RequiresPermissions("product:spuinfodesc:update")
+    @PutMapping("/update")
     public R update(@RequestBody SpuInfoDescEntity spuInfoDesc){
 		spuInfoDescService.updateById(spuInfoDesc);
 
@@ -73,8 +69,7 @@ public class SpuInfoDescController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("product:spuinfodesc:delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] spuIds){
 		spuInfoDescService.removeByIds(Arrays.asList(spuIds));
 

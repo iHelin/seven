@@ -3,12 +3,12 @@
 
 <mapper namespace="io.github.ihelin.seven.product.dao.AttrAttrgroupRelationDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.github.ihelin.seven.product.entity.AttrAttrgroupRelationEntity" id="attrAttrgroupRelationMap">
-        <result property="id" column="id"/>
-        <result property="attrId" column="attr_id"/>
-        <result property="attrGroupId" column="attr_group_id"/>
-        <result property="attrSort" column="attr_sort"/>
+            <result property="id" column="id"/>
+            <result property="attrId" column="attr_id"/>
+            <result property="attrGroupId" column="attr_group_id"/>
+            <result property="attrSort" column="attr_sort"/>
     </resultMap>
 
 

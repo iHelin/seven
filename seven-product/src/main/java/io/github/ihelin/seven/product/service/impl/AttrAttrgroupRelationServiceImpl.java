@@ -12,7 +12,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-
+/**
+* pms_attr_attrgroup_relation
+*
+* @author iHelin ihelin@outlook.com
+* @date 2021-01-11 11:52:41
+*/
 @Service("attrAttrgroupRelationService")
 public class AttrAttrgroupRelationServiceImpl extends ServiceImpl<AttrAttrgroupRelationDao, AttrAttrgroupRelationEntity> implements AttrAttrgroupRelationService {
 

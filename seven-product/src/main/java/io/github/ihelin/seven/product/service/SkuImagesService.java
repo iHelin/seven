@@ -7,11 +7,10 @@ import io.github.ihelin.seven.product.entity.SkuImagesEntity;
 import java.util.Map;
 
 /**
- * skuÍ¼Æ¬
+ * pms_sku_images
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-04 22:13:30
+ * @author iHelin ihelin@outlook.com
+ * @date 2021-01-11 11:52:41
  */
 public interface SkuImagesService extends IService<SkuImagesEntity> {
 

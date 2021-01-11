@@ -4,19 +4,20 @@ import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.R;
 import io.github.ihelin.seven.product.entity.AttrGroupEntity;
 import io.github.ihelin.seven.product.service.AttrGroupService;
+import io.github.ihelin.seven.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
-
 
 
 /**
  * pms_attr_group
  *
  * @author iHelin ihelin@outlook.com
- * @date 2021-01-11 11:52:41
+ * @since 2021-01-11 11:52:41
  */
 @RestController
 @RequestMapping("product/attrgroup")
@@ -25,12 +26,15 @@ public class AttrGroupController {
     @Autowired
     private AttrGroupService attrGroupService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     /**
      * 列表
      */
-    @GetMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = attrGroupService.queryPage(params);
+    @GetMapping("/list/{catelogId}")
+    public R list(@RequestParam Map<String, Object> params, @PathVariable() Integer catelogId) {
+        PageUtils page = attrGroupService.queryPage(params, catelogId);
 
         return R.ok().put("data", page);
     }
@@ -40,9 +44,11 @@ public class AttrGroupController {
      * 信息
      */
     @GetMapping("/info/{attrGroupId}")
-    public R info(@PathVariable("attrGroupId") Long attrGroupId){
-		AttrGroupEntity attrGroup = attrGroupService.getById(attrGroupId);
-
+    public R info(@PathVariable("attrGroupId") Long attrGroupId) {
+        AttrGroupEntity attrGroup = attrGroupService.getById(attrGroupId);
+        Long catelogId = attrGroup.getCatelogId();
+        List<Long> ids = categoryService.findCatelogs(catelogId);
+        attrGroup.setCatelogIds(ids);
         return R.ok().put("data", attrGroup);
     }
 
@@ -50,8 +56,8 @@ public class AttrGroupController {
      * 新增
      */
     @PostMapping("/save")
-    public R save(@RequestBody AttrGroupEntity attrGroup){
-		attrGroupService.save(attrGroup);
+    public R save(@RequestBody AttrGroupEntity attrGroup) {
+        attrGroupService.save(attrGroup);
 
         return R.ok();
     }
@@ -60,8 +66,8 @@ public class AttrGroupController {
      * 修改
      */
     @PutMapping("/update")
-    public R update(@RequestBody AttrGroupEntity attrGroup){
-		attrGroupService.updateById(attrGroup);
+    public R update(@RequestBody AttrGroupEntity attrGroup) {
+        attrGroupService.updateById(attrGroup);
 
         return R.ok();
     }
@@ -70,8 +76,8 @@ public class AttrGroupController {
      * 删除
      */
     @DeleteMapping("/delete")
-    public R delete(@RequestBody Long[] attrGroupIds){
-		attrGroupService.removeByIds(Arrays.asList(attrGroupIds));
+    public R delete(@RequestBody Long[] attrGroupIds) {
+        attrGroupService.removeByIds(Arrays.asList(attrGroupIds));
 
         return R.ok();
     }

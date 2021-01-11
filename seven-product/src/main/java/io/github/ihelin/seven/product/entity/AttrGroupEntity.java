@@ -1,9 +1,11 @@
 package io.github.ihelin.seven.product.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
 * pms_attr_group
@@ -36,10 +38,14 @@ private static final long serialVersionUID = 1L;
     * ×éÍ¼±ê
     */
     private String icon;
+
     /**
     * ËùÊô·ÖÀàid
     */
     private Long catelogId;
+
+    @TableField(exist = false)
+    private List<Long> catelogIds;
 
 
     public Long getAttrGroupId(){
@@ -88,6 +94,14 @@ private static final long serialVersionUID = 1L;
 
     public void setCatelogId(Long catelogId){
         this.catelogId = catelogId;
+    }
+
+    public List<Long> getCatelogIds() {
+        return catelogIds;
+    }
+
+    public void setCatelogIds(List<Long> catelogIds) {
+        this.catelogIds = catelogIds;
     }
 
     @Override

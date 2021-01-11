@@ -10,9 +10,7 @@ import io.github.ihelin.seven.product.entity.CategoryEntity;
 import io.github.ihelin.seven.product.service.CategoryService;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -35,7 +33,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         List<CategoryEntity> entities = list();
         List<CategoryEntity> level1 = entities.stream()
                 .filter(item -> item.getParentCid() == 0L)
-                .peek(item-> item.setChildren(getChildren(item,entities)))
+                .peek(item -> item.setChildren(getChildren(item, entities)))
                 .sorted(Comparator.comparingInt(CategoryEntity::getSort))
                 .collect(Collectors.toList());
         return level1;
@@ -47,10 +45,26 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         baseMapper.deleteBatchIds(idList);
     }
 
-    private List<CategoryEntity> getChildren(CategoryEntity root,List<CategoryEntity> all){
+    @Override
+    public List<Long> findCatelogs(Long catelogId) {
+        List<Long> ids = new ArrayList<>();
+        findParentPath(catelogId, ids);
+        Collections.reverse(ids);
+        return ids;
+    }
+
+    private void findParentPath(Long catelogId, List<Long> ids) {
+        ids.add(catelogId);
+        CategoryEntity categoryEntity = this.getById(catelogId);
+        if (categoryEntity.getParentCid() != 0) {
+            findParentPath(categoryEntity.getParentCid(), ids);
+        }
+    }
+
+    private List<CategoryEntity> getChildren(CategoryEntity root, List<CategoryEntity> all) {
         List<CategoryEntity> children = all.stream()
                 .filter(item -> root.getCatId().equals(item.getParentCid()))
-                .peek(item-> item.setChildren(getChildren(item,all)))
+                .peek(item -> item.setChildren(getChildren(item, all)))
                 .sorted(Comparator.comparingInt(CategoryEntity::getSort))
                 .collect(Collectors.toList());
         return children;

@@ -2,22 +2,23 @@ package io.github.ihelin.seven.product.controller;
 
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.R;
+import io.github.ihelin.seven.common.valid.AddGroup;
+import io.github.ihelin.seven.common.valid.UpdateGroup;
 import io.github.ihelin.seven.product.entity.BrandEntity;
 import io.github.ihelin.seven.product.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.Map;
 
 
 /**
- * Æ·ÅÆ
+ * pms_brand
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-04 22:13:30
+ * @author iHelin ihelin@outlook.com
+ * @date 2021-01-10 22:47:08
  */
 @RestController
 @RequestMapping("product/brand")
@@ -33,45 +34,34 @@ public class BrandController {
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = brandService.queryPage(params);
 
-        return R.ok().put("page", page);
+        return R.ok().put("data", page);
     }
 
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{brandId}")
+    @GetMapping("/info/{brandId}")
     public R info(@PathVariable("brandId") Long brandId) {
         BrandEntity brand = brandService.getById(brandId);
 
-        return R.ok().put("brand", brand);
+        return R.ok().put("data", brand);
     }
 
     /**
-     * 保存
+     * 新增
      */
     @PostMapping("/save")
-    public R save(@Valid @RequestBody BrandEntity brand/* , BindingResult result*/) {
-//        if (result.hasErrors()) {
-//            Map<String, String> map = new HashMap<>();
-//            result.getFieldErrors().forEach(item -> {
-//                String message = item.getDefaultMessage();
-//                String field = item.getField();
-//                map.put(field, message);
-//            });
-//            return R.error(HttpStatus.SC_BAD_REQUEST, "提交的数据不合法").put("data", map);
-//        } else {
+    public R save(@Validated({AddGroup.class}) @RequestBody BrandEntity brand) {
         brandService.save(brand);
         return R.ok();
-//        }
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    //@RequiresPermissions("product:brand:update")
-    public R update(@RequestBody BrandEntity brand) {
+    @PutMapping("/update")
+    public R update(@Validated({UpdateGroup.class}) @RequestBody BrandEntity brand) {
         brandService.updateById(brand);
 
         return R.ok();
@@ -81,7 +71,6 @@ public class BrandController {
      * 删除
      */
     @DeleteMapping("/delete")
-    //@RequiresPermissions("product:brand:delete")
     public R delete(@RequestBody Long[] brandIds) {
         brandService.removeByIds(Arrays.asList(brandIds));
 

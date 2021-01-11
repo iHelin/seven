@@ -2,6 +2,8 @@ package io.github.ihelin.seven.product.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.github.ihelin.seven.common.valid.AddGroup;
+import io.github.ihelin.seven.common.valid.UpdateGroup;
 import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.*;
@@ -11,7 +13,7 @@ import java.io.Serializable;
  * Æ·ÅÆ
  *
  * @author iHelin ihelin@outlook.com
- * @since  2021-01-04 22:13:30
+ * @since 2021-01-04 22:13:30
  */
 @TableName("pms_brand")
 public class BrandEntity implements Serializable {
@@ -21,19 +23,21 @@ public class BrandEntity implements Serializable {
      * brandId
      */
     @TableId
+    @Null(groups = AddGroup.class)
+    @NotNull(groups = UpdateGroup.class)
     private Long brandId;
 
     /**
      * name
      */
-    @NotBlank
+    @NotBlank(groups = {AddGroup.class, UpdateGroup.class})
     private String name;
 
     /**
      * logo
      */
-    @URL
-	@NotEmpty
+    @URL(groups = {AddGroup.class, UpdateGroup.class})
+    @NotEmpty(groups = {AddGroup.class, UpdateGroup.class})
     private String logo;
 
     /**
@@ -44,19 +48,21 @@ public class BrandEntity implements Serializable {
     /**
      * showStatus
      */
-	@NotNull
+    @NotNull(groups = {AddGroup.class, UpdateGroup.class})
     private Integer showStatus;
+
     /**
      * firstLetter
      */
-    @NotEmpty
-    @Pattern(regexp = "^[a-zA-Z]$")
+    @NotEmpty(groups = {AddGroup.class, UpdateGroup.class})
+    @Pattern(regexp = "^[a-zA-Z]$", groups = {AddGroup.class, UpdateGroup.class})
     private String firstLetter;
+
     /**
      * sort
      */
-    @Min(0)
-	@NotNull
+    @Min(value = 0, groups = {AddGroup.class, UpdateGroup.class})
+    @NotNull(groups = {AddGroup.class, UpdateGroup.class})
     private Integer sort;
 
     public Long getBrandId() {

@@ -2,6 +2,8 @@ package io.github.ihelin.seven.product.exception;
 
 import io.github.ihelin.seven.common.utils.R;
 import org.apache.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,6 +19,7 @@ import java.util.Map;
 @RestControllerAdvice(basePackages = "io.github.ihelin.seven.product.controller")
 public class SevenExceptionControllerAdvice {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public R handleValidException(MethodArgumentNotValidException e) {
@@ -32,6 +35,7 @@ public class SevenExceptionControllerAdvice {
 
     @ExceptionHandler(value = Throwable.class)
     public R handleException(Throwable throwable) {
+        logger.error("未知异常", throwable);
         return R.error();
     }
 

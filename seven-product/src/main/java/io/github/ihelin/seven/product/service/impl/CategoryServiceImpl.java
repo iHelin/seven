@@ -7,8 +7,11 @@ import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.Query;
 import io.github.ihelin.seven.product.dao.CategoryDao;
 import io.github.ihelin.seven.product.entity.CategoryEntity;
+import io.github.ihelin.seven.product.service.CategoryBrandRelationService;
 import io.github.ihelin.seven.product.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -16,6 +19,9 @@ import java.util.stream.Collectors;
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+    @Autowired
+    private CategoryBrandRelationService categoryBrandRelationService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -51,6 +57,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         findParentPath(catelogId, ids);
         Collections.reverse(ids);
         return ids;
+    }
+
+    @Override
+    @Transactional
+    public void updateCascade(CategoryEntity category) {
+        this.updateById(category);
+        categoryBrandRelationService.updateCategory(category.getCatId(),category.getName());
     }
 
     private void findParentPath(Long catelogId, List<Long> ids) {

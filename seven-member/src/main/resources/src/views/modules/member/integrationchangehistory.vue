@@ -53,7 +53,7 @@
         label="±¸×¢">
       </el-table-column>
       <el-table-column
-        prop="sourceTyoe"
+        prop="sourceType"
         header-align="center"
         align="center"
         label="À´Ô´[0->¹ºÎï£»1->¹ÜÀíÔ±ÐÞ¸Ä;2->»î¶¯]">

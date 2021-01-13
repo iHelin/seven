@@ -16,8 +16,8 @@
     <el-form-item label="±¸×¢" prop="note">
       <el-input v-model="dataForm.note" placeholder="±¸×¢"></el-input>
     </el-form-item>
-    <el-form-item label="À´Ô´[0->¹ºÎï£»1->¹ÜÀíÔ±ÐÞ¸Ä;2->»î¶¯]" prop="sourceTyoe">
-      <el-input v-model="dataForm.sourceTyoe" placeholder="À´Ô´[0->¹ºÎï£»1->¹ÜÀíÔ±ÐÞ¸Ä;2->»î¶¯]"></el-input>
+    <el-form-item label="À´Ô´[0->¹ºÎï£»1->¹ÜÀíÔ±ÐÞ¸Ä;2->»î¶¯]" prop="sourceType">
+      <el-input v-model="dataForm.sourceType" placeholder="À´Ô´[0->¹ºÎï£»1->¹ÜÀíÔ±ÐÞ¸Ä;2->»î¶¯]"></el-input>
     </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -38,7 +38,7 @@
           createTime: '',
           changeCount: '',
           note: '',
-          sourceTyoe: ''
+          sourceType: ''
         },
         dataRule: {
           memberId: [
@@ -53,7 +53,7 @@
           note: [
             { required: true, message: '±¸×¢不能为空', trigger: 'blur' }
           ],
-          sourceTyoe: [
+          sourceType: [
             { required: true, message: 'À´Ô´[0->¹ºÎï£»1->¹ÜÀíÔ±ÐÞ¸Ä;2->»î¶¯]不能为空', trigger: 'blur' }
           ]
         }
@@ -76,7 +76,7 @@
                 this.dataForm.createTime = data.integrationChangeHistory.createTime
                 this.dataForm.changeCount = data.integrationChangeHistory.changeCount
                 this.dataForm.note = data.integrationChangeHistory.note
-                this.dataForm.sourceTyoe = data.integrationChangeHistory.sourceTyoe
+                this.dataForm.sourceType = data.integrationChangeHistory.sourceType
               }
             })
           }
@@ -95,7 +95,7 @@
                 'createTime': this.dataForm.createTime,
                 'changeCount': this.dataForm.changeCount,
                 'note': this.dataForm.note,
-                'sourceTyoe': this.dataForm.sourceTyoe
+                'sourceType': this.dataForm.sourceType
               })
             }).then(({data}) => {
               if (data && data.code === 0) {

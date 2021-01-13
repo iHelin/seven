@@ -5,16 +5,12 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
-//import lombok.Data;
+
 
 /**
- * »áÔ±µÇÂ¼¼ÇÂ¼
- * 
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 12:53:16
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-05 12:53:16
  */
-//@Data
 @TableName("ums_member_login_log")
 public class MemberLoginLogEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -24,25 +20,57 @@ public class MemberLoginLogEntity implements Serializable {
 	 */
 	@TableId
 	private Long id;
-	/**
-	 * member_id
-	 */
 	private Long memberId;
-	/**
-	 * ´´½¨Ê±¼ä
-	 */
 	private Date createTime;
-	/**
-	 * ip
-	 */
 	private String ip;
-	/**
-	 * city
-	 */
 	private String city;
-	/**
-	 * µÇÂ¼ÀàÐÍ[1-web£¬2-app]
-	 */
 	private Integer loginType;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(Long memberId) {
+		this.memberId = memberId;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public Integer getLoginType() {
+		return loginType;
+	}
+
+	public void setLoginType(Integer loginType) {
+		this.loginType = loginType;
+	}
 }

@@ -7,13 +7,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * ÃëÉ±»î¶¯ÉÌÆ·¹ØÁª
- * 
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 12:40:33
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-05 12:40:34
  */
-//@Data
 @TableName("sms_seckill_sku_relation")
 public class SeckillSkuRelationEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -23,33 +19,75 @@ public class SeckillSkuRelationEntity implements Serializable {
 	 */
 	@TableId
 	private Long id;
-	/**
-	 * »î¶¯id
-	 */
 	private Long promotionId;
-	/**
-	 * »î¶¯³¡´Îid
-	 */
 	private Long promotionSessionId;
-	/**
-	 * ÉÌÆ·id
-	 */
 	private Long skuId;
-	/**
-	 * ÃëÉ±¼Û¸ñ
-	 */
 	private BigDecimal seckillPrice;
-	/**
-	 * ÃëÉ±×ÜÁ¿
-	 */
 	private BigDecimal seckillCount;
-	/**
-	 * Ã¿ÈËÏÞ¹ºÊýÁ¿
-	 */
 	private BigDecimal seckillLimit;
-	/**
-	 * ÅÅÐò
-	 */
 	private Integer seckillSort;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getPromotionId() {
+		return promotionId;
+	}
+
+	public void setPromotionId(Long promotionId) {
+		this.promotionId = promotionId;
+	}
+
+	public Long getPromotionSessionId() {
+		return promotionSessionId;
+	}
+
+	public void setPromotionSessionId(Long promotionSessionId) {
+		this.promotionSessionId = promotionSessionId;
+	}
+
+	public Long getSkuId() {
+		return skuId;
+	}
+
+	public void setSkuId(Long skuId) {
+		this.skuId = skuId;
+	}
+
+	public BigDecimal getSeckillPrice() {
+		return seckillPrice;
+	}
+
+	public void setSeckillPrice(BigDecimal seckillPrice) {
+		this.seckillPrice = seckillPrice;
+	}
+
+	public BigDecimal getSeckillCount() {
+		return seckillCount;
+	}
+
+	public void setSeckillCount(BigDecimal seckillCount) {
+		this.seckillCount = seckillCount;
+	}
+
+	public BigDecimal getSeckillLimit() {
+		return seckillLimit;
+	}
+
+	public void setSeckillLimit(BigDecimal seckillLimit) {
+		this.seckillLimit = seckillLimit;
+	}
+
+	public Integer getSeckillSort() {
+		return seckillSort;
+	}
+
+	public void setSeckillSort(Integer seckillSort) {
+		this.seckillSort = seckillSort;
+	}
 }

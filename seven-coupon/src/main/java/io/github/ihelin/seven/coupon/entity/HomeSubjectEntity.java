@@ -6,49 +6,88 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 
 /**
- * Ê×Ò³×¨Ìâ±í¡¾jdÊ×Ò³ÏÂÃæºÜ¶à×¨Ìâ£¬Ã¿¸ö×¨ÌâÁ´½ÓÐÂµÄÒ³Ãæ£¬Õ¹Ê¾×¨ÌâÉÌÆ·ÐÅÏ¢¡¿
- * 
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 12:40:34
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-05 12:40:34
  */
-//@Data
 @TableName("sms_home_subject")
 public class HomeSubjectEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	private Long id;
-	/**
-	 * ×¨ÌâÃû×Ö
-	 */
-	private String name;
-	/**
-	 * ×¨Ìâ±êÌâ
-	 */
-	private String title;
-	/**
-	 * ×¨Ìâ¸±±êÌâ
-	 */
-	private String subTitle;
-	/**
-	 * ÏÔÊ¾×´Ì¬
-	 */
-	private Integer status;
-	/**
-	 * ÏêÇéÁ¬½Ó
-	 */
-	private String url;
-	/**
-	 * ÅÅÐò
-	 */
-	private Integer sort;
-	/**
-	 * ×¨ÌâÍ¼Æ¬µØÖ·
-	 */
-	private String img;
+    /**
+     * id
+     */
+    @TableId
+    private Long id;
+    private String name;
+    private String title;
+    private String subTitle;
+    private Integer status;
+    private String url;
+    private Integer sort;
+    private String img;
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getSubTitle() {
+        return subTitle;
+    }
+
+    public void setSubTitle(String subTitle) {
+        this.subTitle = subTitle;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 }

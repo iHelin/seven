@@ -4,8 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
-import java.util.Date;
-//import lombok.Data;
+
 
 /**
  * ÉÌÆ·¿â´æ
@@ -14,7 +13,7 @@ import java.util.Date;
  * @email ihelin@outlook.com
  * @date 2021-01-05 14:18:39
  */
-//@Data
+
 @TableName("wms_ware_sku")
 public class WareSkuEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

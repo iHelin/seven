@@ -5,44 +5,68 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
-//import lombok.Data;
 
 /**
- * »áÔ±ÊÕ²ØµÄÉÌÆ·
- * 
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 12:53:16
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-05 12:53:16
  */
-//@Data
 @TableName("ums_member_collect_spu")
 public class MemberCollectSpuEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	private Long id;
-	/**
-	 * »áÔ±id
-	 */
-	private Long memberId;
-	/**
-	 * spu_id
-	 */
-	private Long spuId;
-	/**
-	 * spu_name
-	 */
-	private String spuName;
-	/**
-	 * spu_img
-	 */
-	private String spuImg;
-	/**
-	 * create_time
-	 */
-	private Date createTime;
+    @TableId
+    private Long id;
+    private Long memberId;
+    private Long spuId;
+    private String spuName;
+    private String spuImg;
+    private Date createTime;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
+    }
+
+    public Long getSpuId() {
+        return spuId;
+    }
+
+    public void setSpuId(Long spuId) {
+        this.spuId = spuId;
+    }
+
+    public String getSpuName() {
+        return spuName;
+    }
+
+    public void setSpuName(String spuName) {
+        this.spuName = spuName;
+    }
+
+    public String getSpuImg() {
+        return spuImg;
+    }
+
+    public void setSpuImg(String spuImg) {
+        this.spuImg = spuImg;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 }

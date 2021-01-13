@@ -4,17 +4,12 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
-import java.util.Date;
-//import lombok.Data;
+
 
 /**
- * »áÔ±ÊÕ²ØµÄ×¨Ìâ»î¶¯
- * 
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 12:53:16
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-05 12:53:16
  */
-//@Data
 @TableName("ums_member_collect_subject")
 public class MemberCollectSubjectEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -24,21 +19,48 @@ public class MemberCollectSubjectEntity implements Serializable {
 	 */
 	@TableId
 	private Long id;
-	/**
-	 * subject_id
-	 */
 	private Long subjectId;
-	/**
-	 * subject_name
-	 */
 	private String subjectName;
-	/**
-	 * subject_img
-	 */
 	private String subjectImg;
-	/**
-	 * »î¶¯url
-	 */
 	private String subjectUrll;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getSubjectId() {
+		return subjectId;
+	}
+
+	public void setSubjectId(Long subjectId) {
+		this.subjectId = subjectId;
+	}
+
+	public String getSubjectName() {
+		return subjectName;
+	}
+
+	public void setSubjectName(String subjectName) {
+		this.subjectName = subjectName;
+	}
+
+	public String getSubjectImg() {
+		return subjectImg;
+	}
+
+	public void setSubjectImg(String subjectImg) {
+		this.subjectImg = subjectImg;
+	}
+
+	public String getSubjectUrll() {
+		return subjectUrll;
+	}
+
+	public void setSubjectUrll(String subjectUrll) {
+		this.subjectUrll = subjectUrll;
+	}
 }

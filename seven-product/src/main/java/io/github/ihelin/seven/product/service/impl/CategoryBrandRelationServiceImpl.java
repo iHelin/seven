@@ -12,11 +12,14 @@ import io.github.ihelin.seven.product.dao.CategoryDao;
 import io.github.ihelin.seven.product.entity.BrandEntity;
 import io.github.ihelin.seven.product.entity.CategoryBrandRelationEntity;
 import io.github.ihelin.seven.product.entity.CategoryEntity;
+import io.github.ihelin.seven.product.service.BrandService;
 import io.github.ihelin.seven.product.service.CategoryBrandRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * pms_category_brand_relation
@@ -32,6 +35,12 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
 
     @Autowired
     private CategoryDao categoryDao;
+
+    @Autowired
+    private CategoryBrandRelationDao categoryBrandRelationDao;
+
+    @Autowired
+    private BrandService brandService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -66,6 +75,17 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
     @Override
     public void updateCategory(Long catId, String categoryName) {
         this.baseMapper.updateCategory(catId, categoryName);
+    }
+
+    @Override
+    public List<BrandEntity> getBrandsByCatId(Long catId) {
+        List<CategoryBrandRelationEntity> relationEntities = categoryBrandRelationDao.selectList(new QueryWrapper<CategoryBrandRelationEntity>()
+                .eq("catelog_id", catId));
+        List<BrandEntity> brandEntities = relationEntities.stream().map(item -> {
+            Long brandId = item.getBrandId();
+            return brandService.getById(brandId);
+        }).collect(Collectors.toList());
+        return brandEntities;
     }
 
 }

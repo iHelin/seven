@@ -6,12 +6,19 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.Query;
 import io.github.ihelin.seven.product.dao.AttrGroupDao;
+import io.github.ihelin.seven.product.entity.AttrEntity;
 import io.github.ihelin.seven.product.entity.AttrGroupEntity;
 import io.github.ihelin.seven.product.service.AttrGroupService;
+import io.github.ihelin.seven.product.service.AttrService;
+import io.github.ihelin.seven.product.vo.AttrGroupWithAttrVo;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * pms_attr_group
@@ -21,6 +28,9 @@ import java.util.Map;
  */
 @Service("attrGroupService")
 public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEntity> implements AttrGroupService {
+
+    @Autowired
+    private AttrService attrService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -55,6 +65,23 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
             );
             return new PageUtils(page);
         }
+    }
+
+    @Override
+    public List<AttrGroupWithAttrVo> getAttrGroupWithAttrsByCatelogId(Long catelogId) {
+
+        List<AttrGroupEntity> attrGroupEntities = this.list(new QueryWrapper<AttrGroupEntity>().eq("catelog_id", catelogId));
+
+        List<AttrGroupWithAttrVo> list = attrGroupEntities.stream().map(group -> {
+            AttrGroupWithAttrVo attrGroupWithAttrVo = new AttrGroupWithAttrVo();
+            BeanUtils.copyProperties(group, attrGroupWithAttrVo);
+
+            List<AttrEntity> attrEntities = attrService.getRelationAttr(attrGroupWithAttrVo.getAttrGroupId());
+            attrGroupWithAttrVo.setAttrs(attrEntities);
+
+            return attrGroupWithAttrVo;
+        }).collect(Collectors.toList());
+        return list;
     }
 
 }

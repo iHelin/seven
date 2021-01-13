@@ -10,14 +10,16 @@ import io.github.ihelin.seven.product.entity.SpuImagesEntity;
 import io.github.ihelin.seven.product.service.SpuImagesService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
-* pms_spu_images
-*
-* @author iHelin ihelin@outlook.com
-* @date 2021-01-11 11:52:40
-*/
+ * pms_spu_images
+ *
+ * @author iHelin ihelin@outlook.com
+ * @date 2021-01-11 11:52:40
+ */
 @Service("spuImagesService")
 public class SpuImagesServiceImpl extends ServiceImpl<SpuImagesDao, SpuImagesEntity> implements SpuImagesService {
 
@@ -29,6 +31,19 @@ public class SpuImagesServiceImpl extends ServiceImpl<SpuImagesDao, SpuImagesEnt
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public void saveImages(Long spuInfoEntityId, List<String> images) {
+        if (images != null && images.size() > 0) {
+            List<SpuImagesEntity> imagesEntities = images.stream().map(img -> {
+                SpuImagesEntity spuImagesEntity = new SpuImagesEntity();
+                spuImagesEntity.setSpuId(spuInfoEntityId);
+                spuImagesEntity.setImgUrl(img);
+                return spuImagesEntity;
+            }).collect(Collectors.toList());
+            this.saveBatch(imagesEntities);
+        }
     }
 
 }

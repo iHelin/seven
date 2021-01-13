@@ -2,8 +2,10 @@ package io.github.ihelin.seven.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.ihelin.seven.common.utils.PageUtils;
+import io.github.ihelin.seven.product.entity.BrandEntity;
 import io.github.ihelin.seven.product.entity.CategoryBrandRelationEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,5 +23,7 @@ public interface CategoryBrandRelationService extends IService<CategoryBrandRela
     void updateBrand(Long brandId, String brandName);
 
     void updateCategory(Long catId, String categoryName);
+
+    List<BrandEntity> getBrandsByCatId(Long catId);
 }
 

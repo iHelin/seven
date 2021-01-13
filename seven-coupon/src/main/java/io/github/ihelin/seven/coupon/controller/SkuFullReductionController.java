@@ -1,20 +1,17 @@
 package io.github.ihelin.seven.coupon.controller;
 
+import io.github.ihelin.seven.common.dto.SkuReductionDTO;
+import io.github.ihelin.seven.common.utils.PageUtils;
+import io.github.ihelin.seven.common.utils.R;
+import io.github.ihelin.seven.coupon.entity.SkuFullReductionEntity;
+import io.github.ihelin.seven.coupon.service.SkuFullReductionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Arrays;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import io.github.ihelin.seven.coupon.entity.SkuFullReductionEntity;
-import io.github.ihelin.seven.coupon.service.SkuFullReductionService;
-import io.github.ihelin.seven.common.utils.PageUtils;
-import io.github.ihelin.seven.common.utils.R;
 
 
 
@@ -30,6 +27,12 @@ import io.github.ihelin.seven.common.utils.R;
 public class SkuFullReductionController {
     @Autowired
     private SkuFullReductionService skuFullReductionService;
+
+    @PostMapping("/saveinfo")
+    public R saveReduction(@RequestBody SkuReductionDTO skuReductionDTO){
+        skuFullReductionService.saveReduction(skuReductionDTO);
+        return R.ok();
+    }
 
     /**
      * 列表

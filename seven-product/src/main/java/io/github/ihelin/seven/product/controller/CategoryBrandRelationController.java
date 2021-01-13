@@ -3,14 +3,17 @@ package io.github.ihelin.seven.product.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.R;
+import io.github.ihelin.seven.product.entity.BrandEntity;
 import io.github.ihelin.seven.product.entity.CategoryBrandRelationEntity;
 import io.github.ihelin.seven.product.service.CategoryBrandRelationService;
+import io.github.ihelin.seven.product.vo.BrandVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 /**
@@ -25,6 +28,18 @@ public class CategoryBrandRelationController {
 
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
+
+    @GetMapping("/brands/list")
+    public R relationBrandList(@RequestParam Long catId) {
+        List<BrandEntity> entities = categoryBrandRelationService.getBrandsByCatId(catId);
+        List<BrandVo> brandVoList = entities.stream().map(item -> {
+            BrandVo brandVo = new BrandVo();
+            brandVo.setBrandId(item.getBrandId());
+            brandVo.setBrandName(item.getName());
+            return brandVo;
+        }).collect(Collectors.toList());
+        return R.ok().put("data", brandVoList);
+    }
 
     /**
      * 品牌关联所有分类

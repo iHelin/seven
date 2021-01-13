@@ -1,33 +1,22 @@
-package io.github.ihelin.seven.product.entity;
+package io.github.ihelin.seven.product.vo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import io.github.ihelin.seven.product.entity.AttrEntity;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
- * pms_attr_group
- *
  * @author iHelin ihelin@outlook.com
- * @since 2021-01-11 11:52:41
+ * @since 2021/1/13 下午2:35
  */
-@TableName("pms_attr_group")
-public class AttrGroupEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class AttrGroupWithAttrVo {
 
-    @TableId
     private Long attrGroupId;
     private String attrGroupName;
     private Integer sort;
     private String descript;
     private String icon;
     private Long catelogId;
-
-    @TableField(exist = false)
-    private List<Long> catelogIds;
-
+    private List<AttrEntity> attrs;
 
     public Long getAttrGroupId() {
         return attrGroupId;
@@ -77,24 +66,11 @@ public class AttrGroupEntity implements Serializable {
         this.catelogId = catelogId;
     }
 
-    public List<Long> getCatelogIds() {
-        return catelogIds;
+    public List<AttrEntity> getAttrs() {
+        return attrs;
     }
 
-    public void setCatelogIds(List<Long> catelogIds) {
-        this.catelogIds = catelogIds;
+    public void setAttrs(List<AttrEntity> attrs) {
+        this.attrs = attrs;
     }
-
-    @Override
-    public String toString() {
-        return "AttrGroupEntity{" +
-                "attrGroupId='" + attrGroupId + '\'' +
-                "attrGroupName='" + attrGroupName + '\'' +
-                "sort='" + sort + '\'' +
-                "descript='" + descript + '\'' +
-                "icon='" + icon + '\'' +
-                "catelogId='" + catelogId + '\'' +
-                '}';
-    }
-
 }

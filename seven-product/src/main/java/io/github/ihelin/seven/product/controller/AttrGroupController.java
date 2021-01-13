@@ -7,6 +7,7 @@ import io.github.ihelin.seven.product.entity.AttrGroupEntity;
 import io.github.ihelin.seven.product.service.AttrGroupService;
 import io.github.ihelin.seven.product.service.AttrService;
 import io.github.ihelin.seven.product.service.CategoryService;
+import io.github.ihelin.seven.product.vo.AttrGroupWithAttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +46,13 @@ public class AttrGroupController {
                             @RequestParam Map<String, Object> params) {
         PageUtils page = attrService.getNoRelationAttr(params, attrGroupId);
         return R.ok().put("data", page);
+    }
+
+    @GetMapping("/{catelogId}/withattr")
+    public R getAttrGroupWithAttrs(@PathVariable Long catelogId) {
+
+        List<AttrGroupWithAttrVo> groupVos = attrGroupService.getAttrGroupWithAttrsByCatelogId(catelogId);
+        return R.ok().putData(groupVos);
     }
 
     /**

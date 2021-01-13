@@ -4,6 +4,7 @@ import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.R;
 import io.github.ihelin.seven.product.entity.SpuInfoEntity;
 import io.github.ihelin.seven.product.service.SpuInfoService;
+import io.github.ihelin.seven.product.vo.SpuSaveVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,9 +51,9 @@ public class SpuInfoController {
      * 新增
      */
     @PostMapping("/save")
-    public R save(@RequestBody SpuInfoEntity spuInfo){
-		spuInfoService.save(spuInfo);
-
+    public R save(@RequestBody SpuSaveVo spuSaveVo){
+//		spuInfoService.save(spuSaveVo);
+        spuInfoService.saveSpuInfo(spuSaveVo);
         return R.ok();
     }
 

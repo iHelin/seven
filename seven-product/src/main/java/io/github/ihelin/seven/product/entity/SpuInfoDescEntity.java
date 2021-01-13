@@ -1,53 +1,48 @@
 package io.github.ihelin.seven.product.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 
 /**
-* spuÐÅÏ¢½éÉÜ
-*
-* @author iHelin ihelin@outlook.com
-* @since 2021-01-11 11:52:41
-*/
+ * spuÐÅÏ¢½éÉÜ
+ *
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-11 11:52:41
+ */
 @TableName("pms_spu_info_desc")
 public class SpuInfoDescEntity implements Serializable {
-private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    /**
-    * ÉÌÆ·id
-    */
-        @TableId
+    @TableId(type = IdType.INPUT)
     private Long spuId;
-    /**
-    * ÉÌÆ·½éÉÜ
-    */
     private String decript;
 
 
-    public Long getSpuId(){
+    public Long getSpuId() {
         return spuId;
     }
 
-    public void setSpuId(Long spuId){
+    public void setSpuId(Long spuId) {
         this.spuId = spuId;
     }
 
-    public String getDecript(){
+    public String getDecript() {
         return decript;
     }
 
-    public void setDecript(String decript){
+    public void setDecript(String decript) {
         this.decript = decript;
     }
 
     @Override
     public String toString() {
         return "SpuInfoDescEntity{" +
-        "spuId='" + spuId + '\'' +
-        "decript='" + decript + '\'' +
-        '}';
+                "spuId='" + spuId + '\'' +
+                "decript='" + decript + '\'' +
+                '}';
     }
 
 }

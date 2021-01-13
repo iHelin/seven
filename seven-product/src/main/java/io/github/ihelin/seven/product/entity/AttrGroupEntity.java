@@ -8,91 +8,91 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
-* pms_attr_group
-*
-* @author iHelin ihelin@outlook.com
-* @since 2021-01-11 11:52:41
-*/
+ * pms_attr_group
+ *
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-11 11:52:41
+ */
 @TableName("pms_attr_group")
 public class AttrGroupEntity implements Serializable {
-private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
-    * ·Ö×éid
-    */
-        @TableId
+     * ·Ö×éid
+     */
+    @TableId
     private Long attrGroupId;
     /**
-    * ×éÃû
-    */
+     * ×éÃû
+     */
     private String attrGroupName;
     /**
-    * ÅÅÐò
-    */
+     * ÅÅÐò
+     */
     private Integer sort;
     /**
-    * ÃèÊö
-    */
+     * ÃèÊö
+     */
     private String descript;
     /**
-    * ×éÍ¼±ê
-    */
+     * ×éÍ¼±ê
+     */
     private String icon;
 
     /**
-    * ËùÊô·ÖÀàid
-    */
+     * ËùÊô·ÖÀàid
+     */
     private Long catelogId;
 
     @TableField(exist = false)
     private List<Long> catelogIds;
 
 
-    public Long getAttrGroupId(){
+    public Long getAttrGroupId() {
         return attrGroupId;
     }
 
-    public void setAttrGroupId(Long attrGroupId){
+    public void setAttrGroupId(Long attrGroupId) {
         this.attrGroupId = attrGroupId;
     }
 
-    public String getAttrGroupName(){
+    public String getAttrGroupName() {
         return attrGroupName;
     }
 
-    public void setAttrGroupName(String attrGroupName){
+    public void setAttrGroupName(String attrGroupName) {
         this.attrGroupName = attrGroupName;
     }
 
-    public Integer getSort(){
+    public Integer getSort() {
         return sort;
     }
 
-    public void setSort(Integer sort){
+    public void setSort(Integer sort) {
         this.sort = sort;
     }
 
-    public String getDescript(){
+    public String getDescript() {
         return descript;
     }
 
-    public void setDescript(String descript){
+    public void setDescript(String descript) {
         this.descript = descript;
     }
 
-    public String getIcon(){
+    public String getIcon() {
         return icon;
     }
 
-    public void setIcon(String icon){
+    public void setIcon(String icon) {
         this.icon = icon;
     }
 
-    public Long getCatelogId(){
+    public Long getCatelogId() {
         return catelogId;
     }
 
-    public void setCatelogId(Long catelogId){
+    public void setCatelogId(Long catelogId) {
         this.catelogId = catelogId;
     }
 
@@ -107,13 +107,13 @@ private static final long serialVersionUID = 1L;
     @Override
     public String toString() {
         return "AttrGroupEntity{" +
-        "attrGroupId='" + attrGroupId + '\'' +
-        "attrGroupName='" + attrGroupName + '\'' +
-        "sort='" + sort + '\'' +
-        "descript='" + descript + '\'' +
-        "icon='" + icon + '\'' +
-        "catelogId='" + catelogId + '\'' +
-        '}';
+                "attrGroupId='" + attrGroupId + '\'' +
+                "attrGroupName='" + attrGroupName + '\'' +
+                "sort='" + sort + '\'' +
+                "descript='" + descript + '\'' +
+                "icon='" + icon + '\'' +
+                "catelogId='" + catelogId + '\'' +
+                '}';
     }
 
 }

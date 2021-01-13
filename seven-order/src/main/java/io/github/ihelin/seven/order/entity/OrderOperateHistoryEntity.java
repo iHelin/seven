@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  * ¶©µ¥²Ù×÷ÀúÊ·¼ÇÂ¼
- * 
+ *
  * @author iHelin
  * @email ihelin@outlook.com
  * @date 2021-01-05 14:16:31
@@ -17,32 +17,64 @@ import java.util.Date;
 
 @TableName("oms_order_operate_history")
 public class OrderOperateHistoryEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	private Long id;
-	/**
-	 * ¶©µ¥id
-	 */
-	private Long orderId;
-	/**
-	 * ²Ù×÷ÈË[ÓÃ»§£»ÏµÍ³£»ºóÌ¨¹ÜÀíÔ±]
-	 */
-	private String operateMan;
-	/**
-	 * ²Ù×÷Ê±¼ä
-	 */
-	private Date createTime;
-	/**
-	 * ¶©µ¥×´Ì¬¡¾0->´ý¸¶¿î£»1->´ý·¢»õ£»2->ÒÑ·¢»õ£»3->ÒÑÍê³É£»4->ÒÑ¹Ø±Õ£»5->ÎÞÐ§¶©µ¥¡¿
-	 */
-	private Integer orderStatus;
-	/**
-	 * ±¸×¢
-	 */
-	private String note;
+    /**
+     * id
+     */
+    @TableId
+    private Long id;
+    private Long orderId;
+    private String operateMan;
+    private Date createTime;
+    private Integer orderStatus;
+    private String note;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+
+	public String getOperateMan() {
+		return operateMan;
+	}
+
+	public void setOperateMan(String operateMan) {
+		this.operateMan = operateMan;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Integer getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(Integer orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
 }

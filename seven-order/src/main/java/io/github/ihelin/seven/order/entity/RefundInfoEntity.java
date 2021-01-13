@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 /**
  * ÍË¿îÐÅÏ¢
- * 
+ *
  * @author iHelin
  * @email ihelin@outlook.com
  * @date 2021-01-05 14:16:31
@@ -17,36 +17,91 @@ import java.math.BigDecimal;
 
 @TableName("oms_refund_info")
 public class RefundInfoEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	private Long id;
-	/**
-	 * ÍË¿îµÄ¶©µ¥
-	 */
-	private Long orderReturnId;
-	/**
-	 * ÍË¿î½ð¶î
-	 */
-	private BigDecimal refund;
-	/**
-	 * ÍË¿î½»Ò×Á÷Ë®ºÅ
-	 */
-	private String refundSn;
-	/**
-	 * ÍË¿î×´Ì¬
-	 */
-	private Integer refundStatus;
-	/**
-	 * ÍË¿îÇþµÀ[1-Ö§¸¶±¦£¬2-Î¢ÐÅ£¬3-ÒøÁª£¬4-»ã¿î]
-	 */
-	private Integer refundChannel;
-	/**
-	 * 
-	 */
-	private String refundContent;
+    /**
+     * id
+     */
+    @TableId
+    private Long id;
+    /**
+     * ÍË¿îµÄ¶©µ¥
+     */
+    private Long orderReturnId;
+    /**
+     * ÍË¿î½ð¶î
+     */
+    private BigDecimal refund;
+    /**
+     * ÍË¿î½»Ò×Á÷Ë®ºÅ
+     */
+    private String refundSn;
+    /**
+     * ÍË¿î×´Ì¬
+     */
+    private Integer refundStatus;
+    /**
+     * ÍË¿îÇþµÀ[1-Ö§¸¶±¦£¬2-Î¢ÐÅ£¬3-ÒøÁª£¬4-»ã¿î]
+     */
+    private Integer refundChannel;
+    /**
+     *
+     */
+    private String refundContent;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getOrderReturnId() {
+        return orderReturnId;
+    }
+
+    public void setOrderReturnId(Long orderReturnId) {
+        this.orderReturnId = orderReturnId;
+    }
+
+    public BigDecimal getRefund() {
+        return refund;
+    }
+
+    public void setRefund(BigDecimal refund) {
+        this.refund = refund;
+    }
+
+    public String getRefundSn() {
+        return refundSn;
+    }
+
+    public void setRefundSn(String refundSn) {
+        this.refundSn = refundSn;
+    }
+
+    public Integer getRefundStatus() {
+        return refundStatus;
+    }
+
+    public void setRefundStatus(Integer refundStatus) {
+        this.refundStatus = refundStatus;
+    }
+
+    public Integer getRefundChannel() {
+        return refundChannel;
+    }
+
+    public void setRefundChannel(Integer refundChannel) {
+        this.refundChannel = refundChannel;
+    }
+
+    public String getRefundContent() {
+        return refundContent;
+    }
+
+    public void setRefundContent(String refundContent) {
+        this.refundContent = refundContent;
+    }
 }

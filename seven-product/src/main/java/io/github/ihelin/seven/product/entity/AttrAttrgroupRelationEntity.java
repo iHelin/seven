@@ -66,14 +66,4 @@ private static final long serialVersionUID = 1L;
         this.attrSort = attrSort;
     }
 
-    @Override
-    public String toString() {
-        return "AttrAttrgroupRelationEntity{" +
-        "id='" + id + '\'' +
-        "attrId='" + attrId + '\'' +
-        "attrGroupId='" + attrGroupId + '\'' +
-        "attrSort='" + attrSort + '\'' +
-        '}';
-    }
-
 }

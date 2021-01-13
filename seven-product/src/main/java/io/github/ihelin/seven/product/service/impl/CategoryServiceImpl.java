@@ -52,7 +52,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     }
 
     @Override
-    public List<Long> findCatelogs(Long catelogId) {
+    public List<Long> findCatelogPath(Long catelogId) {
         List<Long> ids = new ArrayList<>();
         findParentPath(catelogId, ids);
         Collections.reverse(ids);

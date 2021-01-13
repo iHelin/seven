@@ -1,22 +1,15 @@
-package io.github.ihelin.seven.product.entity;
-
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-
-import java.io.Serializable;
+package io.github.ihelin.seven.product.vo;
 
 /**
  * pms_attr
  *
  * @author iHelin ihelin@outlook.com
- * @since 2021-01-11 11:52:41
+ * @since 2021-01-12 14:12:20
  */
-@TableName("pms_attr")
-public class AttrEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class AttrVo {
 
-    @TableId
     private Long attrId;
+
     /**
      * ÊôÐÔÃû
      */
@@ -51,6 +44,8 @@ public class AttrEntity implements Serializable {
      * ¿ìËÙÕ¹Ê¾¡¾ÊÇ·ñÕ¹Ê¾ÔÚ½éÉÜÉÏ£»0-·ñ 1-ÊÇ¡¿£¬ÔÚskuÖÐÈÔÈ»¿ÉÒÔµ÷Õû
      */
     private Integer showDesc;
+
+    private Long attrGroupId;
 
 
     public Long getAttrId() {
@@ -131,6 +126,14 @@ public class AttrEntity implements Serializable {
 
     public void setShowDesc(Integer showDesc) {
         this.showDesc = showDesc;
+    }
+
+    public Long getAttrGroupId() {
+        return attrGroupId;
+    }
+
+    public void setAttrGroupId(Long attrGroupId) {
+        this.attrGroupId = attrGroupId;
     }
 
 }

@@ -2,8 +2,10 @@ package io.github.ihelin.seven.product.controller;
 
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.R;
+import io.github.ihelin.seven.product.entity.AttrEntity;
 import io.github.ihelin.seven.product.entity.AttrGroupEntity;
 import io.github.ihelin.seven.product.service.AttrGroupService;
+import io.github.ihelin.seven.product.service.AttrService;
 import io.github.ihelin.seven.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +31,22 @@ public class AttrGroupController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private AttrService attrService;
+
+    @GetMapping("/{attrGroupId}/attr/relation")
+    public R attrRelation(@PathVariable Long attrGroupId) {
+        List<AttrEntity> entities = attrService.getRelationAttr(attrGroupId);
+        return R.ok().put("data", entities);
+    }
+
+    @GetMapping("/{attrGroupId}/noattr/relation")
+    public R attrNoRelation(@PathVariable Long attrGroupId,
+                            @RequestParam Map<String, Object> params) {
+        PageUtils page = attrService.getNoRelationAttr(params, attrGroupId);
+        return R.ok().put("data", page);
+    }
+
     /**
      * 列表
      */
@@ -47,7 +65,7 @@ public class AttrGroupController {
     public R info(@PathVariable("attrGroupId") Long attrGroupId) {
         AttrGroupEntity attrGroup = attrGroupService.getById(attrGroupId);
         Long catelogId = attrGroup.getCatelogId();
-        List<Long> ids = categoryService.findCatelogs(catelogId);
+        List<Long> ids = categoryService.findCatelogPath(catelogId);
         attrGroup.setCatelogIds(ids);
         return R.ok().put("data", attrGroup);
     }

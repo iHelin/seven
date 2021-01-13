@@ -3,7 +3,10 @@ package io.github.ihelin.seven.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.product.entity.AttrEntity;
+import io.github.ihelin.seven.product.vo.AttrRespVo;
+import io.github.ihelin.seven.product.vo.AttrVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,5 +18,17 @@ import java.util.Map;
 public interface AttrService extends IService<AttrEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void saveAttr(AttrVo attr);
+
+    PageUtils queryBaseAttrPage(Long catelogId, Map<String, Object> params, String attrType);
+
+    AttrRespVo getAttrInfo(Long attrId);
+
+    void updateAttr(AttrVo attr);
+
+    List<AttrEntity> getRelationAttr(Long attrGroupId);
+
+    PageUtils getNoRelationAttr(Map<String, Object> params, Long attrGroupId);
 }
 

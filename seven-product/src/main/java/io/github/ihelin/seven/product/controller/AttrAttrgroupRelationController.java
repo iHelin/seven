@@ -4,12 +4,13 @@ import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.R;
 import io.github.ihelin.seven.product.entity.AttrAttrgroupRelationEntity;
 import io.github.ihelin.seven.product.service.AttrAttrgroupRelationService;
+import io.github.ihelin.seven.product.vo.AttrGroupRelationVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
-
 
 
 /**
@@ -29,7 +30,7 @@ public class AttrAttrgroupRelationController {
      * 列表
      */
     @GetMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = attrAttrgroupRelationService.queryPage(params);
 
         return R.ok().put("data", page);
@@ -40,8 +41,8 @@ public class AttrAttrgroupRelationController {
      * 信息
      */
     @GetMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id){
-		AttrAttrgroupRelationEntity attrAttrgroupRelation = attrAttrgroupRelationService.getById(id);
+    public R info(@PathVariable("id") Long id) {
+        AttrAttrgroupRelationEntity attrAttrgroupRelation = attrAttrgroupRelationService.getById(id);
 
         return R.ok().put("data", attrAttrgroupRelation);
     }
@@ -50,8 +51,8 @@ public class AttrAttrgroupRelationController {
      * 新增
      */
     @PostMapping("/save")
-    public R save(@RequestBody AttrAttrgroupRelationEntity attrAttrgroupRelation){
-		attrAttrgroupRelationService.save(attrAttrgroupRelation);
+    public R save(@RequestBody AttrAttrgroupRelationEntity attrAttrgroupRelation) {
+        attrAttrgroupRelationService.save(attrAttrgroupRelation);
 
         return R.ok();
     }
@@ -60,8 +61,8 @@ public class AttrAttrgroupRelationController {
      * 修改
      */
     @PutMapping("/update")
-    public R update(@RequestBody AttrAttrgroupRelationEntity attrAttrgroupRelation){
-		attrAttrgroupRelationService.updateById(attrAttrgroupRelation);
+    public R update(@RequestBody AttrAttrgroupRelationEntity attrAttrgroupRelation) {
+        attrAttrgroupRelationService.updateById(attrAttrgroupRelation);
 
         return R.ok();
     }
@@ -70,9 +71,27 @@ public class AttrAttrgroupRelationController {
      * 删除
      */
     @DeleteMapping("/delete")
-    public R delete(@RequestBody Long[] ids){
-		attrAttrgroupRelationService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestBody Long[] ids) {
+        attrAttrgroupRelationService.removeByIds(Arrays.asList(ids));
 
+        return R.ok();
+    }
+
+    /**
+     * 删除
+     */
+    @DeleteMapping("/attr/relation/delete")
+    public R deleteRelation(@RequestBody List<AttrGroupRelationVo> vos) {
+        attrAttrgroupRelationService.deleteRelation(vos);
+        return R.ok();
+    }
+
+    /**
+     * 新增关联
+     */
+    @PostMapping("/attr/relation")
+    public R addRelations(@RequestBody List<AttrGroupRelationVo> vos) {
+        attrAttrgroupRelationService.addRelations(vos);
         return R.ok();
     }
 

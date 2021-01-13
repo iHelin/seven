@@ -10,6 +10,9 @@ spring:
         server-addr: 121.4.87.152:8848
   application:
     name: seven-product
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 mybatis-plus:
   global-config:
     db-config:
@@ -21,4 +24,6 @@ server:
 logging:
   level:
     io.github.ihelin.seven: debug
+
+
 

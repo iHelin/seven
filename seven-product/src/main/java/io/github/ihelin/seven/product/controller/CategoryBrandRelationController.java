@@ -30,7 +30,7 @@ public class CategoryBrandRelationController {
     private CategoryBrandRelationService categoryBrandRelationService;
 
     @GetMapping("/brands/list")
-    public R relationBrandList(@RequestParam Long catId) {
+    public R relationBrandList(Long catId) {
         List<BrandEntity> entities = categoryBrandRelationService.getBrandsByCatId(catId);
         List<BrandVo> brandVoList = entities.stream().map(item -> {
             BrandVo brandVo = new BrandVo();

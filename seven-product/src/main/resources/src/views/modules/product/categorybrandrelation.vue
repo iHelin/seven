@@ -35,7 +35,7 @@
         label="Æ·ÅÆid">
       </el-table-column>
       <el-table-column
-        prop="catelogId"
+        prop="catalogId"
         header-align="center"
         align="center"
         label="·ÖÀàid">
@@ -47,7 +47,7 @@
         label="">
       </el-table-column>
       <el-table-column
-        prop="catelogName"
+        prop="catalogName"
         header-align="center"
         align="center"
         label="">

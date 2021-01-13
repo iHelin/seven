@@ -39,7 +39,7 @@ public class AttrVo {
     /**
      * ËùÊô·ÖÀà
      */
-    private Long catelogId;
+    private Long catalogId;
     /**
      * ¿ìËÙÕ¹Ê¾¡¾ÊÇ·ñÕ¹Ê¾ÔÚ½éÉÜÉÏ£»0-·ñ 1-ÊÇ¡¿£¬ÔÚskuÖÐÈÔÈ»¿ÉÒÔµ÷Õû
      */
@@ -112,12 +112,12 @@ public class AttrVo {
         this.enable = enable;
     }
 
-    public Long getCatelogId() {
-        return catelogId;
+    public Long getCatalogId() {
+        return catalogId;
     }
 
-    public void setCatelogId(Long catelogId) {
-        this.catelogId = catelogId;
+    public void setCatalogId(Long catalogId) {
+        this.catalogId = catalogId;
     }
 
     public Integer getShowDesc() {

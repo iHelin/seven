@@ -27,7 +27,7 @@ private static final long serialVersionUID = 1L;
     /**
     * ·ÖÀàid
     */
-    private Long catelogId;
+    private Long catalogId;
     /**
     * 
     */
@@ -35,7 +35,7 @@ private static final long serialVersionUID = 1L;
     /**
     * 
     */
-    private String catelogName;
+    private String catalogName;
 
 
     public Long getId(){
@@ -54,12 +54,12 @@ private static final long serialVersionUID = 1L;
         this.brandId = brandId;
     }
 
-    public Long getCatelogId(){
-        return catelogId;
+    public Long getCatalogId(){
+        return catalogId;
     }
 
-    public void setCatelogId(Long catelogId){
-        this.catelogId = catelogId;
+    public void setCatalogId(Long catalogId){
+        this.catalogId = catalogId;
     }
 
     public String getBrandName(){
@@ -70,12 +70,12 @@ private static final long serialVersionUID = 1L;
         this.brandName = brandName;
     }
 
-    public String getCatelogName(){
-        return catelogName;
+    public String getCatalogName(){
+        return catalogName;
     }
 
-    public void setCatelogName(String catelogName){
-        this.catelogName = catelogName;
+    public void setCatalogName(String catalogName){
+        this.catalogName = catalogName;
     }
 
     @Override
@@ -83,9 +83,9 @@ private static final long serialVersionUID = 1L;
         return "CategoryBrandRelationEntity{" +
         "id='" + id + '\'' +
         "brandId='" + brandId + '\'' +
-        "catelogId='" + catelogId + '\'' +
+        "catalogId='" + catalogId + '\'' +
         "brandName='" + brandName + '\'' +
-        "catelogName='" + catelogName + '\'' +
+        "catalogName='" + catalogName + '\'' +
         '}';
     }
 

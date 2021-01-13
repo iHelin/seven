@@ -22,8 +22,8 @@
     <el-form-item label="ÆôÓÃ×´Ì¬[0 - ½ûÓÃ£¬1 - ÆôÓÃ]" prop="enable">
       <el-input v-model="dataForm.enable" placeholder="ÆôÓÃ×´Ì¬[0 - ½ûÓÃ£¬1 - ÆôÓÃ]"></el-input>
     </el-form-item>
-    <el-form-item label="ËùÊô·ÖÀà" prop="catelogId">
-      <el-input v-model="dataForm.catelogId" placeholder="ËùÊô·ÖÀà"></el-input>
+    <el-form-item label="ËùÊô·ÖÀà" prop="catalogId">
+      <el-input v-model="dataForm.catalogId" placeholder="ËùÊô·ÖÀà"></el-input>
     </el-form-item>
     <el-form-item label="¿ìËÙÕ¹Ê¾¡¾ÊÇ·ñÕ¹Ê¾ÔÚ½éÉÜÉÏ£»0-·ñ 1-ÊÇ¡¿£¬ÔÚskuÖÐÈÔÈ»¿ÉÒÔµ÷Õû" prop="showDesc">
       <el-input v-model="dataForm.showDesc" placeholder="¿ìËÙÕ¹Ê¾¡¾ÊÇ·ñÕ¹Ê¾ÔÚ½éÉÜÉÏ£»0-·ñ 1-ÊÇ¡¿£¬ÔÚskuÖÐÈÔÈ»¿ÉÒÔµ÷Õû"></el-input>
@@ -49,7 +49,7 @@
           valueSelect: '',
           attrType: '',
           enable: '',
-          catelogId: '',
+          catalogId: '',
           showDesc: ''
         },
         dataRule: {
@@ -71,7 +71,7 @@
           enable: [
             { required: true, message: 'ÆôÓÃ×´Ì¬[0 - ½ûÓÃ£¬1 - ÆôÓÃ]不能为空', trigger: 'blur' }
           ],
-          catelogId: [
+          catalogId: [
             { required: true, message: 'ËùÊô·ÖÀà不能为空', trigger: 'blur' }
           ],
           showDesc: [
@@ -99,7 +99,7 @@
                 this.dataForm.valueSelect = data.attr.valueSelect
                 this.dataForm.attrType = data.attr.attrType
                 this.dataForm.enable = data.attr.enable
-                this.dataForm.catelogId = data.attr.catelogId
+                this.dataForm.catalogId = data.attr.catalogId
                 this.dataForm.showDesc = data.attr.showDesc
               }
             })
@@ -121,7 +121,7 @@
                 'valueSelect': this.dataForm.valueSelect,
                 'attrType': this.dataForm.attrType,
                 'enable': this.dataForm.enable,
-                'catelogId': this.dataForm.catelogId,
+                'catalogId': this.dataForm.catalogId,
                 'showDesc': this.dataForm.showDesc
               })
             }).then(({data}) => {

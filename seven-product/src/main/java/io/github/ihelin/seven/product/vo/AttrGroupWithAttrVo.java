@@ -15,7 +15,7 @@ public class AttrGroupWithAttrVo {
     private Integer sort;
     private String descript;
     private String icon;
-    private Long catelogId;
+    private Long catalogId;
     private List<AttrEntity> attrs;
 
     public Long getAttrGroupId() {
@@ -58,12 +58,12 @@ public class AttrGroupWithAttrVo {
         this.icon = icon;
     }
 
-    public Long getCatelogId() {
-        return catelogId;
+    public Long getCatalogId() {
+        return catalogId;
     }
 
-    public void setCatelogId(Long catelogId) {
-        this.catelogId = catelogId;
+    public void setCatalogId(Long catalogId) {
+        this.catalogId = catalogId;
     }
 
     public List<AttrEntity> getAttrs() {

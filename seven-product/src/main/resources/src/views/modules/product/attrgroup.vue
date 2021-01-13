@@ -53,7 +53,7 @@
         label="×éÍ¼±ê">
       </el-table-column>
       <el-table-column
-        prop="catelogId"
+        prop="catalogId"
         header-align="center"
         align="center"
         label="ËùÊô·ÖÀàid">

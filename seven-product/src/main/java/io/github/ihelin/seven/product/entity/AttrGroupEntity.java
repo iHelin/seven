@@ -23,10 +23,10 @@ public class AttrGroupEntity implements Serializable {
     private Integer sort;
     private String descript;
     private String icon;
-    private Long catelogId;
+    private Long catalogId;
 
     @TableField(exist = false)
-    private List<Long> catelogIds;
+    private List<Long> catalogIds;
 
 
     public Long getAttrGroupId() {
@@ -69,20 +69,20 @@ public class AttrGroupEntity implements Serializable {
         this.icon = icon;
     }
 
-    public Long getCatelogId() {
-        return catelogId;
+    public Long getCatalogId() {
+        return catalogId;
     }
 
-    public void setCatelogId(Long catelogId) {
-        this.catelogId = catelogId;
+    public void setCatalogId(Long catalogId) {
+        this.catalogId = catalogId;
     }
 
-    public List<Long> getCatelogIds() {
-        return catelogIds;
+    public List<Long> getCatalogIds() {
+        return catalogIds;
     }
 
-    public void setCatelogIds(List<Long> catelogIds) {
-        this.catelogIds = catelogIds;
+    public void setCatalogIds(List<Long> catalogIds) {
+        this.catalogIds = catalogIds;
     }
 
     @Override
@@ -93,7 +93,7 @@ public class AttrGroupEntity implements Serializable {
                 "sort='" + sort + '\'' +
                 "descript='" + descript + '\'' +
                 "icon='" + icon + '\'' +
-                "catelogId='" + catelogId + '\'' +
+                "catalogId='" + catalogId + '\'' +
                 '}';
     }
 

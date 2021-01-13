@@ -8,18 +8,18 @@ import java.util.List;
  */
 public class AttrRespVo extends AttrVo {
 
-    private String catelogName;
+    private String catalogName;
 
     private String groupName;
 
-    private List<Long> catelogPath;
+    private List<Long> catalogPath;
 
-    public String getCatelogName() {
-        return catelogName;
+    public String getCatalogName() {
+        return catalogName;
     }
 
-    public void setCatelogName(String catelogName) {
-        this.catelogName = catelogName;
+    public void setCatalogName(String catalogName) {
+        this.catalogName = catalogName;
     }
 
     public String getGroupName() {
@@ -30,11 +30,11 @@ public class AttrRespVo extends AttrVo {
         this.groupName = groupName;
     }
 
-    public List<Long> getCatelogPath() {
-        return catelogPath;
+    public List<Long> getCatalogPath() {
+        return catalogPath;
     }
 
-    public void setCatelogPath(List<Long> catelogPath) {
-        this.catelogPath = catelogPath;
+    public void setCatalogPath(List<Long> catalogPath) {
+        this.catalogPath = catalogPath;
     }
 }

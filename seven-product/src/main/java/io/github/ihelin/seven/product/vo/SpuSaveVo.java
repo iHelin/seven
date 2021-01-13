@@ -11,7 +11,7 @@ public class SpuSaveVo {
 
     private String spuName;
     private String spuDescription;
-    private Long catelogId;
+    private Long catalogId;
     private Long brandId;
     private BigDecimal weight;
     private Integer publishStatus;
@@ -37,12 +37,12 @@ public class SpuSaveVo {
         this.spuDescription = spuDescription;
     }
 
-    public Long getCatelogId() {
-        return catelogId;
+    public Long getCatalogId() {
+        return catalogId;
     }
 
-    public void setCatelogId(Long catelogId) {
-        this.catelogId = catelogId;
+    public void setCatalogId(Long catalogId) {
+        this.catalogId = catalogId;
     }
 
     public Long getBrandId() {

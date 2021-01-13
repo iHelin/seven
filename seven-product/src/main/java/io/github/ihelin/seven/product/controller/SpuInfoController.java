@@ -31,8 +31,7 @@ public class SpuInfoController {
      */
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = spuInfoService.queryPage(params);
-
+        PageUtils page = spuInfoService.queryPageByDetail(params);
         return R.ok().put("data", page);
     }
 

@@ -12,7 +12,6 @@ package io.renren.modules.oss.cloud;
 import io.renren.common.validator.group.AliyunGroup;
 import io.renren.common.validator.group.QcloudGroup;
 import io.renren.common.validator.group.QiniuGroup;
-import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 
@@ -25,7 +24,6 @@ import java.io.Serializable;
  *
  * @author Mark sunlightcs@gmail.com
  */
-@Data
 public class CloudStorageConfig implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -91,4 +89,155 @@ public class CloudStorageConfig implements Serializable {
     private String qcloudRegion;
 
 
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public String getQiniuDomain() {
+        return qiniuDomain;
+    }
+
+    public void setQiniuDomain(String qiniuDomain) {
+        this.qiniuDomain = qiniuDomain;
+    }
+
+    public String getQiniuPrefix() {
+        return qiniuPrefix;
+    }
+
+    public void setQiniuPrefix(String qiniuPrefix) {
+        this.qiniuPrefix = qiniuPrefix;
+    }
+
+    public String getQiniuAccessKey() {
+        return qiniuAccessKey;
+    }
+
+    public void setQiniuAccessKey(String qiniuAccessKey) {
+        this.qiniuAccessKey = qiniuAccessKey;
+    }
+
+    public String getQiniuSecretKey() {
+        return qiniuSecretKey;
+    }
+
+    public void setQiniuSecretKey(String qiniuSecretKey) {
+        this.qiniuSecretKey = qiniuSecretKey;
+    }
+
+    public String getQiniuBucketName() {
+        return qiniuBucketName;
+    }
+
+    public void setQiniuBucketName(String qiniuBucketName) {
+        this.qiniuBucketName = qiniuBucketName;
+    }
+
+    public String getAliyunDomain() {
+        return aliyunDomain;
+    }
+
+    public void setAliyunDomain(String aliyunDomain) {
+        this.aliyunDomain = aliyunDomain;
+    }
+
+    public String getAliyunPrefix() {
+        return aliyunPrefix;
+    }
+
+    public void setAliyunPrefix(String aliyunPrefix) {
+        this.aliyunPrefix = aliyunPrefix;
+    }
+
+    public String getAliyunEndPoint() {
+        return aliyunEndPoint;
+    }
+
+    public void setAliyunEndPoint(String aliyunEndPoint) {
+        this.aliyunEndPoint = aliyunEndPoint;
+    }
+
+    public String getAliyunAccessKeyId() {
+        return aliyunAccessKeyId;
+    }
+
+    public void setAliyunAccessKeyId(String aliyunAccessKeyId) {
+        this.aliyunAccessKeyId = aliyunAccessKeyId;
+    }
+
+    public String getAliyunAccessKeySecret() {
+        return aliyunAccessKeySecret;
+    }
+
+    public void setAliyunAccessKeySecret(String aliyunAccessKeySecret) {
+        this.aliyunAccessKeySecret = aliyunAccessKeySecret;
+    }
+
+    public String getAliyunBucketName() {
+        return aliyunBucketName;
+    }
+
+    public void setAliyunBucketName(String aliyunBucketName) {
+        this.aliyunBucketName = aliyunBucketName;
+    }
+
+    public String getQcloudDomain() {
+        return qcloudDomain;
+    }
+
+    public void setQcloudDomain(String qcloudDomain) {
+        this.qcloudDomain = qcloudDomain;
+    }
+
+    public String getQcloudPrefix() {
+        return qcloudPrefix;
+    }
+
+    public void setQcloudPrefix(String qcloudPrefix) {
+        this.qcloudPrefix = qcloudPrefix;
+    }
+
+    public Integer getQcloudAppId() {
+        return qcloudAppId;
+    }
+
+    public void setQcloudAppId(Integer qcloudAppId) {
+        this.qcloudAppId = qcloudAppId;
+    }
+
+    public String getQcloudSecretId() {
+        return qcloudSecretId;
+    }
+
+    public void setQcloudSecretId(String qcloudSecretId) {
+        this.qcloudSecretId = qcloudSecretId;
+    }
+
+    public String getQcloudSecretKey() {
+        return qcloudSecretKey;
+    }
+
+    public void setQcloudSecretKey(String qcloudSecretKey) {
+        this.qcloudSecretKey = qcloudSecretKey;
+    }
+
+    public String getQcloudBucketName() {
+        return qcloudBucketName;
+    }
+
+    public void setQcloudBucketName(String qcloudBucketName) {
+        this.qcloudBucketName = qcloudBucketName;
+    }
+
+    public String getQcloudRegion() {
+        return qcloudRegion;
+    }
+
+    public void setQcloudRegion(String qcloudRegion) {
+        this.qcloudRegion = qcloudRegion;
+    }
 }

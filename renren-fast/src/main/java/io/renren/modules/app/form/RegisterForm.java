@@ -8,8 +8,6 @@
 
 package io.renren.modules.app.form;
 
-import lombok.Data;
-
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -17,7 +15,6 @@ import javax.validation.constraints.NotBlank;
  *
  * @author Mark sunlightcs@gmail.com
  */
-@Data
 public class RegisterForm {
 
     @NotBlank(message="手机号不能为空")
@@ -26,4 +23,19 @@ public class RegisterForm {
     @NotBlank(message="密码不能为空")
     private String password;
 
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

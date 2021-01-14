@@ -7,11 +7,10 @@ import io.github.ihelin.seven.coupon.entity.SpuBoundsEntity;
 import java.util.Map;
 
 /**
- * ÉÌÆ·spu»ý·ÖÉèÖÃ
+ * sms_spu_bounds
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 12:40:34
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:19:57
  */
 public interface SpuBoundsService extends IService<SpuBoundsEntity> {
 

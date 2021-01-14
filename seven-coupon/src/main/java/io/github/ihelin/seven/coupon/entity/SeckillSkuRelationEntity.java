@@ -7,87 +7,127 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * @author iHelin ihelin@outlook.com
- * @since 2021-01-05 12:40:34
- */
+* sms_seckill_sku_relation
+*
+* @author iHelin ihelin@outlook.com
+* @since 2021-01-14 14:19:56
+*/
 @TableName("sms_seckill_sku_relation")
 public class SeckillSkuRelationEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	private Long id;
-	private Long promotionId;
-	private Long promotionSessionId;
-	private Long skuId;
-	private BigDecimal seckillPrice;
-	private BigDecimal seckillCount;
-	private BigDecimal seckillLimit;
-	private Integer seckillSort;
+    private static final long serialVersionUID = 1L;
 
-	public Long getId() {
-		return id;
-	}
+    /**
+    * id
+    */
+        @TableId
+    private Long id;
+    /**
+    * »î¶¯id
+    */
+    private Long promotionId;
+    /**
+    * »î¶¯³¡´Îid
+    */
+    private Long promotionSessionId;
+    /**
+    * ÉÌÆ·id
+    */
+    private Long skuId;
+    /**
+    * ÃëÉ±¼Û¸ñ
+    */
+    private BigDecimal seckillPrice;
+    /**
+    * ÃëÉ±×ÜÁ¿
+    */
+    private BigDecimal seckillCount;
+    /**
+    * Ã¿ÈËÏÞ¹ºÊýÁ¿
+    */
+    private BigDecimal seckillLimit;
+    /**
+    * ÅÅÐò
+    */
+    private Integer seckillSort;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 
-	public Long getPromotionId() {
-		return promotionId;
-	}
+    public Long getId(){
+        return id;
+    }
 
-	public void setPromotionId(Long promotionId) {
-		this.promotionId = promotionId;
-	}
+    public void setId(Long id){
+        this.id = id;
+    }
 
-	public Long getPromotionSessionId() {
-		return promotionSessionId;
-	}
+    public Long getPromotionId(){
+        return promotionId;
+    }
 
-	public void setPromotionSessionId(Long promotionSessionId) {
-		this.promotionSessionId = promotionSessionId;
-	}
+    public void setPromotionId(Long promotionId){
+        this.promotionId = promotionId;
+    }
 
-	public Long getSkuId() {
-		return skuId;
-	}
+    public Long getPromotionSessionId(){
+        return promotionSessionId;
+    }
 
-	public void setSkuId(Long skuId) {
-		this.skuId = skuId;
-	}
+    public void setPromotionSessionId(Long promotionSessionId){
+        this.promotionSessionId = promotionSessionId;
+    }
 
-	public BigDecimal getSeckillPrice() {
-		return seckillPrice;
-	}
+    public Long getSkuId(){
+        return skuId;
+    }
 
-	public void setSeckillPrice(BigDecimal seckillPrice) {
-		this.seckillPrice = seckillPrice;
-	}
+    public void setSkuId(Long skuId){
+        this.skuId = skuId;
+    }
 
-	public BigDecimal getSeckillCount() {
-		return seckillCount;
-	}
+    public BigDecimal getSeckillPrice(){
+        return seckillPrice;
+    }
 
-	public void setSeckillCount(BigDecimal seckillCount) {
-		this.seckillCount = seckillCount;
-	}
+    public void setSeckillPrice(BigDecimal seckillPrice){
+        this.seckillPrice = seckillPrice;
+    }
 
-	public BigDecimal getSeckillLimit() {
-		return seckillLimit;
-	}
+    public BigDecimal getSeckillCount(){
+        return seckillCount;
+    }
 
-	public void setSeckillLimit(BigDecimal seckillLimit) {
-		this.seckillLimit = seckillLimit;
-	}
+    public void setSeckillCount(BigDecimal seckillCount){
+        this.seckillCount = seckillCount;
+    }
 
-	public Integer getSeckillSort() {
-		return seckillSort;
-	}
+    public BigDecimal getSeckillLimit(){
+        return seckillLimit;
+    }
 
-	public void setSeckillSort(Integer seckillSort) {
-		this.seckillSort = seckillSort;
-	}
+    public void setSeckillLimit(BigDecimal seckillLimit){
+        this.seckillLimit = seckillLimit;
+    }
+
+    public Integer getSeckillSort(){
+        return seckillSort;
+    }
+
+    public void setSeckillSort(Integer seckillSort){
+        this.seckillSort = seckillSort;
+    }
+
+    @Override
+    public String toString() {
+        return "SeckillSkuRelationEntity{" +
+        "id='" + id + '\'' +
+        "promotionId='" + promotionId + '\'' +
+        "promotionSessionId='" + promotionSessionId + '\'' +
+        "skuId='" + skuId + '\'' +
+        "seckillPrice='" + seckillPrice + '\'' +
+        "seckillCount='" + seckillCount + '\'' +
+        "seckillLimit='" + seckillLimit + '\'' +
+        "seckillSort='" + seckillSort + '\'' +
+        '}';
+    }
+
 }

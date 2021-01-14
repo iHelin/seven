@@ -7,78 +7,114 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author iHelin ihelin@outlook.com
- * @since 2021-01-05 12:40:34
- */
+* sms_seckill_promotion
+*
+* @author iHelin ihelin@outlook.com
+* @since 2021-01-14 14:19:56
+*/
 @TableName("sms_seckill_promotion")
 public class SeckillPromotionEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	private Long id;
-	private String title;
-	private Date startTime;
-	private Date endTime;
-	private Integer status;
-	private Date createTime;
-	private Long userId;
+    private static final long serialVersionUID = 1L;
 
-	public Long getId() {
-		return id;
-	}
+    /**
+    * id
+    */
+        @TableId
+    private Long id;
+    /**
+    * »î¶¯±êÌâ
+    */
+    private String title;
+    /**
+    * ¿ªÊ¼ÈÕÆÚ
+    */
+    private Date startTime;
+    /**
+    * ½áÊøÈÕÆÚ
+    */
+    private Date endTime;
+    /**
+    * ÉÏÏÂÏß×´Ì¬
+    */
+    private Integer status;
+    /**
+    * ´´½¨Ê±¼ä
+    */
+    private Date createTime;
+    /**
+    * ´´½¨ÈË
+    */
+    private Long userId;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 
-	public String getTitle() {
-		return title;
-	}
+    public Long getId(){
+        return id;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setId(Long id){
+        this.id = id;
+    }
 
-	public Date getStartTime() {
-		return startTime;
-	}
+    public String getTitle(){
+        return title;
+    }
 
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
+    public void setTitle(String title){
+        this.title = title;
+    }
 
-	public Date getEndTime() {
-		return endTime;
-	}
+    public Date getStartTime(){
+        return startTime;
+    }
 
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
+    public void setStartTime(Date startTime){
+        this.startTime = startTime;
+    }
 
-	public Integer getStatus() {
-		return status;
-	}
+    public Date getEndTime(){
+        return endTime;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    public void setEndTime(Date endTime){
+        this.endTime = endTime;
+    }
 
-	public Date getCreateTime() {
-		return createTime;
-	}
+    public Integer getStatus(){
+        return status;
+    }
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
+    public void setStatus(Integer status){
+        this.status = status;
+    }
 
-	public Long getUserId() {
-		return userId;
-	}
+    public Date getCreateTime(){
+        return createTime;
+    }
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+    public void setCreateTime(Date createTime){
+        this.createTime = createTime;
+    }
+
+    public Long getUserId(){
+        return userId;
+    }
+
+    public void setUserId(Long userId){
+        this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "SeckillPromotionEntity{" +
+        "id='" + id + '\'' +
+        "title='" + title + '\'' +
+        "startTime='" + startTime + '\'' +
+        "endTime='" + endTime + '\'' +
+        "status='" + status + '\'' +
+        "createTime='" + createTime + '\'' +
+        "userId='" + userId + '\'' +
+        '}';
+    }
+
 }

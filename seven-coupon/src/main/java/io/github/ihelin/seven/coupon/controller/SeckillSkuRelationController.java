@@ -10,28 +10,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.Map;
 
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
-
 
 
 /**
- * ÃëÉ±»î¶¯ÉÌÆ·¹ØÁª
+ * sms_seckill_sku_relation
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 12:40:33
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:19:56
  */
 @RestController
 @RequestMapping("coupon/seckillskurelation")
 public class SeckillSkuRelationController {
+
     @Autowired
     private SeckillSkuRelationService seckillSkuRelationService;
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    // @RequiresPermissions("coupon:seckillskurelation:list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = seckillSkuRelationService.queryPage(params);
 
@@ -42,44 +39,37 @@ public class SeckillSkuRelationController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
-    //@RequiresPermissions("coupon:seckillskurelation:info")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		SeckillSkuRelationEntity seckillSkuRelation = seckillSkuRelationService.getById(id);
 
-        return R.ok().put("seckillSkuRelation", seckillSkuRelation);
+        return R.ok().put("data", seckillSkuRelation);
     }
 
     /**
-     * 保存
+     * 新增
      */
-    @RequestMapping("/save")
-    //@RequiresPermissions("coupon:seckillskurelation:save")
+    @PostMapping("/save")
     public R save(@RequestBody SeckillSkuRelationEntity seckillSkuRelation){
 		seckillSkuRelationService.save(seckillSkuRelation);
-
         return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    //@RequiresPermissions("coupon:seckillskurelation:update")
+    @PutMapping("/update")
     public R update(@RequestBody SeckillSkuRelationEntity seckillSkuRelation){
 		seckillSkuRelationService.updateById(seckillSkuRelation);
-
         return R.ok();
     }
 
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("coupon:seckillskurelation:delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		seckillSkuRelationService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 

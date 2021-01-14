@@ -23,8 +23,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
-@Service("skuFullReductionService")
+/**
+* sms_sku_full_reduction
+*
+* @author iHelin ihelin@outlook.com
+* @since 2021-01-14 14:19:56
+*/
+@Service
 public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionDao, SkuFullReductionEntity> implements SkuFullReductionService {
 
     @Autowired

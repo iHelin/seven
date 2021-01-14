@@ -6,60 +6,88 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 
 /**
- * @author iHelin ihelin@outlook.com
- * @since 2021-01-05 12:40:34
- */
+* sms_home_subject_spu
+*
+* @author iHelin ihelin@outlook.com
+* @since 2021-01-14 14:19:56
+*/
 @TableName("sms_home_subject_spu")
 public class HomeSubjectSpuEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	private Long id;
-	private String name;
-	private Long subjectId;
-	private Long spuId;
-	private Integer sort;
+    private static final long serialVersionUID = 1L;
 
-	public Long getId() {
-		return id;
-	}
+    /**
+    * id
+    */
+        @TableId
+    private Long id;
+    /**
+    * ×¨ÌâÃû×Ö
+    */
+    private String name;
+    /**
+    * ×¨Ìâid
+    */
+    private Long subjectId;
+    /**
+    * spu_id
+    */
+    private Long spuId;
+    /**
+    * ÅÅÐò
+    */
+    private Integer sort;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 
-	public String getName() {
-		return name;
-	}
+    public Long getId(){
+        return id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setId(Long id){
+        this.id = id;
+    }
 
-	public Long getSubjectId() {
-		return subjectId;
-	}
+    public String getName(){
+        return name;
+    }
 
-	public void setSubjectId(Long subjectId) {
-		this.subjectId = subjectId;
-	}
+    public void setName(String name){
+        this.name = name;
+    }
 
-	public Long getSpuId() {
-		return spuId;
-	}
+    public Long getSubjectId(){
+        return subjectId;
+    }
 
-	public void setSpuId(Long spuId) {
-		this.spuId = spuId;
-	}
+    public void setSubjectId(Long subjectId){
+        this.subjectId = subjectId;
+    }
 
-	public Integer getSort() {
-		return sort;
-	}
+    public Long getSpuId(){
+        return spuId;
+    }
 
-	public void setSort(Integer sort) {
-		this.sort = sort;
-	}
+    public void setSpuId(Long spuId){
+        this.spuId = spuId;
+    }
+
+    public Integer getSort(){
+        return sort;
+    }
+
+    public void setSort(Integer sort){
+        this.sort = sort;
+    }
+
+    @Override
+    public String toString() {
+        return "HomeSubjectSpuEntity{" +
+        "id='" + id + '\'' +
+        "name='" + name + '\'' +
+        "subjectId='" + subjectId + '\'' +
+        "spuId='" + spuId + '\'' +
+        "sort='" + sort + '\'' +
+        '}';
+    }
+
 }

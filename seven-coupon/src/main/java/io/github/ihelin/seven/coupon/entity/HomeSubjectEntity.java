@@ -6,88 +6,127 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 
 /**
- * @author iHelin ihelin@outlook.com
- * @since 2021-01-05 12:40:34
- */
+* sms_home_subject
+*
+* @author iHelin ihelin@outlook.com
+* @since 2021-01-14 14:19:56
+*/
 @TableName("sms_home_subject")
 public class HomeSubjectEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     /**
-     * id
-     */
-    @TableId
+    * id
+    */
+        @TableId
     private Long id;
+    /**
+    * ×¨ÌâÃû×Ö
+    */
     private String name;
+    /**
+    * ×¨Ìâ±êÌâ
+    */
     private String title;
+    /**
+    * ×¨Ìâ¸±±êÌâ
+    */
     private String subTitle;
+    /**
+    * ÏÔÊ¾×´Ì¬
+    */
     private Integer status;
+    /**
+    * ÏêÇéÁ¬½Ó
+    */
     private String url;
+    /**
+    * ÅÅÐò
+    */
     private Integer sort;
+    /**
+    * ×¨ÌâÍ¼Æ¬µØÖ·
+    */
     private String img;
 
 
-    public Long getId() {
+    public Long getId(){
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id){
         this.id = id;
     }
 
-    public String getName() {
+    public String getName(){
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name){
         this.name = name;
     }
 
-    public String getTitle() {
+    public String getTitle(){
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String title){
         this.title = title;
     }
 
-    public String getSubTitle() {
+    public String getSubTitle(){
         return subTitle;
     }
 
-    public void setSubTitle(String subTitle) {
+    public void setSubTitle(String subTitle){
         this.subTitle = subTitle;
     }
 
-    public Integer getStatus() {
+    public Integer getStatus(){
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(Integer status){
         this.status = status;
     }
 
-    public String getUrl() {
+    public String getUrl(){
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(String url){
         this.url = url;
     }
 
-    public Integer getSort() {
+    public Integer getSort(){
         return sort;
     }
 
-    public void setSort(Integer sort) {
+    public void setSort(Integer sort){
         this.sort = sort;
     }
 
-    public String getImg() {
+    public String getImg(){
         return img;
     }
 
-    public void setImg(String img) {
+    public void setImg(String img){
         this.img = img;
     }
+
+    @Override
+    public String toString() {
+        return "HomeSubjectEntity{" +
+        "id='" + id + '\'' +
+        "name='" + name + '\'' +
+        "title='" + title + '\'' +
+        "subTitle='" + subTitle + '\'' +
+        "status='" + status + '\'' +
+        "url='" + url + '\'' +
+        "sort='" + sort + '\'' +
+        "img='" + img + '\'' +
+        '}';
+    }
+
 }

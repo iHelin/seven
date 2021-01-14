@@ -8,195 +8,283 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @author iHelin ihelin@outlook.com
- * @since 2021-01-05 12:40:34
- */
+* sms_coupon
+*
+* @author iHelin ihelin@outlook.com
+* @since 2021-01-14 14:19:56
+*/
 @TableName("sms_coupon")
 public class CouponEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	private Long id;
-	private Integer couponType;
-	private String couponImg;
-	private String couponName;
-	private Integer num;
-	private BigDecimal amount;
-	private Integer perLimit;
-	private BigDecimal minPoint;
-	private Date startTime;
-	private Date endTime;
-	private Integer useType;
-	private String note;
-	private Integer publishCount;
-	private Integer useCount;
-	private Integer receiveCount;
-	private Date enableStartTime;
-	private Date enableEndTime;
-	private String code;
-	private Integer memberLevel;
-	private Integer publish;
+    private static final long serialVersionUID = 1L;
 
-	public Long getId() {
-		return id;
-	}
+    /**
+    * id
+    */
+        @TableId
+    private Long id;
+    /**
+    * ÓÅ»Ý¾íÀàÐÍ[0-&gt;È«³¡ÔùÈ¯£»1-&gt;»áÔ±ÔùÈ¯£»2-&gt;¹ºÎïÔùÈ¯£»3-&gt;×¢²áÔùÈ¯]
+    */
+    private Integer couponType;
+    /**
+    * ÓÅ»ÝÈ¯Í¼Æ¬
+    */
+    private String couponImg;
+    /**
+    * ÓÅ»Ý¾íÃû×Ö
+    */
+    private String couponName;
+    /**
+    * ÊýÁ¿
+    */
+    private Integer num;
+    /**
+    * ½ð¶î
+    */
+    private BigDecimal amount;
+    /**
+    * Ã¿ÈËÏÞÁìÕÅÊý
+    */
+    private Integer perLimit;
+    /**
+    * Ê¹ÓÃÃÅ¼÷
+    */
+    private BigDecimal minPoint;
+    /**
+    * ¿ªÊ¼Ê±¼ä
+    */
+    private Date startTime;
+    /**
+    * ½áÊøÊ±¼ä
+    */
+    private Date endTime;
+    /**
+    * Ê¹ÓÃÀàÐÍ[0-&gt;È«³¡Í¨ÓÃ£»1-&gt;Ö¸¶¨·ÖÀà£»2-&gt;Ö¸¶¨ÉÌÆ·]
+    */
+    private Integer useType;
+    /**
+    * ±¸×¢
+    */
+    private String note;
+    /**
+    * ·¢ÐÐÊýÁ¿
+    */
+    private Integer publishCount;
+    /**
+    * ÒÑÊ¹ÓÃÊýÁ¿
+    */
+    private Integer useCount;
+    /**
+    * ÁìÈ¡ÊýÁ¿
+    */
+    private Integer receiveCount;
+    /**
+    * ¿ÉÒÔÁìÈ¡µÄ¿ªÊ¼ÈÕÆÚ
+    */
+    private Date enableStartTime;
+    /**
+    * ¿ÉÒÔÁìÈ¡µÄ½áÊøÈÕÆÚ
+    */
+    private Date enableEndTime;
+    /**
+    * ÓÅ»ÝÂë
+    */
+    private String code;
+    /**
+    * ¿ÉÒÔÁìÈ¡µÄ»áÔ±µÈ¼¶[0-&gt;²»ÏÞµÈ¼¶£¬ÆäËû-¶ÔÓ¦µÈ¼¶]
+    */
+    private Integer memberLevel;
+    /**
+    * ·¢²¼×´Ì¬[0-Î´·¢²¼£¬1-ÒÑ·¢²¼]
+    */
+    private Integer publish;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 
-	public Integer getCouponType() {
-		return couponType;
-	}
+    public Long getId(){
+        return id;
+    }
 
-	public void setCouponType(Integer couponType) {
-		this.couponType = couponType;
-	}
+    public void setId(Long id){
+        this.id = id;
+    }
 
-	public String getCouponImg() {
-		return couponImg;
-	}
+    public Integer getCouponType(){
+        return couponType;
+    }
 
-	public void setCouponImg(String couponImg) {
-		this.couponImg = couponImg;
-	}
+    public void setCouponType(Integer couponType){
+        this.couponType = couponType;
+    }
 
-	public String getCouponName() {
-		return couponName;
-	}
+    public String getCouponImg(){
+        return couponImg;
+    }
 
-	public void setCouponName(String couponName) {
-		this.couponName = couponName;
-	}
+    public void setCouponImg(String couponImg){
+        this.couponImg = couponImg;
+    }
 
-	public Integer getNum() {
-		return num;
-	}
+    public String getCouponName(){
+        return couponName;
+    }
 
-	public void setNum(Integer num) {
-		this.num = num;
-	}
+    public void setCouponName(String couponName){
+        this.couponName = couponName;
+    }
 
-	public BigDecimal getAmount() {
-		return amount;
-	}
+    public Integer getNum(){
+        return num;
+    }
 
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
+    public void setNum(Integer num){
+        this.num = num;
+    }
 
-	public Integer getPerLimit() {
-		return perLimit;
-	}
+    public BigDecimal getAmount(){
+        return amount;
+    }
 
-	public void setPerLimit(Integer perLimit) {
-		this.perLimit = perLimit;
-	}
+    public void setAmount(BigDecimal amount){
+        this.amount = amount;
+    }
 
-	public BigDecimal getMinPoint() {
-		return minPoint;
-	}
+    public Integer getPerLimit(){
+        return perLimit;
+    }
 
-	public void setMinPoint(BigDecimal minPoint) {
-		this.minPoint = minPoint;
-	}
+    public void setPerLimit(Integer perLimit){
+        this.perLimit = perLimit;
+    }
 
-	public Date getStartTime() {
-		return startTime;
-	}
+    public BigDecimal getMinPoint(){
+        return minPoint;
+    }
 
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
+    public void setMinPoint(BigDecimal minPoint){
+        this.minPoint = minPoint;
+    }
 
-	public Date getEndTime() {
-		return endTime;
-	}
+    public Date getStartTime(){
+        return startTime;
+    }
 
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
+    public void setStartTime(Date startTime){
+        this.startTime = startTime;
+    }
 
-	public Integer getUseType() {
-		return useType;
-	}
+    public Date getEndTime(){
+        return endTime;
+    }
 
-	public void setUseType(Integer useType) {
-		this.useType = useType;
-	}
+    public void setEndTime(Date endTime){
+        this.endTime = endTime;
+    }
 
-	public String getNote() {
-		return note;
-	}
+    public Integer getUseType(){
+        return useType;
+    }
 
-	public void setNote(String note) {
-		this.note = note;
-	}
+    public void setUseType(Integer useType){
+        this.useType = useType;
+    }
 
-	public Integer getPublishCount() {
-		return publishCount;
-	}
+    public String getNote(){
+        return note;
+    }
 
-	public void setPublishCount(Integer publishCount) {
-		this.publishCount = publishCount;
-	}
+    public void setNote(String note){
+        this.note = note;
+    }
 
-	public Integer getUseCount() {
-		return useCount;
-	}
+    public Integer getPublishCount(){
+        return publishCount;
+    }
 
-	public void setUseCount(Integer useCount) {
-		this.useCount = useCount;
-	}
+    public void setPublishCount(Integer publishCount){
+        this.publishCount = publishCount;
+    }
 
-	public Integer getReceiveCount() {
-		return receiveCount;
-	}
+    public Integer getUseCount(){
+        return useCount;
+    }
 
-	public void setReceiveCount(Integer receiveCount) {
-		this.receiveCount = receiveCount;
-	}
+    public void setUseCount(Integer useCount){
+        this.useCount = useCount;
+    }
 
-	public Date getEnableStartTime() {
-		return enableStartTime;
-	}
+    public Integer getReceiveCount(){
+        return receiveCount;
+    }
 
-	public void setEnableStartTime(Date enableStartTime) {
-		this.enableStartTime = enableStartTime;
-	}
+    public void setReceiveCount(Integer receiveCount){
+        this.receiveCount = receiveCount;
+    }
 
-	public Date getEnableEndTime() {
-		return enableEndTime;
-	}
+    public Date getEnableStartTime(){
+        return enableStartTime;
+    }
 
-	public void setEnableEndTime(Date enableEndTime) {
-		this.enableEndTime = enableEndTime;
-	}
+    public void setEnableStartTime(Date enableStartTime){
+        this.enableStartTime = enableStartTime;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public Date getEnableEndTime(){
+        return enableEndTime;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setEnableEndTime(Date enableEndTime){
+        this.enableEndTime = enableEndTime;
+    }
 
-	public Integer getMemberLevel() {
-		return memberLevel;
-	}
+    public String getCode(){
+        return code;
+    }
 
-	public void setMemberLevel(Integer memberLevel) {
-		this.memberLevel = memberLevel;
-	}
+    public void setCode(String code){
+        this.code = code;
+    }
 
-	public Integer getPublish() {
-		return publish;
-	}
+    public Integer getMemberLevel(){
+        return memberLevel;
+    }
 
-	public void setPublish(Integer publish) {
-		this.publish = publish;
-	}
+    public void setMemberLevel(Integer memberLevel){
+        this.memberLevel = memberLevel;
+    }
+
+    public Integer getPublish(){
+        return publish;
+    }
+
+    public void setPublish(Integer publish){
+        this.publish = publish;
+    }
+
+    @Override
+    public String toString() {
+        return "CouponEntity{" +
+        "id='" + id + '\'' +
+        "couponType='" + couponType + '\'' +
+        "couponImg='" + couponImg + '\'' +
+        "couponName='" + couponName + '\'' +
+        "num='" + num + '\'' +
+        "amount='" + amount + '\'' +
+        "perLimit='" + perLimit + '\'' +
+        "minPoint='" + minPoint + '\'' +
+        "startTime='" + startTime + '\'' +
+        "endTime='" + endTime + '\'' +
+        "useType='" + useType + '\'' +
+        "note='" + note + '\'' +
+        "publishCount='" + publishCount + '\'' +
+        "useCount='" + useCount + '\'' +
+        "receiveCount='" + receiveCount + '\'' +
+        "enableStartTime='" + enableStartTime + '\'' +
+        "enableEndTime='" + enableEndTime + '\'' +
+        "code='" + code + '\'' +
+        "memberLevel='" + memberLevel + '\'' +
+        "publish='" + publish + '\'' +
+        '}';
+    }
+
 }

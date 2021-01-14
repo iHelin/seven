@@ -7,11 +7,10 @@ import io.github.ihelin.seven.coupon.entity.SeckillSessionEntity;
 import java.util.Map;
 
 /**
- * ÃëÉ±»î¶¯³¡´Î
+ * sms_seckill_session
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 12:40:34
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:19:56
  */
 public interface SeckillSessionService extends IService<SeckillSessionEntity> {
 

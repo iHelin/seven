@@ -10,28 +10,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.Map;
 
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
-
 
 
 /**
- * ÃëÉ±»î¶¯³¡´Î
+ * sms_seckill_session
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 12:40:34
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:19:56
  */
 @RestController
 @RequestMapping("coupon/seckillsession")
 public class SeckillSessionController {
+
     @Autowired
     private SeckillSessionService seckillSessionService;
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    // @RequiresPermissions("coupon:seckillsession:list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = seckillSessionService.queryPage(params);
 
@@ -42,44 +39,37 @@ public class SeckillSessionController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
-    //@RequiresPermissions("coupon:seckillsession:info")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		SeckillSessionEntity seckillSession = seckillSessionService.getById(id);
 
-        return R.ok().put("seckillSession", seckillSession);
+        return R.ok().put("data", seckillSession);
     }
 
     /**
-     * 保存
+     * 新增
      */
-    @RequestMapping("/save")
-    //@RequiresPermissions("coupon:seckillsession:save")
+    @PostMapping("/save")
     public R save(@RequestBody SeckillSessionEntity seckillSession){
 		seckillSessionService.save(seckillSession);
-
         return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    //@RequiresPermissions("coupon:seckillsession:update")
+    @PutMapping("/update")
     public R update(@RequestBody SeckillSessionEntity seckillSession){
 		seckillSessionService.updateById(seckillSession);
-
         return R.ok();
     }
 
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("coupon:seckillsession:delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		seckillSessionService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 

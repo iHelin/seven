@@ -11,20 +11,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.Map;
 
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
-
 
 
 /**
- * ÉÌÆ·Âú¼õÐÅÏ¢
+ * sms_sku_full_reduction
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 12:40:34
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:19:56
  */
 @RestController
 @RequestMapping("coupon/skufullreduction")
 public class SkuFullReductionController {
+
     @Autowired
     private SkuFullReductionService skuFullReductionService;
 
@@ -37,8 +35,7 @@ public class SkuFullReductionController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    // @RequiresPermissions("coupon:skufullreduction:list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = skuFullReductionService.queryPage(params);
 
@@ -49,44 +46,37 @@ public class SkuFullReductionController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
-    //@RequiresPermissions("coupon:skufullreduction:info")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		SkuFullReductionEntity skuFullReduction = skuFullReductionService.getById(id);
 
-        return R.ok().put("skuFullReduction", skuFullReduction);
+        return R.ok().put("data", skuFullReduction);
     }
 
     /**
-     * 保存
+     * 新增
      */
-    @RequestMapping("/save")
-    //@RequiresPermissions("coupon:skufullreduction:save")
+    @PostMapping("/save")
     public R save(@RequestBody SkuFullReductionEntity skuFullReduction){
 		skuFullReductionService.save(skuFullReduction);
-
         return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    //@RequiresPermissions("coupon:skufullreduction:update")
+    @PutMapping("/update")
     public R update(@RequestBody SkuFullReductionEntity skuFullReduction){
 		skuFullReductionService.updateById(skuFullReduction);
-
         return R.ok();
     }
 
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("coupon:skufullreduction:delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		skuFullReductionService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 

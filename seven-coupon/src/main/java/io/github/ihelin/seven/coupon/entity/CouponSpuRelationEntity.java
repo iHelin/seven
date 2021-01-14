@@ -6,51 +6,75 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 
 /**
- * @author iHelin ihelin@outlook.com
- * @since 2021-01-05 12:40:34
- */
+* sms_coupon_spu_relation
+*
+* @author iHelin ihelin@outlook.com
+* @since 2021-01-14 14:19:56
+*/
 @TableName("sms_coupon_spu_relation")
 public class CouponSpuRelationEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     /**
-     * id
-     */
-    @TableId
+    * id
+    */
+        @TableId
     private Long id;
+    /**
+    * ÓÅ»ÝÈ¯id
+    */
     private Long couponId;
+    /**
+    * spu_id
+    */
     private Long spuId;
+    /**
+    * spu_name
+    */
     private String spuName;
 
-    public Long getId() {
+
+    public Long getId(){
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id){
         this.id = id;
     }
 
-    public Long getCouponId() {
+    public Long getCouponId(){
         return couponId;
     }
 
-    public void setCouponId(Long couponId) {
+    public void setCouponId(Long couponId){
         this.couponId = couponId;
     }
 
-    public Long getSpuId() {
+    public Long getSpuId(){
         return spuId;
     }
 
-    public void setSpuId(Long spuId) {
+    public void setSpuId(Long spuId){
         this.spuId = spuId;
     }
 
-    public String getSpuName() {
+    public String getSpuName(){
         return spuName;
     }
 
-    public void setSpuName(String spuName) {
+    public void setSpuName(String spuName){
         this.spuName = spuName;
     }
+
+    @Override
+    public String toString() {
+        return "CouponSpuRelationEntity{" +
+        "id='" + id + '\'' +
+        "couponId='" + couponId + '\'' +
+        "spuId='" + spuId + '\'' +
+        "spuName='" + spuName + '\'' +
+        '}';
+    }
+
 }

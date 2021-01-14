@@ -10,28 +10,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.Map;
 
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
-
 
 
 /**
- * ÓÅ»ÝÈ¯Óë²úÆ·¹ØÁª
+ * sms_coupon_spu_relation
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 12:40:34
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:19:56
  */
 @RestController
 @RequestMapping("coupon/couponspurelation")
 public class CouponSpuRelationController {
+
     @Autowired
     private CouponSpuRelationService couponSpuRelationService;
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    // @RequiresPermissions("coupon:couponspurelation:list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = couponSpuRelationService.queryPage(params);
 
@@ -42,44 +39,37 @@ public class CouponSpuRelationController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
-    //@RequiresPermissions("coupon:couponspurelation:info")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		CouponSpuRelationEntity couponSpuRelation = couponSpuRelationService.getById(id);
 
-        return R.ok().put("couponSpuRelation", couponSpuRelation);
+        return R.ok().put("data", couponSpuRelation);
     }
 
     /**
-     * 保存
+     * 新增
      */
-    @RequestMapping("/save")
-    //@RequiresPermissions("coupon:couponspurelation:save")
+    @PostMapping("/save")
     public R save(@RequestBody CouponSpuRelationEntity couponSpuRelation){
 		couponSpuRelationService.save(couponSpuRelation);
-
         return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    //@RequiresPermissions("coupon:couponspurelation:update")
+    @PutMapping("/update")
     public R update(@RequestBody CouponSpuRelationEntity couponSpuRelation){
 		couponSpuRelationService.updateById(couponSpuRelation);
-
         return R.ok();
     }
 
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("coupon:couponspurelation:delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		couponSpuRelationService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 

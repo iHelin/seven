@@ -10,28 +10,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.Map;
 
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
-
 
 
 /**
- * ÉÌÆ·spu»ý·ÖÉèÖÃ
+ * sms_spu_bounds
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 12:40:34
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:19:57
  */
 @RestController
 @RequestMapping("coupon/spubounds")
 public class SpuBoundsController {
+
     @Autowired
     private SpuBoundsService spuBoundsService;
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    // @RequiresPermissions("coupon:spubounds:list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = spuBoundsService.queryPage(params);
 
@@ -42,42 +39,37 @@ public class SpuBoundsController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		SpuBoundsEntity spuBounds = spuBoundsService.getById(id);
 
-        return R.ok().put("spuBounds", spuBounds);
+        return R.ok().put("data", spuBounds);
     }
 
     /**
-     * 保存
+     * 新增
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody SpuBoundsEntity spuBounds){
 		spuBoundsService.save(spuBounds);
-
         return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    //@RequiresPermissions("coupon:spubounds:update")
+    @PutMapping("/update")
     public R update(@RequestBody SpuBoundsEntity spuBounds){
 		spuBoundsService.updateById(spuBounds);
-
         return R.ok();
     }
 
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("coupon:spubounds:delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		spuBoundsService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 

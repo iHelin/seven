@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @FeignClient("seven-coupon")
 public interface CouponFeign {
-
-
+    
     @PostMapping("/coupon/spubounds/save")
     R saveSpuBounds(@RequestBody SpuBoundDTO spuBoundDTO);
 

@@ -13,7 +13,6 @@ import java.util.Map;
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 
-
 /**
  * ³É³¤Öµ±ä»¯ÀúÊ·¼ÇÂ¼
  *
@@ -32,7 +31,7 @@ public class GrowthChangeHistoryController {
      */
     @RequestMapping("/list")
     // @RequiresPermissions("member:growthchangehistory:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = growthChangeHistoryService.queryPage(params);
 
         return R.ok().put("data", page);
@@ -44,8 +43,8 @@ public class GrowthChangeHistoryController {
      */
     @RequestMapping("/info/{id}")
     //@RequiresPermissions("member:growthchangehistory:info")
-    public R info(@PathVariable("id") Long id){
-		GrowthChangeHistoryEntity growthChangeHistory = growthChangeHistoryService.getById(id);
+    public R info(@PathVariable("id") Long id) {
+        GrowthChangeHistoryEntity growthChangeHistory = growthChangeHistoryService.getById(id);
 
         return R.ok().put("growthChangeHistory", growthChangeHistory);
     }
@@ -55,8 +54,8 @@ public class GrowthChangeHistoryController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("member:growthchangehistory:save")
-    public R save(@RequestBody GrowthChangeHistoryEntity growthChangeHistory){
-		growthChangeHistoryService.save(growthChangeHistory);
+    public R save(@RequestBody GrowthChangeHistoryEntity growthChangeHistory) {
+        growthChangeHistoryService.save(growthChangeHistory);
 
         return R.ok();
     }
@@ -66,8 +65,8 @@ public class GrowthChangeHistoryController {
      */
     @RequestMapping("/update")
     //@RequiresPermissions("member:growthchangehistory:update")
-    public R update(@RequestBody GrowthChangeHistoryEntity growthChangeHistory){
-		growthChangeHistoryService.updateById(growthChangeHistory);
+    public R update(@RequestBody GrowthChangeHistoryEntity growthChangeHistory) {
+        growthChangeHistoryService.updateById(growthChangeHistory);
 
         return R.ok();
     }
@@ -77,8 +76,8 @@ public class GrowthChangeHistoryController {
      */
     @RequestMapping("/delete")
     //@RequiresPermissions("member:growthchangehistory:delete")
-    public R delete(@RequestBody Long[] ids){
-		growthChangeHistoryService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestBody Long[] ids) {
+        growthChangeHistoryService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

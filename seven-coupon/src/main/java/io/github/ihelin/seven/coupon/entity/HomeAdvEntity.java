@@ -7,123 +7,179 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author iHelin ihelin@outlook.com
- * @since 2021-01-05 12:40:34
- */
+* sms_home_adv
+*
+* @author iHelin ihelin@outlook.com
+* @since 2021-01-14 14:19:56
+*/
 @TableName("sms_home_adv")
 public class HomeAdvEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     /**
-     * id
-     */
-    @TableId
+    * id
+    */
+        @TableId
     private Long id;
+    /**
+    * Ãû×Ö
+    */
     private String name;
+    /**
+    * Í¼Æ¬µØÖ·
+    */
     private String pic;
+    /**
+    * ¿ªÊ¼Ê±¼ä
+    */
     private Date startTime;
+    /**
+    * ½áÊøÊ±¼ä
+    */
     private Date endTime;
+    /**
+    * ×´Ì¬
+    */
     private Integer status;
+    /**
+    * µã»÷Êý
+    */
     private Integer clickCount;
+    /**
+    * ¹ã¸æÏêÇéÁ¬½ÓµØÖ·
+    */
     private String url;
+    /**
+    * ±¸×¢
+    */
     private String note;
+    /**
+    * ÅÅÐò
+    */
     private Integer sort;
+    /**
+    * ·¢²¼Õß
+    */
     private Long publisherId;
+    /**
+    * ÉóºËÕß
+    */
     private Long authId;
 
-    public Long getId() {
+
+    public Long getId(){
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id){
         this.id = id;
     }
 
-    public String getName() {
+    public String getName(){
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name){
         this.name = name;
     }
 
-    public String getPic() {
+    public String getPic(){
         return pic;
     }
 
-    public void setPic(String pic) {
+    public void setPic(String pic){
         this.pic = pic;
     }
 
-    public Date getStartTime() {
+    public Date getStartTime(){
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(Date startTime){
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public Date getEndTime(){
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(Date endTime){
         this.endTime = endTime;
     }
 
-    public Integer getStatus() {
+    public Integer getStatus(){
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(Integer status){
         this.status = status;
     }
 
-    public Integer getClickCount() {
+    public Integer getClickCount(){
         return clickCount;
     }
 
-    public void setClickCount(Integer clickCount) {
+    public void setClickCount(Integer clickCount){
         this.clickCount = clickCount;
     }
 
-    public String getUrl() {
+    public String getUrl(){
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(String url){
         this.url = url;
     }
 
-    public String getNote() {
+    public String getNote(){
         return note;
     }
 
-    public void setNote(String note) {
+    public void setNote(String note){
         this.note = note;
     }
 
-    public Integer getSort() {
+    public Integer getSort(){
         return sort;
     }
 
-    public void setSort(Integer sort) {
+    public void setSort(Integer sort){
         this.sort = sort;
     }
 
-    public Long getPublisherId() {
+    public Long getPublisherId(){
         return publisherId;
     }
 
-    public void setPublisherId(Long publisherId) {
+    public void setPublisherId(Long publisherId){
         this.publisherId = publisherId;
     }
 
-    public Long getAuthId() {
+    public Long getAuthId(){
         return authId;
     }
 
-    public void setAuthId(Long authId) {
+    public void setAuthId(Long authId){
         this.authId = authId;
     }
+
+    @Override
+    public String toString() {
+        return "HomeAdvEntity{" +
+        "id='" + id + '\'' +
+        "name='" + name + '\'' +
+        "pic='" + pic + '\'' +
+        "startTime='" + startTime + '\'' +
+        "endTime='" + endTime + '\'' +
+        "status='" + status + '\'' +
+        "clickCount='" + clickCount + '\'' +
+        "url='" + url + '\'' +
+        "note='" + note + '\'' +
+        "sort='" + sort + '\'' +
+        "publisherId='" + publisherId + '\'' +
+        "authId='" + authId + '\'' +
+        '}';
+    }
+
 }

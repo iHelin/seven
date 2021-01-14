@@ -7,69 +7,101 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author iHelin ihelin@outlook.com
- * @since 2021-01-05 12:40:34
- */
+* sms_seckill_session
+*
+* @author iHelin ihelin@outlook.com
+* @since 2021-01-14 14:19:56
+*/
 @TableName("sms_seckill_session")
 public class SeckillSessionEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	private Long id;
-	private String name;
-	private Date startTime;
-	private Date endTime;
-	private Integer status;
-	private Date createTime;
+    private static final long serialVersionUID = 1L;
 
-	public Long getId() {
-		return id;
-	}
+    /**
+    * id
+    */
+        @TableId
+    private Long id;
+    /**
+    * ³¡´ÎÃû³Æ
+    */
+    private String name;
+    /**
+    * Ã¿ÈÕ¿ªÊ¼Ê±¼ä
+    */
+    private Date startTime;
+    /**
+    * Ã¿ÈÕ½áÊøÊ±¼ä
+    */
+    private Date endTime;
+    /**
+    * ÆôÓÃ×´Ì¬
+    */
+    private Integer status;
+    /**
+    * ´´½¨Ê±¼ä
+    */
+    private Date createTime;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 
-	public String getName() {
-		return name;
-	}
+    public Long getId(){
+        return id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setId(Long id){
+        this.id = id;
+    }
 
-	public Date getStartTime() {
-		return startTime;
-	}
+    public String getName(){
+        return name;
+    }
 
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
+    public void setName(String name){
+        this.name = name;
+    }
 
-	public Date getEndTime() {
-		return endTime;
-	}
+    public Date getStartTime(){
+        return startTime;
+    }
 
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
+    public void setStartTime(Date startTime){
+        this.startTime = startTime;
+    }
 
-	public Integer getStatus() {
-		return status;
-	}
+    public Date getEndTime(){
+        return endTime;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    public void setEndTime(Date endTime){
+        this.endTime = endTime;
+    }
 
-	public Date getCreateTime() {
-		return createTime;
-	}
+    public Integer getStatus(){
+        return status;
+    }
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
+    public void setStatus(Integer status){
+        this.status = status;
+    }
+
+    public Date getCreateTime(){
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime){
+        this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "SeckillSessionEntity{" +
+        "id='" + id + '\'' +
+        "name='" + name + '\'' +
+        "startTime='" + startTime + '\'' +
+        "endTime='" + endTime + '\'' +
+        "status='" + status + '\'' +
+        "createTime='" + createTime + '\'' +
+        '}';
+    }
+
 }

@@ -7,11 +7,10 @@ import io.github.ihelin.seven.coupon.entity.CouponHistoryEntity;
 import java.util.Map;
 
 /**
- * ÓÅ»ÝÈ¯ÁìÈ¡ÀúÊ·¼ÇÂ¼
+ * sms_coupon_history
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 12:40:34
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:19:56
  */
 public interface CouponHistoryService extends IService<CouponHistoryEntity> {
 

@@ -10,28 +10,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.Map;
 
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
-
 
 
 /**
- * ×¨ÌâÉÌÆ·
+ * sms_home_subject_spu
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 12:40:34
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:19:56
  */
 @RestController
 @RequestMapping("coupon/homesubjectspu")
 public class HomeSubjectSpuController {
+
     @Autowired
     private HomeSubjectSpuService homeSubjectSpuService;
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    // @RequiresPermissions("coupon:homesubjectspu:list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = homeSubjectSpuService.queryPage(params);
 
@@ -42,44 +39,37 @@ public class HomeSubjectSpuController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
-    //@RequiresPermissions("coupon:homesubjectspu:info")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		HomeSubjectSpuEntity homeSubjectSpu = homeSubjectSpuService.getById(id);
 
-        return R.ok().put("homeSubjectSpu", homeSubjectSpu);
+        return R.ok().put("data", homeSubjectSpu);
     }
 
     /**
-     * 保存
+     * 新增
      */
-    @RequestMapping("/save")
-    //@RequiresPermissions("coupon:homesubjectspu:save")
+    @PostMapping("/save")
     public R save(@RequestBody HomeSubjectSpuEntity homeSubjectSpu){
 		homeSubjectSpuService.save(homeSubjectSpu);
-
         return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    //@RequiresPermissions("coupon:homesubjectspu:update")
+    @PutMapping("/update")
     public R update(@RequestBody HomeSubjectSpuEntity homeSubjectSpu){
 		homeSubjectSpuService.updateById(homeSubjectSpu);
-
         return R.ok();
     }
 
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("coupon:homesubjectspu:delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		homeSubjectSpuService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 

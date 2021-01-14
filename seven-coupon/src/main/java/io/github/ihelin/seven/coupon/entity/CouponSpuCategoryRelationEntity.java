@@ -6,51 +6,75 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 
 /**
- * @author iHelin ihelin@outlook.com
- * @since 2021-01-05 12:40:34
- */
+* sms_coupon_spu_category_relation
+*
+* @author iHelin ihelin@outlook.com
+* @since 2021-01-14 14:19:56
+*/
 @TableName("sms_coupon_spu_category_relation")
 public class CouponSpuCategoryRelationEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     /**
-     * id
-     */
-    @TableId
+    * id
+    */
+        @TableId
     private Long id;
+    /**
+    * ÓÅ»ÝÈ¯id
+    */
     private Long couponId;
+    /**
+    * ²úÆ··ÖÀàid
+    */
     private Long categoryId;
+    /**
+    * ²úÆ··ÖÀàÃû³Æ
+    */
     private String categoryName;
 
-    public Long getId() {
+
+    public Long getId(){
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id){
         this.id = id;
     }
 
-    public Long getCouponId() {
+    public Long getCouponId(){
         return couponId;
     }
 
-    public void setCouponId(Long couponId) {
+    public void setCouponId(Long couponId){
         this.couponId = couponId;
     }
 
-    public Long getCategoryId() {
+    public Long getCategoryId(){
         return categoryId;
     }
 
-    public void setCategoryId(Long categoryId) {
+    public void setCategoryId(Long categoryId){
         this.categoryId = categoryId;
     }
 
-    public String getCategoryName() {
+    public String getCategoryName(){
         return categoryName;
     }
 
-    public void setCategoryName(String categoryName) {
+    public void setCategoryName(String categoryName){
         this.categoryName = categoryName;
     }
+
+    @Override
+    public String toString() {
+        return "CouponSpuCategoryRelationEntity{" +
+        "id='" + id + '\'' +
+        "couponId='" + couponId + '\'' +
+        "categoryId='" + categoryId + '\'' +
+        "categoryName='" + categoryName + '\'' +
+        '}';
+    }
+
 }

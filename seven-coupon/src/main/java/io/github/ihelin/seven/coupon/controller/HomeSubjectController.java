@@ -10,28 +10,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.Map;
 
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
-
 
 
 /**
- * Ê×Ò³×¨Ìâ±í¡¾jdÊ×Ò³ÏÂÃæºÜ¶à×¨Ìâ£¬Ã¿¸ö×¨ÌâÁ´½ÓÐÂµÄÒ³Ãæ£¬Õ¹Ê¾×¨ÌâÉÌÆ·ÐÅÏ¢¡¿
+ * sms_home_subject
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 12:40:34
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:19:56
  */
 @RestController
 @RequestMapping("coupon/homesubject")
 public class HomeSubjectController {
+
     @Autowired
     private HomeSubjectService homeSubjectService;
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    // @RequiresPermissions("coupon:homesubject:list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = homeSubjectService.queryPage(params);
 
@@ -42,44 +39,37 @@ public class HomeSubjectController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
-    //@RequiresPermissions("coupon:homesubject:info")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		HomeSubjectEntity homeSubject = homeSubjectService.getById(id);
 
-        return R.ok().put("homeSubject", homeSubject);
+        return R.ok().put("data", homeSubject);
     }
 
     /**
-     * 保存
+     * 新增
      */
-    @RequestMapping("/save")
-    //@RequiresPermissions("coupon:homesubject:save")
+    @PostMapping("/save")
     public R save(@RequestBody HomeSubjectEntity homeSubject){
 		homeSubjectService.save(homeSubject);
-
         return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    //@RequiresPermissions("coupon:homesubject:update")
+    @PutMapping("/update")
     public R update(@RequestBody HomeSubjectEntity homeSubject){
 		homeSubjectService.updateById(homeSubject);
-
         return R.ok();
     }
 
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("coupon:homesubject:delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		homeSubjectService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 

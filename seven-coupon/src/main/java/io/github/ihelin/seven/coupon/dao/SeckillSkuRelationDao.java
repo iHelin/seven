@@ -1,17 +1,14 @@
 package io.github.ihelin.seven.coupon.dao;
 
-import io.github.ihelin.seven.coupon.entity.SeckillSkuRelationEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
+import io.github.ihelin.seven.coupon.entity.SeckillSkuRelationEntity;
 
 /**
- * ÃëÉ±»î¶¯ÉÌÆ·¹ØÁª
+ * sms_seckill_sku_relation
  * 
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 12:40:33
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:19:56
  */
-@Mapper
 public interface SeckillSkuRelationDao extends BaseMapper<SeckillSkuRelationEntity> {
 	
 }

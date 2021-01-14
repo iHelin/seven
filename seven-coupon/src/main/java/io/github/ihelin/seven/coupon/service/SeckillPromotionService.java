@@ -7,11 +7,10 @@ import io.github.ihelin.seven.coupon.entity.SeckillPromotionEntity;
 import java.util.Map;
 
 /**
- * ÃëÉ±»î¶¯
+ * sms_seckill_promotion
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 12:40:34
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:19:56
  */
 public interface SeckillPromotionService extends IService<SeckillPromotionEntity> {
 

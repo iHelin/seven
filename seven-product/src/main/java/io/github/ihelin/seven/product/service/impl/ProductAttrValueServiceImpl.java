@@ -13,6 +13,7 @@ import io.github.ihelin.seven.product.service.ProductAttrValueService;
 import io.github.ihelin.seven.product.vo.BaseAttrs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,23 @@ public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueDao
         }).collect(Collectors.toList());
 
         this.saveBatch(productAttrValueEntities);
+    }
+
+    @Override
+    public List<ProductAttrValueEntity> attrListForSpu(Long spuId) {
+        List<ProductAttrValueEntity> list = this.list(new QueryWrapper<ProductAttrValueEntity>().eq("spu_id", spuId));
+
+        return list;
+    }
+
+    @Override
+    @Transactional
+    public void updateSpuAttr(Long spuId, List<ProductAttrValueEntity> entities) {
+        this.remove(new QueryWrapper<ProductAttrValueEntity>().eq("spu_id", spuId));
+
+        List<ProductAttrValueEntity> collect = entities.stream().peek(item -> item.setSpuId(spuId)).collect(Collectors.toList());
+
+        this.saveBatch(collect);
     }
 
 }

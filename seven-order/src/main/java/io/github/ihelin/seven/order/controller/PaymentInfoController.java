@@ -1,20 +1,16 @@
 package io.github.ihelin.seven.order.controller;
 
+import io.github.ihelin.seven.common.utils.PageUtils;
+import io.github.ihelin.seven.common.utils.R;
+import io.github.ihelin.seven.order.entity.PaymentInfoEntity;
+import io.github.ihelin.seven.order.service.PaymentInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Arrays;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import io.github.ihelin.seven.order.entity.PaymentInfoEntity;
-import io.github.ihelin.seven.order.service.PaymentInfoService;
-import io.github.ihelin.seven.common.utils.PageUtils;
-import io.github.ihelin.seven.common.utils.R;
 
 
 
@@ -39,7 +35,7 @@ public class PaymentInfoController {
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = paymentInfoService.queryPage(params);
 
-        return R.ok().put("page", page);
+        return R.ok().put("data", page);
     }
 
 

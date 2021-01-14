@@ -42,7 +42,7 @@ public class SysLogController {
 	public R list(@RequestParam Map<String, Object> params){
 		PageUtils page = sysLogService.queryPage(params);
 
-		return R.ok().put("page", page);
+		return R.ok().put("data", page);
 	}
 	
 }

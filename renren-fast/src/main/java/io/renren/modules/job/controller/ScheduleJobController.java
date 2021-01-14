@@ -39,7 +39,7 @@ public class ScheduleJobController {
 	public R list(@RequestParam Map<String, Object> params){
 		PageUtils page = scheduleJobService.queryPage(params);
 
-		return R.ok().put("page", page);
+		return R.ok().put("data", page);
 	}
 	
 	/**

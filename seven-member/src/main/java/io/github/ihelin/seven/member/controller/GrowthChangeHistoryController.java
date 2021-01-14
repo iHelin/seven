@@ -1,20 +1,16 @@
 package io.github.ihelin.seven.member.controller;
 
+import io.github.ihelin.seven.common.utils.PageUtils;
+import io.github.ihelin.seven.common.utils.R;
+import io.github.ihelin.seven.member.entity.GrowthChangeHistoryEntity;
+import io.github.ihelin.seven.member.service.GrowthChangeHistoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Arrays;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import io.github.ihelin.seven.member.entity.GrowthChangeHistoryEntity;
-import io.github.ihelin.seven.member.service.GrowthChangeHistoryService;
-import io.github.ihelin.seven.common.utils.PageUtils;
-import io.github.ihelin.seven.common.utils.R;
 
 
 
@@ -39,7 +35,7 @@ public class GrowthChangeHistoryController {
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = growthChangeHistoryService.queryPage(params);
 
-        return R.ok().put("page", page);
+        return R.ok().put("data", page);
     }
 
 

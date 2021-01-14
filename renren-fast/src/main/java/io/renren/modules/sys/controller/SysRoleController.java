@@ -50,7 +50,7 @@ public class SysRoleController extends AbstractController {
 
 		PageUtils page = sysRoleService.queryPage(params);
 
-		return R.ok().put("page", page);
+		return R.ok().put("data", page);
 	}
 	
 	/**

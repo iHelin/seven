@@ -9,14 +9,14 @@ spring:
         server-addr: 121.4.87.152:8848
     gateway:
       routes:
-#        - id: test_baidu
-#          uri: https://www.baidu.com
-#          predicates:
-#            - Query=url,baidu
-#        - id: test_qq
-#          uri: https://www.qq.com
-#          predicates:
-#            - Query=url,qq
+        #        - id: test_baidu
+        #          uri: https://www.baidu.com
+        #          predicates:
+        #            - Query=url,baidu
+        #        - id: test_qq
+        #          uri: https://www.qq.com
+        #          predicates:
+        #            - Query=url,qq
 
         - id: seven_product
           uri: lb://seven-product
@@ -29,6 +29,13 @@ spring:
           uri: lb://seven-member
           predicates:
             - Path=/api/member/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: seven_ware
+          uri: lb://seven-ware
+          predicates:
+            - Path=/api/ware/**
           filters:
             - RewritePath=/api/(?<segment>.*),/$\{segment}
 

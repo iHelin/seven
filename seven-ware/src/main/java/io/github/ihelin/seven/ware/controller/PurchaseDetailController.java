@@ -1,89 +1,75 @@
 package io.github.ihelin.seven.ware.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import io.github.ihelin.seven.ware.entity.PurchaseDetailEntity;
-import io.github.ihelin.seven.ware.service.PurchaseDetailService;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.R;
+import io.github.ihelin.seven.ware.entity.PurchaseDetailEntity;
+import io.github.ihelin.seven.ware.service.PurchaseDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 
 /**
- * 
+ * wms_purchase_detail
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 14:18:39
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-13 22:46:04
  */
 @RestController
 @RequestMapping("ware/purchasedetail")
 public class PurchaseDetailController {
+
     @Autowired
     private PurchaseDetailService purchaseDetailService;
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    // @RequiresPermissions("ware:purchasedetail:list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = purchaseDetailService.queryPage(params);
 
-        return R.ok().put("page", page);
+        return R.ok().put("data", page);
     }
 
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
-    //@RequiresPermissions("ware:purchasedetail:info")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		PurchaseDetailEntity purchaseDetail = purchaseDetailService.getById(id);
 
-        return R.ok().put("purchaseDetail", purchaseDetail);
+        return R.ok().put("data", purchaseDetail);
     }
 
     /**
-     * 保存
+     * 新增
      */
-    @RequestMapping("/save")
-    //@RequiresPermissions("ware:purchasedetail:save")
+    @PostMapping("/save")
     public R save(@RequestBody PurchaseDetailEntity purchaseDetail){
 		purchaseDetailService.save(purchaseDetail);
-
         return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    //@RequiresPermissions("ware:purchasedetail:update")
+    @PutMapping("/update")
     public R update(@RequestBody PurchaseDetailEntity purchaseDetail){
 		purchaseDetailService.updateById(purchaseDetail);
-
         return R.ok();
     }
 
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("ware:purchasedetail:delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		purchaseDetailService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 

@@ -1,5 +1,6 @@
 package io.github.ihelin.seven.ware.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -53,13 +54,10 @@ public class PurchaseEntity implements Serializable {
 	 * ×Ü½ð¶î
 	 */
 	private BigDecimal amount;
-	/**
-	 * ´´½¨ÈÕÆÚ
-	 */
+	@TableField
 	private Date createTime;
-	/**
-	 * ¸üÐÂÈÕÆÚ
-	 */
+
+	@TableField(update="now()")
 	private Date updateTime;
 
 	public Long getId() {

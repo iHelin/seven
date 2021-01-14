@@ -1,17 +1,14 @@
 package io.github.ihelin.seven.order.dao;
 
-import io.github.ihelin.seven.order.entity.OrderReturnReasonEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
+import io.github.ihelin.seven.order.entity.OrderReturnReasonEntity;
 
 /**
- * ÍË»õÔ­Òò
+ * oms_order_return_reason
  * 
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 14:16:31
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:32:51
  */
-@Mapper
 public interface OrderReturnReasonDao extends BaseMapper<OrderReturnReasonEntity> {
 	
 }

@@ -7,11 +7,10 @@ import io.github.ihelin.seven.order.entity.OrderReturnReasonEntity;
 import java.util.Map;
 
 /**
- * ÍË»õÔ­Òò
+ * oms_order_return_reason
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 14:16:31
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:32:51
  */
 public interface OrderReturnReasonService extends IService<OrderReturnReasonEntity> {
 

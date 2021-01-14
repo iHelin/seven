@@ -7,354 +7,388 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-
 /**
- * ¶©µ¥ÍË»õÉêÇë
- * 
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 14:16:31
- */
-
+* oms_order_return_apply
+*
+* @author iHelin ihelin@outlook.com
+* @since 2021-01-14 14:32:51
+*/
 @TableName("oms_order_return_apply")
 public class OrderReturnApplyEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	private Long id;
-	/**
-	 * order_id
-	 */
-	private Long orderId;
-	/**
-	 * ÍË»õÉÌÆ·id
-	 */
-	private Long skuId;
-	/**
-	 * ¶©µ¥±àºÅ
-	 */
-	private String orderSn;
-	/**
-	 * ÉêÇëÊ±¼ä
-	 */
-	private Date createTime;
-	/**
-	 * »áÔ±ÓÃ»§Ãû
-	 */
-	private String memberUsername;
-	/**
-	 * ÍË¿î½ð¶î
-	 */
-	private BigDecimal returnAmount;
-	/**
-	 * ÍË»õÈËÐÕÃû
-	 */
-	private String returnName;
-	/**
-	 * ÍË»õÈËµç»°
-	 */
-	private String returnPhone;
-	/**
-	 * ÉêÇë×´Ì¬[0->´ý´¦Àí£»1->ÍË»õÖÐ£»2->ÒÑÍê³É£»3->ÒÑ¾Ü¾ø]
-	 */
-	private Integer status;
-	/**
-	 * ´¦ÀíÊ±¼ä
-	 */
-	private Date handleTime;
-	/**
-	 * ÉÌÆ·Í¼Æ¬
-	 */
-	private String skuImg;
-	/**
-	 * ÉÌÆ·Ãû³Æ
-	 */
-	private String skuName;
-	/**
-	 * ÉÌÆ·Æ·ÅÆ
-	 */
-	private String skuBrand;
-	/**
-	 * ÉÌÆ·ÏúÊÛÊôÐÔ(JSON)
-	 */
-	private String skuAttrsVals;
-	/**
-	 * ÍË»õÊýÁ¿
-	 */
-	private Integer skuCount;
-	/**
-	 * ÉÌÆ·µ¥¼Û
-	 */
-	private BigDecimal skuPrice;
-	/**
-	 * ÉÌÆ·Êµ¼ÊÖ§¸¶µ¥¼Û
-	 */
-	private BigDecimal skuRealPrice;
-	/**
-	 * Ô­Òò
-	 */
-	private String reason;
-	/**
-	 * ÃèÊö
-	 */
-	private String descriptionêö;
-	/**
-	 * Æ¾Ö¤Í¼Æ¬£¬ÒÔ¶ººÅ¸ô¿ª
-	 */
-	private String descPics;
-	/**
-	 * ´¦Àí±¸×¢
-	 */
-	private String handleNote;
-	/**
-	 * ´¦ÀíÈËÔ±
-	 */
-	private String handleMan;
-	/**
-	 * ÊÕ»õÈË
-	 */
-	private String receiveMan;
-	/**
-	 * ÊÕ»õÊ±¼ä
-	 */
-	private Date receiveTime;
-	/**
-	 * ÊÕ»õ±¸×¢
-	 */
-	private String receiveNote;
-	/**
-	 * ÊÕ»õµç»°
-	 */
-	private String receivePhone;
-	/**
-	 * ¹«Ë¾ÊÕ»õµØÖ·
-	 */
-	private String companyAddress;
+    private static final long serialVersionUID = 1L;
 
-	public Long getId() {
-		return id;
-	}
+    /**
+    * id
+    */
+        @TableId
+    private Long id;
+    /**
+    * order_id
+    */
+    private Long orderId;
+    /**
+    * ÍË»õÉÌÆ·id
+    */
+    private Long skuId;
+    /**
+    * ¶©µ¥±àºÅ
+    */
+    private String orderSn;
+    /**
+    * ÉêÇëÊ±¼ä
+    */
+    private Date createTime;
+    /**
+    * »áÔ±ÓÃ»§Ãû
+    */
+    private String memberUsername;
+    /**
+    * ÍË¿î½ð¶î
+    */
+    private BigDecimal returnAmount;
+    /**
+    * ÍË»õÈËÐÕÃû
+    */
+    private String returnName;
+    /**
+    * ÍË»õÈËµç»°
+    */
+    private String returnPhone;
+    /**
+    * ÉêÇë×´Ì¬[0-&gt;´ý´¦Àí£»1-&gt;ÍË»õÖÐ£»2-&gt;ÒÑÍê³É£»3-&gt;ÒÑ¾Ü¾ø]
+    */
+    private Integer status;
+    /**
+    * ´¦ÀíÊ±¼ä
+    */
+    private Date handleTime;
+    /**
+    * ÉÌÆ·Í¼Æ¬
+    */
+    private String skuImg;
+    /**
+    * ÉÌÆ·Ãû³Æ
+    */
+    private String skuName;
+    /**
+    * ÉÌÆ·Æ·ÅÆ
+    */
+    private String skuBrand;
+    /**
+    * ÉÌÆ·ÏúÊÛÊôÐÔ(JSON)
+    */
+    private String skuAttrsVals;
+    /**
+    * ÍË»õÊýÁ¿
+    */
+    private Integer skuCount;
+    /**
+    * ÉÌÆ·µ¥¼Û
+    */
+    private BigDecimal skuPrice;
+    /**
+    * ÉÌÆ·Êµ¼ÊÖ§¸¶µ¥¼Û
+    */
+    private BigDecimal skuRealPrice;
+    /**
+    * Ô­Òò
+    */
+    private String reason;
+    /**
+    * ÃèÊö
+    */
+    private String descriptionêö;
+    /**
+    * Æ¾Ö¤Í¼Æ¬£¬ÒÔ¶ººÅ¸ô¿ª
+    */
+    private String descPics;
+    /**
+    * ´¦Àí±¸×¢
+    */
+    private String handleNote;
+    /**
+    * ´¦ÀíÈËÔ±
+    */
+    private String handleMan;
+    /**
+    * ÊÕ»õÈË
+    */
+    private String receiveMan;
+    /**
+    * ÊÕ»õÊ±¼ä
+    */
+    private Date receiveTime;
+    /**
+    * ÊÕ»õ±¸×¢
+    */
+    private String receiveNote;
+    /**
+    * ÊÕ»õµç»°
+    */
+    private String receivePhone;
+    /**
+    * ¹«Ë¾ÊÕ»õµØÖ·
+    */
+    private String companyAddress;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 
-	public Long getOrderId() {
-		return orderId;
-	}
+    public Long getId(){
+        return id;
+    }
 
-	public void setOrderId(Long orderId) {
-		this.orderId = orderId;
-	}
+    public void setId(Long id){
+        this.id = id;
+    }
 
-	public Long getSkuId() {
-		return skuId;
-	}
+    public Long getOrderId(){
+        return orderId;
+    }
 
-	public void setSkuId(Long skuId) {
-		this.skuId = skuId;
-	}
+    public void setOrderId(Long orderId){
+        this.orderId = orderId;
+    }
 
-	public String getOrderSn() {
-		return orderSn;
-	}
+    public Long getSkuId(){
+        return skuId;
+    }
 
-	public void setOrderSn(String orderSn) {
-		this.orderSn = orderSn;
-	}
+    public void setSkuId(Long skuId){
+        this.skuId = skuId;
+    }
 
-	public Date getCreateTime() {
-		return createTime;
-	}
+    public String getOrderSn(){
+        return orderSn;
+    }
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
+    public void setOrderSn(String orderSn){
+        this.orderSn = orderSn;
+    }
 
-	public String getMemberUsername() {
-		return memberUsername;
-	}
+    public Date getCreateTime(){
+        return createTime;
+    }
 
-	public void setMemberUsername(String memberUsername) {
-		this.memberUsername = memberUsername;
-	}
+    public void setCreateTime(Date createTime){
+        this.createTime = createTime;
+    }
 
-	public BigDecimal getReturnAmount() {
-		return returnAmount;
-	}
+    public String getMemberUsername(){
+        return memberUsername;
+    }
 
-	public void setReturnAmount(BigDecimal returnAmount) {
-		this.returnAmount = returnAmount;
-	}
+    public void setMemberUsername(String memberUsername){
+        this.memberUsername = memberUsername;
+    }
 
-	public String getReturnName() {
-		return returnName;
-	}
+    public BigDecimal getReturnAmount(){
+        return returnAmount;
+    }
 
-	public void setReturnName(String returnName) {
-		this.returnName = returnName;
-	}
+    public void setReturnAmount(BigDecimal returnAmount){
+        this.returnAmount = returnAmount;
+    }
 
-	public String getReturnPhone() {
-		return returnPhone;
-	}
+    public String getReturnName(){
+        return returnName;
+    }
 
-	public void setReturnPhone(String returnPhone) {
-		this.returnPhone = returnPhone;
-	}
+    public void setReturnName(String returnName){
+        this.returnName = returnName;
+    }
 
-	public Integer getStatus() {
-		return status;
-	}
+    public String getReturnPhone(){
+        return returnPhone;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    public void setReturnPhone(String returnPhone){
+        this.returnPhone = returnPhone;
+    }
 
-	public Date getHandleTime() {
-		return handleTime;
-	}
+    public Integer getStatus(){
+        return status;
+    }
 
-	public void setHandleTime(Date handleTime) {
-		this.handleTime = handleTime;
-	}
+    public void setStatus(Integer status){
+        this.status = status;
+    }
 
-	public String getSkuImg() {
-		return skuImg;
-	}
+    public Date getHandleTime(){
+        return handleTime;
+    }
 
-	public void setSkuImg(String skuImg) {
-		this.skuImg = skuImg;
-	}
+    public void setHandleTime(Date handleTime){
+        this.handleTime = handleTime;
+    }
 
-	public String getSkuName() {
-		return skuName;
-	}
+    public String getSkuImg(){
+        return skuImg;
+    }
 
-	public void setSkuName(String skuName) {
-		this.skuName = skuName;
-	}
+    public void setSkuImg(String skuImg){
+        this.skuImg = skuImg;
+    }
 
-	public String getSkuBrand() {
-		return skuBrand;
-	}
+    public String getSkuName(){
+        return skuName;
+    }
 
-	public void setSkuBrand(String skuBrand) {
-		this.skuBrand = skuBrand;
-	}
+    public void setSkuName(String skuName){
+        this.skuName = skuName;
+    }
 
-	public String getSkuAttrsVals() {
-		return skuAttrsVals;
-	}
+    public String getSkuBrand(){
+        return skuBrand;
+    }
 
-	public void setSkuAttrsVals(String skuAttrsVals) {
-		this.skuAttrsVals = skuAttrsVals;
-	}
+    public void setSkuBrand(String skuBrand){
+        this.skuBrand = skuBrand;
+    }
 
-	public Integer getSkuCount() {
-		return skuCount;
-	}
+    public String getSkuAttrsVals(){
+        return skuAttrsVals;
+    }
 
-	public void setSkuCount(Integer skuCount) {
-		this.skuCount = skuCount;
-	}
+    public void setSkuAttrsVals(String skuAttrsVals){
+        this.skuAttrsVals = skuAttrsVals;
+    }
 
-	public BigDecimal getSkuPrice() {
-		return skuPrice;
-	}
+    public Integer getSkuCount(){
+        return skuCount;
+    }
 
-	public void setSkuPrice(BigDecimal skuPrice) {
-		this.skuPrice = skuPrice;
-	}
+    public void setSkuCount(Integer skuCount){
+        this.skuCount = skuCount;
+    }
 
-	public BigDecimal getSkuRealPrice() {
-		return skuRealPrice;
-	}
+    public BigDecimal getSkuPrice(){
+        return skuPrice;
+    }
 
-	public void setSkuRealPrice(BigDecimal skuRealPrice) {
-		this.skuRealPrice = skuRealPrice;
-	}
+    public void setSkuPrice(BigDecimal skuPrice){
+        this.skuPrice = skuPrice;
+    }
 
-	public String getReason() {
-		return reason;
-	}
+    public BigDecimal getSkuRealPrice(){
+        return skuRealPrice;
+    }
 
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
+    public void setSkuRealPrice(BigDecimal skuRealPrice){
+        this.skuRealPrice = skuRealPrice;
+    }
 
-	public String getDescriptionêö() {
-		return descriptionêö;
-	}
+    public String getReason(){
+        return reason;
+    }
 
-	public void setDescriptionêö(String descriptionêö) {
-		this.descriptionêö = descriptionêö;
-	}
+    public void setReason(String reason){
+        this.reason = reason;
+    }
 
-	public String getDescPics() {
-		return descPics;
-	}
+    public String getDescriptionêö(){
+        return descriptionêö;
+    }
 
-	public void setDescPics(String descPics) {
-		this.descPics = descPics;
-	}
+    public void setDescriptionêö(String descriptionêö){
+        this.descriptionêö = descriptionêö;
+    }
 
-	public String getHandleNote() {
-		return handleNote;
-	}
+    public String getDescPics(){
+        return descPics;
+    }
 
-	public void setHandleNote(String handleNote) {
-		this.handleNote = handleNote;
-	}
+    public void setDescPics(String descPics){
+        this.descPics = descPics;
+    }
 
-	public String getHandleMan() {
-		return handleMan;
-	}
+    public String getHandleNote(){
+        return handleNote;
+    }
 
-	public void setHandleMan(String handleMan) {
-		this.handleMan = handleMan;
-	}
+    public void setHandleNote(String handleNote){
+        this.handleNote = handleNote;
+    }
 
-	public String getReceiveMan() {
-		return receiveMan;
-	}
+    public String getHandleMan(){
+        return handleMan;
+    }
 
-	public void setReceiveMan(String receiveMan) {
-		this.receiveMan = receiveMan;
-	}
+    public void setHandleMan(String handleMan){
+        this.handleMan = handleMan;
+    }
 
-	public Date getReceiveTime() {
-		return receiveTime;
-	}
+    public String getReceiveMan(){
+        return receiveMan;
+    }
 
-	public void setReceiveTime(Date receiveTime) {
-		this.receiveTime = receiveTime;
-	}
+    public void setReceiveMan(String receiveMan){
+        this.receiveMan = receiveMan;
+    }
 
-	public String getReceiveNote() {
-		return receiveNote;
-	}
+    public Date getReceiveTime(){
+        return receiveTime;
+    }
 
-	public void setReceiveNote(String receiveNote) {
-		this.receiveNote = receiveNote;
-	}
+    public void setReceiveTime(Date receiveTime){
+        this.receiveTime = receiveTime;
+    }
 
-	public String getReceivePhone() {
-		return receivePhone;
-	}
+    public String getReceiveNote(){
+        return receiveNote;
+    }
 
-	public void setReceivePhone(String receivePhone) {
-		this.receivePhone = receivePhone;
-	}
+    public void setReceiveNote(String receiveNote){
+        this.receiveNote = receiveNote;
+    }
 
-	public String getCompanyAddress() {
-		return companyAddress;
-	}
+    public String getReceivePhone(){
+        return receivePhone;
+    }
 
-	public void setCompanyAddress(String companyAddress) {
-		this.companyAddress = companyAddress;
-	}
+    public void setReceivePhone(String receivePhone){
+        this.receivePhone = receivePhone;
+    }
+
+    public String getCompanyAddress(){
+        return companyAddress;
+    }
+
+    public void setCompanyAddress(String companyAddress){
+        this.companyAddress = companyAddress;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderReturnApplyEntity{" +
+        "id='" + id + '\'' +
+        "orderId='" + orderId + '\'' +
+        "skuId='" + skuId + '\'' +
+        "orderSn='" + orderSn + '\'' +
+        "createTime='" + createTime + '\'' +
+        "memberUsername='" + memberUsername + '\'' +
+        "returnAmount='" + returnAmount + '\'' +
+        "returnName='" + returnName + '\'' +
+        "returnPhone='" + returnPhone + '\'' +
+        "status='" + status + '\'' +
+        "handleTime='" + handleTime + '\'' +
+        "skuImg='" + skuImg + '\'' +
+        "skuName='" + skuName + '\'' +
+        "skuBrand='" + skuBrand + '\'' +
+        "skuAttrsVals='" + skuAttrsVals + '\'' +
+        "skuCount='" + skuCount + '\'' +
+        "skuPrice='" + skuPrice + '\'' +
+        "skuRealPrice='" + skuRealPrice + '\'' +
+        "reason='" + reason + '\'' +
+        "descriptionêö='" + descriptionêö + '\'' +
+        "descPics='" + descPics + '\'' +
+        "handleNote='" + handleNote + '\'' +
+        "handleMan='" + handleMan + '\'' +
+        "receiveMan='" + receiveMan + '\'' +
+        "receiveTime='" + receiveTime + '\'' +
+        "receiveNote='" + receiveNote + '\'' +
+        "receivePhone='" + receivePhone + '\'' +
+        "companyAddress='" + companyAddress + '\'' +
+        '}';
+    }
+
 }

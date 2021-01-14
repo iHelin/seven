@@ -1,12 +1,12 @@
+server:
+  port: 13000
 spring:
+  application:
+    name: seven-open
   cloud:
     nacos:
       discovery:
         server-addr: 121.4.87.152:8848
-  application:
-    name: seven-open
-server:
-  port: 13000
 logging:
   level:
     io.github.ihelin.seven: debug

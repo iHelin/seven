@@ -10,28 +10,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.Map;
 
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
-
 
 
 /**
- * ¶©µ¥ÅäÖÃÐÅÏ¢
+ * oms_order_setting
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 14:16:31
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:32:51
  */
 @RestController
 @RequestMapping("order/ordersetting")
 public class OrderSettingController {
+
     @Autowired
     private OrderSettingService orderSettingService;
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    // @RequiresPermissions("order:ordersetting:list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = orderSettingService.queryPage(params);
 
@@ -42,44 +39,37 @@ public class OrderSettingController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
-    //@RequiresPermissions("order:ordersetting:info")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		OrderSettingEntity orderSetting = orderSettingService.getById(id);
 
-        return R.ok().put("orderSetting", orderSetting);
+        return R.ok().put("data", orderSetting);
     }
 
     /**
-     * 保存
+     * 新增
      */
-    @RequestMapping("/save")
-    //@RequiresPermissions("order:ordersetting:save")
+    @PostMapping("/save")
     public R save(@RequestBody OrderSettingEntity orderSetting){
 		orderSettingService.save(orderSetting);
-
         return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    //@RequiresPermissions("order:ordersetting:update")
+    @PutMapping("/update")
     public R update(@RequestBody OrderSettingEntity orderSetting){
 		orderSettingService.updateById(orderSetting);
-
         return R.ok();
     }
 
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("order:ordersetting:delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		orderSettingService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 

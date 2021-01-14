@@ -7,11 +7,10 @@ import io.github.ihelin.seven.order.entity.OrderOperateHistoryEntity;
 import java.util.Map;
 
 /**
- * ¶©µ¥²Ù×÷ÀúÊ·¼ÇÂ¼
+ * oms_order_operate_history
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 14:16:31
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:32:50
  */
 public interface OrderOperateHistoryService extends IService<OrderOperateHistoryEntity> {
 

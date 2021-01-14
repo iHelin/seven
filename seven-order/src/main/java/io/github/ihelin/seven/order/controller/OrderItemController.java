@@ -10,28 +10,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.Map;
 
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
-
 
 
 /**
- * ¶©µ¥ÏîÐÅÏ¢
+ * oms_order_item
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 14:16:31
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:32:50
  */
 @RestController
 @RequestMapping("order/orderitem")
 public class OrderItemController {
+
     @Autowired
     private OrderItemService orderItemService;
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    // @RequiresPermissions("order:orderitem:list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = orderItemService.queryPage(params);
 
@@ -42,44 +39,37 @@ public class OrderItemController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
-    //@RequiresPermissions("order:orderitem:info")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		OrderItemEntity orderItem = orderItemService.getById(id);
 
-        return R.ok().put("orderItem", orderItem);
+        return R.ok().put("data", orderItem);
     }
 
     /**
-     * 保存
+     * 新增
      */
-    @RequestMapping("/save")
-    //@RequiresPermissions("order:orderitem:save")
+    @PostMapping("/save")
     public R save(@RequestBody OrderItemEntity orderItem){
 		orderItemService.save(orderItem);
-
         return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    //@RequiresPermissions("order:orderitem:update")
+    @PutMapping("/update")
     public R update(@RequestBody OrderItemEntity orderItem){
 		orderItemService.updateById(orderItem);
-
         return R.ok();
     }
 
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("order:orderitem:delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		orderItemService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 

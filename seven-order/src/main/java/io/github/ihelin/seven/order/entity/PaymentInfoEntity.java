@@ -7,150 +7,167 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-
 /**
- * Ö§¸¶ÐÅÏ¢±í
- * 
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 14:16:31
- */
-
+* oms_payment_info
+*
+* @author iHelin ihelin@outlook.com
+* @since 2021-01-14 14:32:51
+*/
 @TableName("oms_payment_info")
 public class PaymentInfoEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	private Long id;
-	/**
-	 * ¶©µ¥ºÅ£¨¶ÔÍâÒµÎñºÅ£©
-	 */
-	private String orderSn;
-	/**
-	 * ¶©µ¥id
-	 */
-	private Long orderId;
-	/**
-	 * Ö§¸¶±¦½»Ò×Á÷Ë®ºÅ
-	 */
-	private String alipayTradeNo;
-	/**
-	 * Ö§¸¶×Ü½ð¶î
-	 */
-	private BigDecimal totalAmount;
-	/**
-	 * ½»Ò×ÄÚÈÝ
-	 */
-	private String subject;
-	/**
-	 * Ö§¸¶×´Ì¬
-	 */
-	private String paymentStatus;
-	/**
-	 * ´´½¨Ê±¼ä
-	 */
-	private Date createTime;
-	/**
-	 * È·ÈÏÊ±¼ä
-	 */
-	private Date confirmTime;
-	/**
-	 * »Øµ÷ÄÚÈÝ
-	 */
-	private String callbackContent;
-	/**
-	 * »Øµ÷Ê±¼ä
-	 */
-	private Date callbackTime;
+    private static final long serialVersionUID = 1L;
 
-	public Long getId() {
-		return id;
-	}
+    /**
+    * id
+    */
+        @TableId
+    private Long id;
+    /**
+    * ¶©µ¥ºÅ£¨¶ÔÍâÒµÎñºÅ£©
+    */
+    private String orderSn;
+    /**
+    * ¶©µ¥id
+    */
+    private Long orderId;
+    /**
+    * Ö§¸¶±¦½»Ò×Á÷Ë®ºÅ
+    */
+    private String alipayTradeNo;
+    /**
+    * Ö§¸¶×Ü½ð¶î
+    */
+    private BigDecimal totalAmount;
+    /**
+    * ½»Ò×ÄÚÈÝ
+    */
+    private String subject;
+    /**
+    * Ö§¸¶×´Ì¬
+    */
+    private String paymentStatus;
+    /**
+    * ´´½¨Ê±¼ä
+    */
+    private Date createTime;
+    /**
+    * È·ÈÏÊ±¼ä
+    */
+    private Date confirmTime;
+    /**
+    * »Øµ÷ÄÚÈÝ
+    */
+    private String callbackContent;
+    /**
+    * »Øµ÷Ê±¼ä
+    */
+    private Date callbackTime;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 
-	public String getOrderSn() {
-		return orderSn;
-	}
+    public Long getId(){
+        return id;
+    }
 
-	public void setOrderSn(String orderSn) {
-		this.orderSn = orderSn;
-	}
+    public void setId(Long id){
+        this.id = id;
+    }
 
-	public Long getOrderId() {
-		return orderId;
-	}
+    public String getOrderSn(){
+        return orderSn;
+    }
 
-	public void setOrderId(Long orderId) {
-		this.orderId = orderId;
-	}
+    public void setOrderSn(String orderSn){
+        this.orderSn = orderSn;
+    }
 
-	public String getAlipayTradeNo() {
-		return alipayTradeNo;
-	}
+    public Long getOrderId(){
+        return orderId;
+    }
 
-	public void setAlipayTradeNo(String alipayTradeNo) {
-		this.alipayTradeNo = alipayTradeNo;
-	}
+    public void setOrderId(Long orderId){
+        this.orderId = orderId;
+    }
 
-	public BigDecimal getTotalAmount() {
-		return totalAmount;
-	}
+    public String getAlipayTradeNo(){
+        return alipayTradeNo;
+    }
 
-	public void setTotalAmount(BigDecimal totalAmount) {
-		this.totalAmount = totalAmount;
-	}
+    public void setAlipayTradeNo(String alipayTradeNo){
+        this.alipayTradeNo = alipayTradeNo;
+    }
 
-	public String getSubject() {
-		return subject;
-	}
+    public BigDecimal getTotalAmount(){
+        return totalAmount;
+    }
 
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
+    public void setTotalAmount(BigDecimal totalAmount){
+        this.totalAmount = totalAmount;
+    }
 
-	public String getPaymentStatus() {
-		return paymentStatus;
-	}
+    public String getSubject(){
+        return subject;
+    }
 
-	public void setPaymentStatus(String paymentStatus) {
-		this.paymentStatus = paymentStatus;
-	}
+    public void setSubject(String subject){
+        this.subject = subject;
+    }
 
-	public Date getCreateTime() {
-		return createTime;
-	}
+    public String getPaymentStatus(){
+        return paymentStatus;
+    }
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
+    public void setPaymentStatus(String paymentStatus){
+        this.paymentStatus = paymentStatus;
+    }
 
-	public Date getConfirmTime() {
-		return confirmTime;
-	}
+    public Date getCreateTime(){
+        return createTime;
+    }
 
-	public void setConfirmTime(Date confirmTime) {
-		this.confirmTime = confirmTime;
-	}
+    public void setCreateTime(Date createTime){
+        this.createTime = createTime;
+    }
 
-	public String getCallbackContent() {
-		return callbackContent;
-	}
+    public Date getConfirmTime(){
+        return confirmTime;
+    }
 
-	public void setCallbackContent(String callbackContent) {
-		this.callbackContent = callbackContent;
-	}
+    public void setConfirmTime(Date confirmTime){
+        this.confirmTime = confirmTime;
+    }
 
-	public Date getCallbackTime() {
-		return callbackTime;
-	}
+    public String getCallbackContent(){
+        return callbackContent;
+    }
 
-	public void setCallbackTime(Date callbackTime) {
-		this.callbackTime = callbackTime;
-	}
+    public void setCallbackContent(String callbackContent){
+        this.callbackContent = callbackContent;
+    }
+
+    public Date getCallbackTime(){
+        return callbackTime;
+    }
+
+    public void setCallbackTime(Date callbackTime){
+        this.callbackTime = callbackTime;
+    }
+
+    @Override
+    public String toString() {
+        return "PaymentInfoEntity{" +
+        "id='" + id + '\'' +
+        "orderSn='" + orderSn + '\'' +
+        "orderId='" + orderId + '\'' +
+        "alipayTradeNo='" + alipayTradeNo + '\'' +
+        "totalAmount='" + totalAmount + '\'' +
+        "subject='" + subject + '\'' +
+        "paymentStatus='" + paymentStatus + '\'' +
+        "createTime='" + createTime + '\'' +
+        "confirmTime='" + confirmTime + '\'' +
+        "callbackContent='" + callbackContent + '\'' +
+        "callbackTime='" + callbackTime + '\'' +
+        '}';
+    }
+
 }

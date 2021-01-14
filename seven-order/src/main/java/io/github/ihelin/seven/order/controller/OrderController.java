@@ -10,28 +10,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.Map;
 
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
-
 
 
 /**
- * ¶©µ¥
+ * oms_order
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 14:16:31
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:32:50
  */
 @RestController
 @RequestMapping("order/order")
 public class OrderController {
+
     @Autowired
     private OrderService orderService;
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    // @RequiresPermissions("order:order:list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = orderService.queryPage(params);
 
@@ -42,44 +39,37 @@ public class OrderController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
-    //@RequiresPermissions("order:order:info")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		OrderEntity order = orderService.getById(id);
 
-        return R.ok().put("order", order);
+        return R.ok().put("data", order);
     }
 
     /**
-     * 保存
+     * 新增
      */
-    @RequestMapping("/save")
-    //@RequiresPermissions("order:order:save")
+    @PostMapping("/save")
     public R save(@RequestBody OrderEntity order){
 		orderService.save(order);
-
         return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    //@RequiresPermissions("order:order:update")
+    @PutMapping("/update")
     public R update(@RequestBody OrderEntity order){
 		orderService.updateById(order);
-
         return R.ok();
     }
 
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("order:order:delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		orderService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 

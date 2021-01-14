@@ -6,78 +6,89 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
 
-
 /**
- * ÍË»õÔ­Òò
- * 
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 14:16:31
- */
-
+* oms_order_return_reason
+*
+* @author iHelin ihelin@outlook.com
+* @since 2021-01-14 14:32:51
+*/
 @TableName("oms_order_return_reason")
 public class OrderReturnReasonEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	private Long id;
-	/**
-	 * ÍË»õÔ­ÒòÃû
-	 */
-	private String name;
-	/**
-	 * ÅÅÐò
-	 */
-	private Integer sort;
-	/**
-	 * ÆôÓÃ×´Ì¬
-	 */
-	private Integer status;
-	/**
-	 * create_time
-	 */
-	private Date createTime;
+    private static final long serialVersionUID = 1L;
 
-	public Long getId() {
-		return id;
-	}
+    /**
+    * id
+    */
+        @TableId
+    private Long id;
+    /**
+    * ÍË»õÔ­ÒòÃû
+    */
+    private String name;
+    /**
+    * ÅÅÐò
+    */
+    private Integer sort;
+    /**
+    * ÆôÓÃ×´Ì¬
+    */
+    private Integer status;
+    /**
+    * create_time
+    */
+    private Date createTime;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 
-	public String getName() {
-		return name;
-	}
+    public Long getId(){
+        return id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setId(Long id){
+        this.id = id;
+    }
 
-	public Integer getSort() {
-		return sort;
-	}
+    public String getName(){
+        return name;
+    }
 
-	public void setSort(Integer sort) {
-		this.sort = sort;
-	}
+    public void setName(String name){
+        this.name = name;
+    }
 
-	public Integer getStatus() {
-		return status;
-	}
+    public Integer getSort(){
+        return sort;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    public void setSort(Integer sort){
+        this.sort = sort;
+    }
 
-	public Date getCreateTime() {
-		return createTime;
-	}
+    public Integer getStatus(){
+        return status;
+    }
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
+    public void setStatus(Integer status){
+        this.status = status;
+    }
+
+    public Date getCreateTime(){
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime){
+        this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderReturnReasonEntity{" +
+        "id='" + id + '\'' +
+        "name='" + name + '\'' +
+        "sort='" + sort + '\'' +
+        "status='" + status + '\'' +
+        "createTime='" + createTime + '\'' +
+        '}';
+    }
+
 }

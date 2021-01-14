@@ -6,102 +6,115 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-
 /**
- * ÍË¿îÐÅÏ¢
- *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 14:16:31
- */
-
+* oms_refund_info
+*
+* @author iHelin ihelin@outlook.com
+* @since 2021-01-14 14:32:51
+*/
 @TableName("oms_refund_info")
 public class RefundInfoEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     /**
-     * id
-     */
-    @TableId
+    * id
+    */
+        @TableId
     private Long id;
     /**
-     * ÍË¿îµÄ¶©µ¥
-     */
+    * ÍË¿îµÄ¶©µ¥
+    */
     private Long orderReturnId;
     /**
-     * ÍË¿î½ð¶î
-     */
+    * ÍË¿î½ð¶î
+    */
     private BigDecimal refund;
     /**
-     * ÍË¿î½»Ò×Á÷Ë®ºÅ
-     */
+    * ÍË¿î½»Ò×Á÷Ë®ºÅ
+    */
     private String refundSn;
     /**
-     * ÍË¿î×´Ì¬
-     */
+    * ÍË¿î×´Ì¬
+    */
     private Integer refundStatus;
     /**
-     * ÍË¿îÇþµÀ[1-Ö§¸¶±¦£¬2-Î¢ÐÅ£¬3-ÒøÁª£¬4-»ã¿î]
-     */
+    * ÍË¿îÇþµÀ[1-Ö§¸¶±¦£¬2-Î¢ÐÅ£¬3-ÒøÁª£¬4-»ã¿î]
+    */
     private Integer refundChannel;
     /**
-     *
-     */
+    * 
+    */
     private String refundContent;
 
-    public Long getId() {
+
+    public Long getId(){
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id){
         this.id = id;
     }
 
-    public Long getOrderReturnId() {
+    public Long getOrderReturnId(){
         return orderReturnId;
     }
 
-    public void setOrderReturnId(Long orderReturnId) {
+    public void setOrderReturnId(Long orderReturnId){
         this.orderReturnId = orderReturnId;
     }
 
-    public BigDecimal getRefund() {
+    public BigDecimal getRefund(){
         return refund;
     }
 
-    public void setRefund(BigDecimal refund) {
+    public void setRefund(BigDecimal refund){
         this.refund = refund;
     }
 
-    public String getRefundSn() {
+    public String getRefundSn(){
         return refundSn;
     }
 
-    public void setRefundSn(String refundSn) {
+    public void setRefundSn(String refundSn){
         this.refundSn = refundSn;
     }
 
-    public Integer getRefundStatus() {
+    public Integer getRefundStatus(){
         return refundStatus;
     }
 
-    public void setRefundStatus(Integer refundStatus) {
+    public void setRefundStatus(Integer refundStatus){
         this.refundStatus = refundStatus;
     }
 
-    public Integer getRefundChannel() {
+    public Integer getRefundChannel(){
         return refundChannel;
     }
 
-    public void setRefundChannel(Integer refundChannel) {
+    public void setRefundChannel(Integer refundChannel){
         this.refundChannel = refundChannel;
     }
 
-    public String getRefundContent() {
+    public String getRefundContent(){
         return refundContent;
     }
 
-    public void setRefundContent(String refundContent) {
+    public void setRefundContent(String refundContent){
         this.refundContent = refundContent;
     }
+
+    @Override
+    public String toString() {
+        return "RefundInfoEntity{" +
+        "id='" + id + '\'' +
+        "orderReturnId='" + orderReturnId + '\'' +
+        "refund='" + refund + '\'' +
+        "refundSn='" + refundSn + '\'' +
+        "refundStatus='" + refundStatus + '\'' +
+        "refundChannel='" + refundChannel + '\'' +
+        "refundContent='" + refundContent + '\'' +
+        '}';
+    }
+
 }

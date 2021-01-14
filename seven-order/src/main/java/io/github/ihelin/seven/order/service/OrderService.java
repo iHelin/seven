@@ -7,11 +7,10 @@ import io.github.ihelin.seven.order.entity.OrderEntity;
 import java.util.Map;
 
 /**
- * ¶©µ¥
+ * oms_order
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 14:16:31
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:32:50
  */
 public interface OrderService extends IService<OrderEntity> {
 

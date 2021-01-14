@@ -10,28 +10,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.Map;
 
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
-
 
 
 /**
- * ¶©µ¥ÍË»õÉêÇë
+ * oms_order_return_apply
  *
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 14:16:31
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:32:51
  */
 @RestController
 @RequestMapping("order/orderreturnapply")
 public class OrderReturnApplyController {
+
     @Autowired
     private OrderReturnApplyService orderReturnApplyService;
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    // @RequiresPermissions("order:orderreturnapply:list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = orderReturnApplyService.queryPage(params);
 
@@ -42,44 +39,37 @@ public class OrderReturnApplyController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
-    //@RequiresPermissions("order:orderreturnapply:info")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		OrderReturnApplyEntity orderReturnApply = orderReturnApplyService.getById(id);
 
-        return R.ok().put("orderReturnApply", orderReturnApply);
+        return R.ok().put("data", orderReturnApply);
     }
 
     /**
-     * 保存
+     * 新增
      */
-    @RequestMapping("/save")
-    //@RequiresPermissions("order:orderreturnapply:save")
+    @PostMapping("/save")
     public R save(@RequestBody OrderReturnApplyEntity orderReturnApply){
 		orderReturnApplyService.save(orderReturnApply);
-
         return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    //@RequiresPermissions("order:orderreturnapply:update")
+    @PutMapping("/update")
     public R update(@RequestBody OrderReturnApplyEntity orderReturnApply){
 		orderReturnApplyService.updateById(orderReturnApply);
-
         return R.ok();
     }
 
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    //@RequiresPermissions("order:orderreturnapply:delete")
+    @DeleteMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		orderReturnApplyService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 

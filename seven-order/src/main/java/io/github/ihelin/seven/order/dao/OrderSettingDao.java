@@ -1,17 +1,14 @@
 package io.github.ihelin.seven.order.dao;
 
-import io.github.ihelin.seven.order.entity.OrderSettingEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
+import io.github.ihelin.seven.order.entity.OrderSettingEntity;
 
 /**
- * ¶©µ¥ÅäÖÃÐÅÏ¢
+ * oms_order_setting
  * 
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 14:16:31
+ * @author iHelin ihelin@outlook.com
+ * @since 2021-01-14 14:32:51
  */
-@Mapper
 public interface OrderSettingDao extends BaseMapper<OrderSettingEntity> {
 	
 }

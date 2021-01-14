@@ -5,102 +5,115 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 
-
 /**
- * ¶©µ¥ÅäÖÃÐÅÏ¢
- * 
- * @author iHelin
- * @email ihelin@outlook.com
- * @date 2021-01-05 14:16:31
- */
-
+* oms_order_setting
+*
+* @author iHelin ihelin@outlook.com
+* @since 2021-01-14 14:32:51
+*/
 @TableName("oms_order_setting")
 public class OrderSettingEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	private Long id;
-	/**
-	 * ÃëÉ±¶©µ¥³¬Ê±¹Ø±ÕÊ±¼ä(·Ö)
-	 */
-	private Integer flashOrderOvertime;
-	/**
-	 * Õý³£¶©µ¥³¬Ê±Ê±¼ä(·Ö)
-	 */
-	private Integer normalOrderOvertime;
-	/**
-	 * ·¢»õºó×Ô¶¯È·ÈÏÊÕ»õÊ±¼ä£¨Ìì£©
-	 */
-	private Integer confirmOvertime;
-	/**
-	 * ×Ô¶¯Íê³É½»Ò×Ê±¼ä£¬²»ÄÜÉêÇëÍË»õ£¨Ìì£©
-	 */
-	private Integer finishOvertime;
-	/**
-	 * ¶©µ¥Íê³Éºó×Ô¶¯ºÃÆÀÊ±¼ä£¨Ìì£©
-	 */
-	private Integer commentOvertime;
-	/**
-	 * »áÔ±µÈ¼¶¡¾0-²»ÏÞ»áÔ±µÈ¼¶£¬È«²¿Í¨ÓÃ£»ÆäËû-¶ÔÓ¦µÄÆäËû»áÔ±µÈ¼¶¡¿
-	 */
-	private Integer memberLevel;
+    private static final long serialVersionUID = 1L;
 
-	public Long getId() {
-		return id;
-	}
+    /**
+    * id
+    */
+        @TableId
+    private Long id;
+    /**
+    * ÃëÉ±¶©µ¥³¬Ê±¹Ø±ÕÊ±¼ä(·Ö)
+    */
+    private Integer flashOrderOvertime;
+    /**
+    * Õý³£¶©µ¥³¬Ê±Ê±¼ä(·Ö)
+    */
+    private Integer normalOrderOvertime;
+    /**
+    * ·¢»õºó×Ô¶¯È·ÈÏÊÕ»õÊ±¼ä£¨Ìì£©
+    */
+    private Integer confirmOvertime;
+    /**
+    * ×Ô¶¯Íê³É½»Ò×Ê±¼ä£¬²»ÄÜÉêÇëÍË»õ£¨Ìì£©
+    */
+    private Integer finishOvertime;
+    /**
+    * ¶©µ¥Íê³Éºó×Ô¶¯ºÃÆÀÊ±¼ä£¨Ìì£©
+    */
+    private Integer commentOvertime;
+    /**
+    * »áÔ±µÈ¼¶¡¾0-²»ÏÞ»áÔ±µÈ¼¶£¬È«²¿Í¨ÓÃ£»ÆäËû-¶ÔÓ¦µÄÆäËû»áÔ±µÈ¼¶¡¿
+    */
+    private Integer memberLevel;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 
-	public Integer getFlashOrderOvertime() {
-		return flashOrderOvertime;
-	}
+    public Long getId(){
+        return id;
+    }
 
-	public void setFlashOrderOvertime(Integer flashOrderOvertime) {
-		this.flashOrderOvertime = flashOrderOvertime;
-	}
+    public void setId(Long id){
+        this.id = id;
+    }
 
-	public Integer getNormalOrderOvertime() {
-		return normalOrderOvertime;
-	}
+    public Integer getFlashOrderOvertime(){
+        return flashOrderOvertime;
+    }
 
-	public void setNormalOrderOvertime(Integer normalOrderOvertime) {
-		this.normalOrderOvertime = normalOrderOvertime;
-	}
+    public void setFlashOrderOvertime(Integer flashOrderOvertime){
+        this.flashOrderOvertime = flashOrderOvertime;
+    }
 
-	public Integer getConfirmOvertime() {
-		return confirmOvertime;
-	}
+    public Integer getNormalOrderOvertime(){
+        return normalOrderOvertime;
+    }
 
-	public void setConfirmOvertime(Integer confirmOvertime) {
-		this.confirmOvertime = confirmOvertime;
-	}
+    public void setNormalOrderOvertime(Integer normalOrderOvertime){
+        this.normalOrderOvertime = normalOrderOvertime;
+    }
 
-	public Integer getFinishOvertime() {
-		return finishOvertime;
-	}
+    public Integer getConfirmOvertime(){
+        return confirmOvertime;
+    }
 
-	public void setFinishOvertime(Integer finishOvertime) {
-		this.finishOvertime = finishOvertime;
-	}
+    public void setConfirmOvertime(Integer confirmOvertime){
+        this.confirmOvertime = confirmOvertime;
+    }
 
-	public Integer getCommentOvertime() {
-		return commentOvertime;
-	}
+    public Integer getFinishOvertime(){
+        return finishOvertime;
+    }
 
-	public void setCommentOvertime(Integer commentOvertime) {
-		this.commentOvertime = commentOvertime;
-	}
+    public void setFinishOvertime(Integer finishOvertime){
+        this.finishOvertime = finishOvertime;
+    }
 
-	public Integer getMemberLevel() {
-		return memberLevel;
-	}
+    public Integer getCommentOvertime(){
+        return commentOvertime;
+    }
 
-	public void setMemberLevel(Integer memberLevel) {
-		this.memberLevel = memberLevel;
-	}
+    public void setCommentOvertime(Integer commentOvertime){
+        this.commentOvertime = commentOvertime;
+    }
+
+    public Integer getMemberLevel(){
+        return memberLevel;
+    }
+
+    public void setMemberLevel(Integer memberLevel){
+        this.memberLevel = memberLevel;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderSettingEntity{" +
+        "id='" + id + '\'' +
+        "flashOrderOvertime='" + flashOrderOvertime + '\'' +
+        "normalOrderOvertime='" + normalOrderOvertime + '\'' +
+        "confirmOvertime='" + confirmOvertime + '\'' +
+        "finishOvertime='" + finishOvertime + '\'' +
+        "commentOvertime='" + commentOvertime + '\'' +
+        "memberLevel='" + memberLevel + '\'' +
+        '}';
+    }
+
 }

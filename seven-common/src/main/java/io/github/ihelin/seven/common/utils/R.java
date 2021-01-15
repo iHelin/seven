@@ -8,6 +8,9 @@
 
 package io.github.ihelin.seven.common.utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpStatus;
 
 import java.util.HashMap;
@@ -18,22 +21,12 @@ import java.util.Map;
  *
  * @author Mark sunlightcs@gmail.com
  */
-public class R<T> extends HashMap<String, Object> {
+public class R extends HashMap<String, Object> {
     private static final long serialVersionUID = 1L;
 
     public R() {
         put("code", 0);
         put("msg", "success");
-    }
-
-    private T data;
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
     }
 
     public static R error() {
@@ -75,6 +68,19 @@ public class R<T> extends HashMap<String, Object> {
     public R putData(Object value) {
         super.put("data", value);
         return this;
+    }
+
+    private ObjectMapper objectMapper = new ObjectMapper();
+
+    public <T> T getData(TypeReference<T> typeReference) {
+        Object data = get("data");
+        T value = null;
+        try {
+            value = objectMapper.readValue(objectMapper.writeValueAsString(data), typeReference);
+        } catch (JsonProcessingException e) {
+
+        }
+        return value;
     }
 
     public boolean success() {

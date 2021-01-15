@@ -3,6 +3,7 @@ package io.github.ihelin.seven.product.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.core.type.TypeReference;
 import io.github.ihelin.seven.common.dto.SkuEsModel;
 import io.github.ihelin.seven.common.dto.SkuHasStockVo;
 import io.github.ihelin.seven.common.dto.SkuReductionDTO;
@@ -224,8 +225,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
         Map<Long, Boolean> stockMap = null;
         try {
-            R<List<SkuHasStockVo>> hasStocks = wareFeign.getSkuHasStock(skuIds);
-            List<SkuHasStockVo> skuHasStockVos = hasStocks.getData();
+            R hasStocks = wareFeign.getSkuHasStock(skuIds);
+            List<SkuHasStockVo> skuHasStockVos = hasStocks.getData(new TypeReference<List<SkuHasStockVo>>() {
+            });
             stockMap = skuHasStockVos.stream().collect(Collectors.toMap(SkuHasStockVo::getSkuId,
                     SkuHasStockVo::getHasStock));
         } catch (Exception e) {

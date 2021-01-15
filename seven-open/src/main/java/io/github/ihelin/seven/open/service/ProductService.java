@@ -7,6 +7,7 @@ import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class ProductService {
             indexRequest.id(skuEsModel.getSkuId().toString());
 
             String skuString = objectMapper.writeValueAsString(skuEsModel);
-            indexRequest.source(skuString);
+            indexRequest.source(skuString, XContentType.JSON);
 
             bulkRequest.add(indexRequest);
         }

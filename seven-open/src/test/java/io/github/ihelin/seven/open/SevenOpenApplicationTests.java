@@ -1,12 +1,25 @@
 package io.github.ihelin.seven.open;
 
 import com.aliyun.oss.OSSClient;
+import io.github.ihelin.seven.open.config.ESConfig;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
+import org.elasticsearch.search.aggregations.metrics.AvgAggregationBuilder;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 @SpringBootTest
@@ -19,22 +32,52 @@ class SevenOpenApplicationTests {
     @Autowired
     private OSSClient ossClient;
 
+    @Autowired
+    private RestHighLevelClient restHighLevelClient;
+
+    @Test
+    void searchData() throws IOException {
+        SearchRequest searchRequest = new SearchRequest("users");
+//        searchRequest.indices("users");
+
+        SearchSourceBuilder searchRequestBuilder = new SearchSourceBuilder();
+        searchRequestBuilder.query(QueryBuilders.matchQuery("address", "mill"));
+
+        TermsAggregationBuilder ageAgg = AggregationBuilders.terms("ageAgg").field("age").size(10);
+        searchRequestBuilder.aggregation(ageAgg);
+
+        AvgAggregationBuilder balanceAvg = AggregationBuilders.avg("balanceceAvg").field("balance");
+        searchRequestBuilder.aggregation(balanceAvg);
+
+        searchRequest.source(searchRequestBuilder);
+
+        SearchResponse searchResponse = restHighLevelClient.search(searchRequest, ESConfig.COMMON_OPTIONS);
+        System.out.println(searchResponse);
+    }
+
+    @Test
+    void indexData() throws IOException {
+        IndexRequest indexRequest = new IndexRequest("users");
+        indexRequest.id("1");
+        indexRequest.source("{\n" +
+                "  \"name\": \"zhangshan\",\n" +
+                "  \"gender\": \"男\",\n" +
+                "  \"age\": 18\n" +
+                "}", XContentType.JSON);
+
+        IndexResponse indexResponse = restHighLevelClient.index(indexRequest, ESConfig.COMMON_OPTIONS);
+        System.out.println(indexResponse.toString());
+    }
+
+    @Test
+    void esRest() {
+        System.out.println(restHighLevelClient);
+    }
+
     @Test
     public void testUpload() throws FileNotFoundException {
-        // Endpoint以杭州为例，其它Region请按实际情况填写。
-//        String endpoint = "oss-cn-shanghai.aliyuncs.com";
-// 云账号AccessKey有所有API访问权限，建议遵循阿里云安全最佳实践，创建并使用RAM子账号进行API访问或日常运维，请登录 https://ram.console.aliyun.com 创建。
-//        String accessKeyId = "LTAI4G4vjs2kdp8no5mu6pJ2";
-//        String accessKeySecret = "rAtf9iaChsbnnxEbYnnpIU2hrjzW6X";
-
-// 创建OSSClient实例。
-//        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-
-// 上传文件流。
         InputStream inputStream = new FileInputStream("/Users/iHelin/Pictures/QQPlayer/11-6微服务认证方案04-“内部裸奔”改进方案_1608527276368.png");
         ossClient.putObject("ihelin", "改进方案_1608527276368.png", inputStream);
-
-// 关闭OSSClient。
         ossClient.shutdown();
     }
 

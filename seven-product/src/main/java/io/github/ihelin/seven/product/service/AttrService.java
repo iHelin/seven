@@ -8,6 +8,7 @@ import io.github.ihelin.seven.product.vo.AttrVo;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * pms_attr
@@ -30,5 +31,7 @@ public interface AttrService extends IService<AttrEntity> {
     List<AttrEntity> getRelationAttr(Long attrGroupId);
 
     PageUtils getNoRelationAttr(Map<String, Object> params, Long attrGroupId);
+
+    Set<Long> selectSearchAttrIds(List<Long> attrIds);
 }
 

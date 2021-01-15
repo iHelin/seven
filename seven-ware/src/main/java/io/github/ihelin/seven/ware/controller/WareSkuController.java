@@ -1,5 +1,6 @@
 package io.github.ihelin.seven.ware.controller;
 
+import io.github.ihelin.seven.common.dto.SkuHasStockVo;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.R;
 import io.github.ihelin.seven.ware.entity.WareSkuEntity;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -24,6 +26,12 @@ public class WareSkuController {
 
     @Autowired
     private WareSkuService wareSkuService;
+
+    @PostMapping("/hasstock")
+    public R getSkuHasStock(@RequestBody List<Long> skuIds){
+        List<SkuHasStockVo> vos = wareSkuService.getSkuHasStock(skuIds);
+        return R.ok().putData(vos);
+    }
 
     /**
      * 列表

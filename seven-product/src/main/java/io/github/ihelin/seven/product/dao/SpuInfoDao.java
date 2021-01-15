@@ -3,6 +3,7 @@ package io.github.ihelin.seven.product.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.github.ihelin.seven.product.entity.SpuInfoEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * pms_spu_info
@@ -12,5 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SpuInfoDao extends BaseMapper<SpuInfoEntity> {
-	
+
+    void updateSpuStatus(@Param("spuId") Long spuId, @Param("code") int code);
 }

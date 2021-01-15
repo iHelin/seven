@@ -1,9 +1,11 @@
 package io.github.ihelin.seven.ware.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import io.github.ihelin.seven.common.dto.SkuHasStockVo;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.ware.entity.WareSkuEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,5 +20,7 @@ public interface WareSkuService extends IService<WareSkuEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     void addStock(Long skuId, Long wareId, Integer skuNum);
+
+    List<SkuHasStockVo> getSkuHasStock(List<Long> skuIds);
 }
 

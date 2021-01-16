@@ -3,6 +3,7 @@ package io.github.ihelin.seven.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.product.entity.CategoryEntity;
+import io.github.ihelin.seven.product.vo.Catalog2Vo;
 
 import java.util.List;
 import java.util.Map;
@@ -25,5 +26,9 @@ public interface CategoryService extends IService<CategoryEntity> {
     List<Long> findCatalogPath(Long catalogId);
 
     void updateCascade(CategoryEntity category);
+
+    List<CategoryEntity> getLevel1Categorys();
+
+    Map<String, List<Catalog2Vo>> getCatalogJson();
 }
 

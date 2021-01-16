@@ -52,3 +52,8 @@ spring:
             - Path=/api/**
           filters:
             - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+
+        - id: seven_host_route
+          uri: lb://seven-product
+          predicates:
+            - Host=**.seven.com

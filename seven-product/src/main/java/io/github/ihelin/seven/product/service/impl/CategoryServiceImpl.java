@@ -105,8 +105,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      * 第一次查询的所有 CategoryEntity 然后根据 parent_cid去这里找
      */
     private List<CategoryEntity> getCategoryEntities(List<CategoryEntity> entityList, Long parent_cid) {
-
-        return entityList.stream().filter(item -> item.getParentCid() == parent_cid).collect(Collectors.toList());
+        return entityList.stream().filter(item -> item.getParentCid().equals(parent_cid)).collect(Collectors.toList());
     }
 
     private void findParentPath(Long catalogId, List<Long> ids) {

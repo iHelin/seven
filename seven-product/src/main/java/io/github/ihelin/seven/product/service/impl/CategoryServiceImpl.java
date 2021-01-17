@@ -3,6 +3,8 @@ package io.github.ihelin.seven.product.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.ihelin.seven.common.utils.JsonUtils;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.Query;
 import io.github.ihelin.seven.product.dao.CategoryDao;
@@ -11,11 +13,17 @@ import io.github.ihelin.seven.product.service.CategoryBrandRelationService;
 import io.github.ihelin.seven.product.service.CategoryService;
 import io.github.ihelin.seven.product.vo.Catalog2Vo;
 import io.github.ihelin.seven.product.vo.Catalog3Vo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
@@ -24,12 +32,17 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    @Autowired
+    private ObjectMapper objectMapper;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<CategoryEntity> page = this.page(
-                new Query<CategoryEntity>().getPage(params),
-                new QueryWrapper<CategoryEntity>()
+            new Query<CategoryEntity>().getPage(params),
+            new QueryWrapper<CategoryEntity>()
         );
 
         return new PageUtils(page);
@@ -40,10 +53,10 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
         List<CategoryEntity> entities = list();
         List<CategoryEntity> level1 = entities.stream()
-                .filter(item -> item.getParentCid() == 0L)
-                .peek(item -> item.setChildren(getChildren(item, entities)))
-                .sorted(Comparator.comparingInt(CategoryEntity::getSort))
-                .collect(Collectors.toList());
+            .filter(item -> item.getParentCid() == 0L)
+            .peek(item -> item.setChildren(getChildren(item, entities)))
+            .sorted(Comparator.comparingInt(CategoryEntity::getSort))
+            .collect(Collectors.toList());
         return level1;
     }
 
@@ -76,6 +89,65 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     @Override
     public Map<String, List<Catalog2Vo>> getCatalogJson() {
+        return getCatalogJsonWithRedisLock();
+    }
+
+    public Map<String, List<Catalog2Vo>> getCatalogJsonWithRedisLock() {
+        String catalogJSONString = redisTemplate.opsForValue().get("catalogJSON");
+        if (StringUtils.isEmpty(catalogJSONString)) {
+            String uuid = UUID.randomUUID().toString();
+            //加锁，原子操作
+            Boolean lock = redisTemplate.opsForValue().setIfAbsent("lock", uuid, 30, TimeUnit.SECONDS);
+            if (lock) {
+                //加锁成功
+                try {
+                    catalogJSONString = redisTemplate.opsForValue().get("catalogJSON");
+                    if (!StringUtils.isEmpty(catalogJSONString)) {
+                        return JsonUtils.jsonToPojo(catalogJSONString, Map.class);
+                    } else {
+                        Map<String, List<Catalog2Vo>> catalogJsonFromDb = getCatalogJsonFromDb();
+                        String catalogJson = JsonUtils.objectToJson(catalogJsonFromDb);
+                        redisTemplate.opsForValue().set("catalogJSON", catalogJson, 1, TimeUnit.DAYS);
+                        return catalogJsonFromDb;
+                    }
+                } finally {
+                    //删除锁 必须是原子操作
+                    String unLockScript = "if redis.call('get',KEYS[1]) == ARGV[1] then return redis.call('del',KEYS[1]) else return 0 end";
+                    redisTemplate.execute(new DefaultRedisScript<>(unLockScript, Long.class), Collections.singletonList("lock"), uuid);
+//                    String lockValue = redisTemplate.opsForValue().get("lock");
+//                    if (uuid.equals(lockValue)) {
+//                        redisTemplate.delete("lock");
+//                    }
+                }
+            } else {
+                //加锁失败
+                return getCatalogJsonWithRedisLock();
+            }
+
+        }
+        return JsonUtils.jsonToPojo(catalogJSONString, Map.class);
+    }
+
+    public Map<String, List<Catalog2Vo>> getCatalogJsonWithLocalLock() {
+        String catalogJSON = redisTemplate.opsForValue().get("catalogJSON");
+        if (StringUtils.isEmpty(catalogJSON)) {
+            synchronized (this) {
+                catalogJSON = redisTemplate.opsForValue().get("catalogJSON");
+                if (!StringUtils.isEmpty(catalogJSON)) {
+                    return JsonUtils.jsonToPojo(catalogJSON, Map.class);
+                }
+                Map<String, List<Catalog2Vo>> catalogJsonFromDb = getCatalogJsonFromDb();
+                String catalogJson = JsonUtils.objectToJson(catalogJsonFromDb);
+                redisTemplate.opsForValue().set("catalogJSON", catalogJson, 1, TimeUnit.DAYS);
+                return catalogJsonFromDb;
+            }
+        }
+        return JsonUtils.jsonToPojo(catalogJSON, Map.class);
+    }
+
+
+    public Map<String, List<Catalog2Vo>> getCatalogJsonFromDb() {
+        System.out.println("查询了数据库");
         List<CategoryEntity> entityList = baseMapper.selectList(null);
         // 查询所有一级分类
         List<CategoryEntity> level1 = getCategoryEntities(entityList, 0L);
@@ -118,10 +190,10 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     private List<CategoryEntity> getChildren(CategoryEntity root, List<CategoryEntity> all) {
         List<CategoryEntity> children = all.stream()
-                .filter(item -> root.getCatId().equals(item.getParentCid()))
-                .peek(item -> item.setChildren(getChildren(item, all)))
-                .sorted(Comparator.comparingInt(CategoryEntity::getSort))
-                .collect(Collectors.toList());
+            .filter(item -> root.getCatId().equals(item.getParentCid()))
+            .peek(item -> item.setChildren(getChildren(item, all)))
+            .sorted(Comparator.comparingInt(CategoryEntity::getSort))
+            .collect(Collectors.toList());
         return children;
     }
 

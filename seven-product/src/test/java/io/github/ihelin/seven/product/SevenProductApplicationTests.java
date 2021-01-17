@@ -5,12 +5,29 @@ import io.github.ihelin.seven.product.service.BrandService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+
+import java.util.UUID;
 
 @SpringBootTest
 class SevenProductApplicationTests {
 
     @Autowired
     private BrandService brandService;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+
+    @Test
+    void testRedis() {
+        System.out.println(redisTemplate);
+        ValueOperations<String, String> operations = redisTemplate.opsForValue();
+        operations.set("hello", "world" + UUID.randomUUID().toString());
+        String hello = operations.get("hello");
+        System.out.println(hello);
+    }
 
     @Test
     void contextLoads() {

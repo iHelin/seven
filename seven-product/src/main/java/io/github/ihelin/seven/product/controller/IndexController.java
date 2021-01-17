@@ -3,7 +3,10 @@ package io.github.ihelin.seven.product.controller;
 import io.github.ihelin.seven.product.entity.CategoryEntity;
 import io.github.ihelin.seven.product.service.CategoryService;
 import io.github.ihelin.seven.product.vo.Catalog2Vo;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +26,11 @@ public class IndexController {
     @Autowired
     private CategoryService categoryService;
 
-//    @Resource
-//    private RedissonClient redissonClient;
+    @Autowired
+    private RedissonClient redissonClient;
 
-//    @Resource
-//    private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     /**
      * RLock锁有看门狗机制 会自动帮我们续期，默认三秒自动过期
@@ -37,21 +40,23 @@ public class IndexController {
      * 如果我们未指定，就使用 30 * 1000 [LockWatchdogTimeout]
      * 只要占锁成功 就会启动一个定时任务 任务就是重新给锁设置过期时间 这个时间还是 [LockWatchdogTimeout] 的时间 1/3 看门狗的时间续期一次 续成满时间
      */
-//    @ResponseBody
-//    @RequestMapping("/index/hello")
-//    public String hello() {
-//        RLock lock = redissonClient.getLock("my-lock");
-//        // 阻塞式等待
-//        lock.lock();
-//        try {
-//            Thread.sleep(2000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } finally {
-//            lock.unlock();
-//        }
-//        return "hello";
-//    }
+    @ResponseBody
+    @RequestMapping("/index/hello")
+    public String hello() {
+        RLock lock = redissonClient.getLock("my-lock");
+        // 阻塞式等待
+        lock.lock();
+        try {
+            System.out.println("加锁成功，执行业务。" + Thread.currentThread().getId());
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println("释放锁。" + Thread.currentThread().getId());
+            lock.unlock();
+        }
+        return "hello";
+    }
 
     /**
      * 读写锁

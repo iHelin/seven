@@ -13,6 +13,9 @@ public class Catalog3Vo {
 
 	private String catalog2Id;
 
+	public Catalog3Vo() {
+	}
+
 	public Catalog3Vo(String id, String name, String catalog2Id) {
 		this.id = id;
 		this.name = name;

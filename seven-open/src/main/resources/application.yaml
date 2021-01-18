@@ -7,6 +7,8 @@ spring:
     nacos:
       discovery:
         server-addr: 121.4.87.152:8848
+  thymeleaf:
+    cache: false
 logging:
   level:
     io.github.ihelin.seven: debug
@@ -16,4 +18,3 @@ alibaba:
     secret-key: rAtf9iaChsbnnxEbYnnpIU2hrjzW6X
     oss:
       endpoint: oss-cn-shanghai.aliyuncs.com
-

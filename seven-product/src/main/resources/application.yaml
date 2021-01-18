@@ -19,6 +19,10 @@ spring:
     cache: false
   redis:
     host: 121.4.87.152
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000
 mybatis-plus:
   global-config:
     db-config:

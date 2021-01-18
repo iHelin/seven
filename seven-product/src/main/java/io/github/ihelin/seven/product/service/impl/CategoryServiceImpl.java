@@ -17,6 +17,8 @@ import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
@@ -76,6 +78,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         return ids;
     }
 
+    @CacheEvict(value = "category",allEntries = true)
     @Override
     @Transactional
     public void updateCascade(CategoryEntity category) {
@@ -83,15 +86,17 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         categoryBrandRelationService.updateCategory(category.getCatId(), category.getName());
     }
 
+    @Cacheable(value = "category", key = "#root.methodName")
     @Override
-    public List<CategoryEntity> getLevel1Categorys() {
+    public List<CategoryEntity> getLevel1Categories() {
         List<CategoryEntity> categoryEntityList = baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid", 0));
         return categoryEntityList;
     }
 
+    @Cacheable(value = "category",key = "#root.methodName")
     @Override
     public Map<String, List<Catalog2Vo>> getCatalogJson() {
-        return getCatalogJsonWithRedissonLock();
+        return getCatalogJsonFromDb();
     }
 
     public Map<String, List<Catalog2Vo>> getCatalogJsonWithRedissonLock() {

@@ -152,7 +152,7 @@ public class IndexController {
     @GetMapping({"/", "index", "/index.html"})
     public String indexPage(Model model) {
         // 获取一级分类所有缓存
-        List<CategoryEntity> categorys = categoryService.getLevel1Categorys();
+        List<CategoryEntity> categorys = categoryService.getLevel1Categories();
         model.addAttribute("categorys", categorys);
         return "index";
     }

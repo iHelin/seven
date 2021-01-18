@@ -3,7 +3,6 @@ package io.github.ihelin.seven.product.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.ihelin.seven.common.utils.JsonUtils;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.Query;
@@ -13,6 +12,8 @@ import io.github.ihelin.seven.product.service.CategoryBrandRelationService;
 import io.github.ihelin.seven.product.service.CategoryService;
 import io.github.ihelin.seven.product.vo.Catalog2Vo;
 import io.github.ihelin.seven.product.vo.Catalog3Vo;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     @Autowired
     private StringRedisTemplate redisTemplate;
     @Autowired
-    private ObjectMapper objectMapper;
+    private RedissonClient redissonClient;
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
@@ -89,7 +91,31 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     @Override
     public Map<String, List<Catalog2Vo>> getCatalogJson() {
-        return getCatalogJsonWithRedisLock();
+        return getCatalogJsonWithRedissonLock();
+    }
+
+    public Map<String, List<Catalog2Vo>> getCatalogJsonWithRedissonLock() {
+        String catalogJSONString = redisTemplate.opsForValue().get("catalogJSON");
+        if (StringUtils.isEmpty(catalogJSONString)) {
+            //加锁成功
+            RLock lock = redissonClient.getLock("catalogJsonLock");
+            lock.lock();
+            try {
+                catalogJSONString = redisTemplate.opsForValue().get("catalogJSON");
+                if (StringUtils.isEmpty(catalogJSONString)) {
+                    Map<String, List<Catalog2Vo>> catalogJsonFromDb = getCatalogJsonFromDb();
+                    String catalogJson = JsonUtils.objectToJson(catalogJsonFromDb);
+                    redisTemplate.opsForValue().set("catalogJSON", catalogJson, 1, TimeUnit.DAYS);
+                    return catalogJsonFromDb;
+                } else {
+                    return JsonUtils.jsonToPojo(catalogJSONString, Map.class);
+                }
+            } finally {
+                //删除锁 必须是原子操作
+                lock.unlock();
+            }
+        }
+        return JsonUtils.jsonToPojo(catalogJSONString, Map.class);
     }
 
     public Map<String, List<Catalog2Vo>> getCatalogJsonWithRedisLock() {
@@ -103,12 +129,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                 try {
                     catalogJSONString = redisTemplate.opsForValue().get("catalogJSON");
                     if (!StringUtils.isEmpty(catalogJSONString)) {
-                        return JsonUtils.jsonToPojo(catalogJSONString, Map.class);
-                    } else {
                         Map<String, List<Catalog2Vo>> catalogJsonFromDb = getCatalogJsonFromDb();
                         String catalogJson = JsonUtils.objectToJson(catalogJsonFromDb);
                         redisTemplate.opsForValue().set("catalogJSON", catalogJson, 1, TimeUnit.DAYS);
                         return catalogJsonFromDb;
+                    } else {
+                        return JsonUtils.jsonToPojo(catalogJSONString, Map.class);
                     }
                 } finally {
                     //删除锁 必须是原子操作

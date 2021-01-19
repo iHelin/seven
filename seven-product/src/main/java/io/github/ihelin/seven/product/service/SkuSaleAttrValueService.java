@@ -3,7 +3,9 @@ package io.github.ihelin.seven.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.product.entity.SkuSaleAttrValueEntity;
+import io.github.ihelin.seven.product.vo.ItemSaleAttrVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,5 +17,9 @@ import java.util.Map;
 public interface SkuSaleAttrValueService extends IService<SkuSaleAttrValueEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    List<ItemSaleAttrVo> getSaleAttrsBuSpuId(Long spuId);
+
+    List<String> getSkuSaleAttrValuesAsStringList(Long skuId);
 }
 

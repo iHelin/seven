@@ -239,7 +239,7 @@ public class MallService {
                 });
                 navVo.setNavName(attrRespVo.getAttrName());
                 String link = replaceQueryString(searchParam, attr,"attrs");
-                navVo.setLink("http://search.gulimall.com/list.html?" + link);
+                navVo.setLink("http://search.seven.com/list.html?" + link);
                 return navVo;
             }).collect(Collectors.toList());
             result.setNavs(navVos);
@@ -255,12 +255,11 @@ public class MallService {
             StringBuffer stringBuffer = new StringBuffer();
             String link = "";
             for (BrandVo brandVo : brandVos) {
-                stringBuffer.append(brandVo.getBrandName() + ";");
+                stringBuffer.append(brandVo.getName() + ";");
                 link = replaceQueryString(searchParam, brandVo.getBrandId()+"","brandId");
-
             }
             navVo.setNavValue(stringBuffer.toString());
-            navVo.setLink("http://search.gulimall.com/list.html?" + link);
+            navVo.setLink("http://search.seven.com/list.html?" + link);
             navs.add(navVo);
         }
         return result;

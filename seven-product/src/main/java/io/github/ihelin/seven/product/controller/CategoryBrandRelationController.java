@@ -35,7 +35,7 @@ public class CategoryBrandRelationController {
         List<BrandVo> brandVoList = entities.stream().map(item -> {
             BrandVo brandVo = new BrandVo();
             brandVo.setBrandId(item.getBrandId());
-            brandVo.setBrandName(item.getName());
+            brandVo.setName(item.getName());
             return brandVo;
         }).collect(Collectors.toList());
         return R.ok().put("data", brandVoList);

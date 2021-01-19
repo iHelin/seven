@@ -8,27 +8,39 @@ import io.github.ihelin.seven.common.utils.Query;
 import io.github.ihelin.seven.product.dao.SkuSaleAttrValueDao;
 import io.github.ihelin.seven.product.entity.SkuSaleAttrValueEntity;
 import io.github.ihelin.seven.product.service.SkuSaleAttrValueService;
+import io.github.ihelin.seven.product.vo.ItemSaleAttrVo;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
-* pms_sku_sale_attr_value
-*
-* @author iHelin ihelin@outlook.com
-* @date 2021-01-11 11:52:40
-*/
+ * pms_sku_sale_attr_value
+ *
+ * @author iHelin ihelin@outlook.com
+ * @date 2021-01-11 11:52:40
+ */
 @Service("skuSaleAttrValueService")
 public class SkuSaleAttrValueServiceImpl extends ServiceImpl<SkuSaleAttrValueDao, SkuSaleAttrValueEntity> implements SkuSaleAttrValueService {
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SkuSaleAttrValueEntity> page = this.page(
-                new Query<SkuSaleAttrValueEntity>().getPage(params),
-                new QueryWrapper<SkuSaleAttrValueEntity>()
+            new Query<SkuSaleAttrValueEntity>().getPage(params),
+            new QueryWrapper<SkuSaleAttrValueEntity>()
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<ItemSaleAttrVo> getSaleAttrsBuSpuId(Long spuId) {
+        return baseMapper.getSaleAttrsBySpuId(spuId);
+    }
+
+    @Override
+    public List<String> getSkuSaleAttrValuesAsStringList(Long skuId) {
+        return baseMapper.getSkuSaleAttrValuesAsStringList(skuId);
     }
 
 }

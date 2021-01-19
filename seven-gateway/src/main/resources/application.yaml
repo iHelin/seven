@@ -56,7 +56,7 @@ spring:
         - id: seven_host_route
           uri: lb://seven-product
           predicates:
-            - Host=seven.com
+            - Host=seven.com,item.seven.com
 
         - id: seven_search_route
           uri: lb://seven-open

@@ -766,8 +766,10 @@
         </div>
         <!--  便利面包屑  -->
         <div class="JD_ipone_one c">
-            <a th:href="${nav.link}" th:each="nav : ${result.navs}"><span th:text="${nav.name}"></span><span
-                    th:text="${nav.navValue}"></span> × </a>
+            <a th:href="${nav.link}" th:each="nav : ${result.navs}">
+                <span th:text="${nav.navName}"></span>
+                <span th:text="${nav.navValue}"></span> ×
+            </a>
         </div>
         <i><img src="/static/search/image/right-@1x.png" alt=""></i>
     </div>
@@ -1722,7 +1724,7 @@
             </li>
             <li><a href="/list.html" style="color: rgb(114, 114, 114);">谷粒商城通信</a>
             </li>
-            <li><a href="/list.html" style="color: rgb(114, 114, 114);">谷粒商城gulimall+</a>
+            <li><a href="/list.html" style="color: rgb(114, 114, 114);">Seven Mall+</a>
             </li>
         </ol>
         <ol>

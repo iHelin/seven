@@ -11,6 +11,7 @@ import io.github.ihelin.seven.product.entity.AttrGroupEntity;
 import io.github.ihelin.seven.product.service.AttrGroupService;
 import io.github.ihelin.seven.product.service.AttrService;
 import io.github.ihelin.seven.product.vo.AttrGroupWithAttrVo;
+import io.github.ihelin.seven.product.vo.SpuItemAttrGroup;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,14 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
             return attrGroupWithAttrVo;
         }).collect(Collectors.toList());
         return list;
+    }
+
+    @Override
+    public List<SpuItemAttrGroup> getAttrGroupWithAttrsBySpuId(Long spuId, Long catalogId) {
+
+        // 1.出当前Spu对应的所有属性的分组信息 以及当前分组下所有属性对应的值
+        // 1.1 查询所有分组
+        return baseMapper.getAttrGroupWithAttrsBySpuId(spuId, catalogId);
     }
 
 }

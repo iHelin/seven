@@ -12,6 +12,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +25,8 @@ import java.util.Map;
  */
 public class R extends HashMap<String, Object> {
     private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = LoggerFactory.getLogger(R.class);
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     public R() {
         put("code", 0);
@@ -60,6 +64,7 @@ public class R extends HashMap<String, Object> {
         return new R();
     }
 
+    @Override
     public R put(String key, Object value) {
         super.put(key, value);
         return this;
@@ -70,15 +75,15 @@ public class R extends HashMap<String, Object> {
         return this;
     }
 
-    private ObjectMapper objectMapper = new ObjectMapper();
 
     public <T> T getData(TypeReference<T> typeReference) {
         Object data = get("data");
         T value = null;
         try {
-            value = objectMapper.readValue(objectMapper.writeValueAsString(data), typeReference);
+            String valueAsString = OBJECT_MAPPER.writeValueAsString(data);
+            value = OBJECT_MAPPER.readValue(valueAsString, typeReference);
         } catch (JsonProcessingException e) {
-
+            LOGGER.error("getData error", e);
         }
         return value;
     }
@@ -87,4 +92,7 @@ public class R extends HashMap<String, Object> {
         return (Integer) super.get("code") == 0;
     }
 
+    public int getCode() {
+        return (int) get("code");
+    }
 }

@@ -1,5 +1,8 @@
 package io.github.ihelin.seven.member.vo;
 
+/**
+ * @author iHelin
+ */
 public class UserLoginVo {
 
 	private String loginacct;

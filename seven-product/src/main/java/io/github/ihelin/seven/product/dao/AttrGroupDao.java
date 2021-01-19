@@ -2,7 +2,7 @@ package io.github.ihelin.seven.product.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.github.ihelin.seven.product.entity.AttrGroupEntity;
-import io.github.ihelin.seven.product.vo.SpuItemAttrGroup;
+import io.github.ihelin.seven.product.vo.SpuItemAttrGroupVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,5 +17,5 @@ import java.util.List;
 @Mapper
 public interface AttrGroupDao extends BaseMapper<AttrGroupEntity> {
 
-    List<SpuItemAttrGroup> getAttrGroupWithAttrsBySpuId(@Param("spuId") Long spuId, @Param("catalogId") Long catalogId);
+    List<SpuItemAttrGroupVo> getAttrGroupWithAttrsBySpuId(@Param("spuId") Long spuId, @Param("catalogId") Long catalogId);
 }

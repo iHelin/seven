@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.product.entity.AttrGroupEntity;
 import io.github.ihelin.seven.product.vo.AttrGroupWithAttrVo;
-import io.github.ihelin.seven.product.vo.SpuItemAttrGroup;
+import io.github.ihelin.seven.product.vo.SpuItemAttrGroupVo;
 
 import java.util.List;
 import java.util.Map;
@@ -23,6 +23,6 @@ public interface AttrGroupService extends IService<AttrGroupEntity> {
 
     List<AttrGroupWithAttrVo> getAttrGroupWithAttrsByCatalogId(Long catalogId);
 
-    List<SpuItemAttrGroup> getAttrGroupWithAttrsBySpuId(Long spuId, Long catalogId);
+    List<SpuItemAttrGroupVo> getAttrGroupWithAttrsBySpuId(Long spuId, Long catalogId);
 }
 

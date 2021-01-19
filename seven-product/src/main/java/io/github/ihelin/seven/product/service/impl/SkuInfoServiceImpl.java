@@ -12,7 +12,7 @@ import io.github.ihelin.seven.product.entity.SpuInfoDescEntity;
 import io.github.ihelin.seven.product.service.*;
 import io.github.ihelin.seven.product.vo.ItemSaleAttrVo;
 import io.github.ihelin.seven.product.vo.SkuItemVo;
-import io.github.ihelin.seven.product.vo.SpuItemAttrGroup;
+import io.github.ihelin.seven.product.vo.SpuItemAttrGroupVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -104,34 +104,34 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
     public SkuItemVo item(Long skuId) throws ExecutionException, InterruptedException {
         SkuItemVo skuItemVo = new SkuItemVo();
 
-        CompletableFuture<SkuInfoEntity> infoFutrue = CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<SkuInfoEntity> baseInfoFuture = CompletableFuture.supplyAsync(() -> {
             //1 sku基本信息
             SkuInfoEntity info = getById(skuId);
             skuItemVo.setInfo(info);
             return info;
         }, executor);
 
-        CompletableFuture<Void> ImgageFuture = CompletableFuture.runAsync(() -> {
+        CompletableFuture<Void> imageFuture = CompletableFuture.runAsync(() -> {
             //2 sku图片信息
             List<SkuImagesEntity> images = skuImagesService.getImagesBySkuId(skuId);
             skuItemVo.setImages(images);
         }, executor);
 
-        CompletableFuture<Void> saleAttrFuture = infoFutrue.thenAcceptAsync(res -> {
+        CompletableFuture<Void> saleAttrFuture = baseInfoFuture.thenAcceptAsync(res -> {
             //3 获取spu销售属性组合
             List<ItemSaleAttrVo> saleAttrVos = skuSaleAttrValueService.getSaleAttrsBuSpuId(res.getSpuId());
             skuItemVo.setSaleAttr(saleAttrVos);
         }, executor);
 
-        CompletableFuture<Void> descFuture = infoFutrue.thenAcceptAsync(res -> {
+        CompletableFuture<Void> descFuture = baseInfoFuture.thenAcceptAsync(res -> {
             //4 获取spu介绍
-            SpuInfoDescEntity spuInfo = spuInfoDescService.getById(res.getSpuId());
-            skuItemVo.setDesc(spuInfo);
+            SpuInfoDescEntity desc = spuInfoDescService.getById(res.getSpuId());
+            skuItemVo.setDesc(desc);
         }, executor);
 
-        CompletableFuture<Void> baseAttrFuture = infoFutrue.thenAcceptAsync(res -> {
+        CompletableFuture<Void> baseAttrFuture = baseInfoFuture.thenAcceptAsync(res -> {
             //5 获取spu规格参数信息
-            List<SpuItemAttrGroup> attrGroups = attrGroupService.getAttrGroupWithAttrsBySpuId(res.getSpuId(), res.getCatalogId());
+            List<SpuItemAttrGroupVo> attrGroups = attrGroupService.getAttrGroupWithAttrsBySpuId(res.getSpuId(), res.getCatalogId());
             skuItemVo.setGroupAttrs(attrGroups);
         }, executor);
 
@@ -146,7 +146,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
 //        }, executor);
 
         // 等待所有任务都完成再返回
-        CompletableFuture.allOf(ImgageFuture, saleAttrFuture, descFuture, baseAttrFuture).get();
+        CompletableFuture.allOf(imageFuture, saleAttrFuture, descFuture, baseAttrFuture).get();
         return skuItemVo;
     }
 

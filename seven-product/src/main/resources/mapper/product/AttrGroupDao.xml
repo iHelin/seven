@@ -14,7 +14,7 @@
     </resultMap>
 
     <!-- 封装自定义结果集 -->
-    <resultMap id="SpuItemAttrGroupVo" type="io.github.ihelin.seven.product.vo.SpuItemAttrGroup">
+    <resultMap id="SpuItemAttrGroupVo" type="io.github.ihelin.seven.product.vo.SpuItemAttrGroupVo">
         <result column="attr_group_name" property="groupName" javaType="string"></result>
         <collection property="attrs" ofType="io.github.ihelin.seven.product.vo.SpuBaseAttrVo">
             <result column="attr_name" property="attrName" javaType="string"></result>

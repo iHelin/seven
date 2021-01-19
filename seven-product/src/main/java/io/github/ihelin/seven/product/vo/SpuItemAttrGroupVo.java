@@ -3,7 +3,8 @@ package io.github.ihelin.seven.product.vo;
 
 import java.util.List;
 
-public class SpuItemAttrGroup{
+public class SpuItemAttrGroupVo {
+
 	private String groupName;
 
 	private List<SpuBaseAttrVo> attrs;

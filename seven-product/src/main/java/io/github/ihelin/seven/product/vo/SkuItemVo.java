@@ -36,7 +36,7 @@ public class SkuItemVo {
     /**
      * 参数规格信息
      */
-    private List<SpuItemAttrGroup> groupAttrs;
+    private List<SpuItemAttrGroupVo> groupAttrs;
 
     /**
      * 秒杀信息
@@ -83,11 +83,11 @@ public class SkuItemVo {
         this.desc = desc;
     }
 
-    public List<SpuItemAttrGroup> getGroupAttrs() {
+    public List<SpuItemAttrGroupVo> getGroupAttrs() {
         return groupAttrs;
     }
 
-    public void setGroupAttrs(List<SpuItemAttrGroup> groupAttrs) {
+    public void setGroupAttrs(List<SpuItemAttrGroupVo> groupAttrs) {
         this.groupAttrs = groupAttrs;
     }
 

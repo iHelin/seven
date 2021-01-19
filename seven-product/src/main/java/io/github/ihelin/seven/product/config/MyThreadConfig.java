@@ -16,6 +16,12 @@ public class MyThreadConfig {
 
     @Bean
     public ThreadPoolExecutor threadPoolExecutor(ThreadPoolConfigProperties threadPoolConfigProperties) {
-        return new ThreadPoolExecutor(threadPoolConfigProperties.getCoreSize(), threadPoolConfigProperties.getMaxSize(), threadPoolConfigProperties.getKeepAliveTime(), TimeUnit.SECONDS, new LinkedBlockingDeque<>(10000), Executors.defaultThreadFactory(), new ThreadPoolExecutor.AbortPolicy());
+        return new ThreadPoolExecutor(threadPoolConfigProperties.getCoreSize(),
+            threadPoolConfigProperties.getMaxSize(),
+            threadPoolConfigProperties.getKeepAliveTime(),
+            TimeUnit.SECONDS,
+            new LinkedBlockingDeque<>(10000),
+            Executors.defaultThreadFactory(),
+            new ThreadPoolExecutor.AbortPolicy());
     }
 }

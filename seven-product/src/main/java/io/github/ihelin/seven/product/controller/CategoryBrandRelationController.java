@@ -1,12 +1,12 @@
 package io.github.ihelin.seven.product.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.github.ihelin.seven.common.dto.BrandVo;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.R;
 import io.github.ihelin.seven.product.entity.BrandEntity;
 import io.github.ihelin.seven.product.entity.CategoryBrandRelationEntity;
 import io.github.ihelin.seven.product.service.CategoryBrandRelationService;
-import io.github.ihelin.seven.product.vo.BrandVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.github.ihelin.seven.common.dto.AttrRespVo;
+import io.github.ihelin.seven.common.dto.AttrVo;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.ProductConstant;
 import io.github.ihelin.seven.common.utils.Query;
@@ -17,11 +19,10 @@ import io.github.ihelin.seven.product.entity.AttrGroupEntity;
 import io.github.ihelin.seven.product.entity.CategoryEntity;
 import io.github.ihelin.seven.product.service.AttrService;
 import io.github.ihelin.seven.product.service.CategoryService;
-import io.github.ihelin.seven.product.vo.AttrRespVo;
-import io.github.ihelin.seven.product.vo.AttrVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,8 +53,8 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<AttrEntity> page = this.page(
-                new Query<AttrEntity>().getPage(params),
-                new QueryWrapper<AttrEntity>()
+            new Query<AttrEntity>().getPage(params),
+            new QueryWrapper<AttrEntity>()
         );
 
         return new PageUtils(page);
@@ -77,8 +78,8 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     @Override
     public PageUtils queryBaseAttrPage(Long catalogId, Map<String, Object> params, String attrType) {
         QueryWrapper<AttrEntity> queryWrapper = new QueryWrapper<AttrEntity>()
-                .eq("attr_type", "base".equalsIgnoreCase(attrType) ? ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()
-                                : ProductConstant.AttrEnum.ATTR_TYPE_SALE.getCode());
+            .eq("attr_type", "base".equalsIgnoreCase(attrType) ? ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()
+                : ProductConstant.AttrEnum.ATTR_TYPE_SALE.getCode());
         if (catalogId != 0) {
             queryWrapper.eq("catalog_id", catalogId);
         }
@@ -99,8 +100,8 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
             //设置分类和分组的名字
             if ("base".equalsIgnoreCase(attrType)) {
                 AttrAttrgroupRelationEntity relationEntity = attrAttrgroupRelationDao
-                        .selectOne(new QueryWrapper<AttrAttrgroupRelationEntity>()
-                                .eq("attr_id", attrEntity.getAttrId()));
+                    .selectOne(new QueryWrapper<AttrAttrgroupRelationEntity>()
+                        .eq("attr_id", attrEntity.getAttrId()));
                 if (relationEntity != null && relationEntity.getAttrGroupId() != null) {
                     AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(relationEntity.getAttrGroupId());
                     attrRespVo.setGroupName(attrGroupEntity.getAttrGroupName());
@@ -117,6 +118,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         return pageUtils;
     }
 
+    @Cacheable(value = "attr", key = "'attrinfo:'+#root.args[0]")
     @Override
     public AttrRespVo getAttrInfo(Long attrId) {
         AttrRespVo attrRespVo = new AttrRespVo();
@@ -126,8 +128,8 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         if (attrEntity.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()) {
             //设置分组信息
             AttrAttrgroupRelationEntity relationEntity = attrAttrgroupRelationDao.selectOne(
-                    new QueryWrapper<AttrAttrgroupRelationEntity>()
-                            .eq("attr_id", attrId));
+                new QueryWrapper<AttrAttrgroupRelationEntity>()
+                    .eq("attr_id", attrId));
             if (relationEntity != null) {
                 attrRespVo.setAttrGroupId(relationEntity.getAttrGroupId());
                 AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(relationEntity.getAttrGroupId());
@@ -164,11 +166,11 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
             relationEntity.setAttrId(attr.getAttrId());
 
             Integer count = attrAttrgroupRelationDao.selectCount(new QueryWrapper<AttrAttrgroupRelationEntity>()
-                    .eq("attr_id", attr.getAttrId()));
+                .eq("attr_id", attr.getAttrId()));
             if (count > 0) {
 
                 attrAttrgroupRelationDao.update(relationEntity, new UpdateWrapper<AttrAttrgroupRelationEntity>()
-                        .eq("attr_id", attr.getAttrId()));
+                    .eq("attr_id", attr.getAttrId()));
             } else {
                 attrAttrgroupRelationDao.insert(relationEntity);
             }
@@ -201,16 +203,16 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrGroupId);
         Long catalogId = attrGroupEntity.getCatalogId();
         List<AttrGroupEntity> groupEntities = attrGroupDao.selectList(
-                new QueryWrapper<AttrGroupEntity>()
-                        .eq("catalog_id", catalogId));
+            new QueryWrapper<AttrGroupEntity>()
+                .eq("catalog_id", catalogId));
         List<Long> attrGroupIds = groupEntities.stream().map(AttrGroupEntity::getAttrGroupId).collect(Collectors.toList());
         List<AttrAttrgroupRelationEntity> relationEntities = attrAttrgroupRelationDao.selectList(
-                new QueryWrapper<AttrAttrgroupRelationEntity>()
-                        .in("attr_group_id", attrGroupIds));
+            new QueryWrapper<AttrAttrgroupRelationEntity>()
+                .in("attr_group_id", attrGroupIds));
         List<Long> attrIds = relationEntities.stream().map(AttrAttrgroupRelationEntity::getAttrId).collect(Collectors.toList());
 
         QueryWrapper<AttrEntity> queryWrapper = new QueryWrapper<AttrEntity>()
-                .eq("catalog_id", catalogId).eq("attr_type", ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode());
+            .eq("catalog_id", catalogId).eq("attr_type", ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode());
         if (attrIds.size() > 0) {
             queryWrapper.notIn("attr_id", attrIds);
         }

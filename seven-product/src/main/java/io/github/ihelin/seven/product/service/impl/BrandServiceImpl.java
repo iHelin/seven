@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -48,6 +49,12 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
             //同步更新其他关联表信息
             categoryBrandRelationService.updateBrand(brand.getBrandId(), brand.getName());
         }
+    }
+
+    @Override
+    public List<BrandEntity> getBrandByIds(List<Long> brandIds) {
+        List<BrandEntity> brandEntities = this.list(new QueryWrapper<BrandEntity>().in("brand_id", brandIds));
+        return brandEntities;
     }
 
 }

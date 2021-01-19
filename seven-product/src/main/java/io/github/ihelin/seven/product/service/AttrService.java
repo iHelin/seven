@@ -1,10 +1,10 @@
 package io.github.ihelin.seven.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import io.github.ihelin.seven.common.dto.AttrRespVo;
+import io.github.ihelin.seven.common.dto.AttrVo;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.product.entity.AttrEntity;
-import io.github.ihelin.seven.product.vo.AttrRespVo;
-import io.github.ihelin.seven.product.vo.AttrVo;
 
 import java.util.List;
 import java.util.Map;

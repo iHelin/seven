@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -47,6 +48,13 @@ public class BrandController {
         BrandEntity brand = brandService.getById(brandId);
 
         return R.ok().put("data", brand);
+    }
+
+    @GetMapping("/infos")
+    public R infos(@RequestParam List<Long> brandIds) {
+        List<BrandEntity> brands = brandService.getBrandByIds(brandIds);
+
+        return R.ok().put("data", brands);
     }
 
     /**

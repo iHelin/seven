@@ -21,6 +21,15 @@ public class SearchParam {
     private List<Long> brandId;
     private List<String> attrs;
     private Integer pageNum = 1;
+    private String queryString;
+
+    public String getQueryString() {
+        return queryString;
+    }
+
+    public void setQueryString(String queryString) {
+        this.queryString = queryString;
+    }
 
     public String getKeyword() {
         return keyword;

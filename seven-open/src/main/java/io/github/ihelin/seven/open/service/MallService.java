@@ -1,8 +1,13 @@
 package io.github.ihelin.seven.open.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import io.github.ihelin.seven.common.dto.AttrRespVo;
+import io.github.ihelin.seven.common.dto.BrandVo;
 import io.github.ihelin.seven.common.dto.SkuEsModel;
 import io.github.ihelin.seven.common.utils.JsonUtils;
+import io.github.ihelin.seven.common.utils.R;
 import io.github.ihelin.seven.open.config.ESConfig;
+import io.github.ihelin.seven.open.feign.ProductFeign;
 import io.github.ihelin.seven.open.vo.SearchParam;
 import io.github.ihelin.seven.open.vo.SearchResult;
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +39,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,6 +55,8 @@ public class MallService {
 
     @Autowired
     private RestHighLevelClient restHighLevelClient;
+    @Autowired
+    private ProductFeign productFeign;
 
     public SearchResult search(SearchParam searchParam) {
         SearchRequest searchRequest = buildSearchRequest(searchParam);
@@ -146,7 +155,7 @@ public class MallService {
         nestedAggregationBuilder.subAggregation(attrsIdAgg);
         sourceBuilder.aggregation(nestedAggregationBuilder);
 
-        logger.debug("\n构建语句：->\n" + sourceBuilder.toString());
+//        logger.debug("\n构建语句：->\n" + sourceBuilder.toString());
         SearchRequest searchRequest = new SearchRequest(new String[]{"seven_product"}, sourceBuilder);
         return searchRequest;
     }
@@ -173,7 +182,8 @@ public class MallService {
         ParsedLongTerms attrIdAgg = attrAgg.getAggregations().get("attr_id_agg");
         for (Terms.Bucket bucket : attrIdAgg.getBuckets()) {
             SearchResult.AttrVo attrVo = new SearchResult.AttrVo();
-            attrVo.setAttrId(bucket.getKeyAsNumber().longValue());
+            long attrId = bucket.getKeyAsNumber().longValue();
+            attrVo.setAttrId(attrId);
             ParsedStringTerms attrNameAgg = bucket.getAggregations().get("attr_name_agg");
             ParsedStringTerms attrValueAgg = bucket.getAggregations().get("attr_value_agg");
             attrVo.setAttrName(attrNameAgg.getBuckets().get(0).getKeyAsString());
@@ -211,7 +221,61 @@ public class MallService {
         result.setPageNum(searchParam.getPageNum());
         int totalPages = (int) (total % 2 == 0 ? total / 2 : (total / 2 + 1));
         result.setTotalPages(totalPages);
+
+        List<Integer> pageNavs = new ArrayList<>();
+        for (int i = 1; i <= totalPages; i++) {
+            pageNavs.add(i);
+        }
+        result.setPageNavs(pageNavs);
+
+        if (searchParam.getAttrs() != null && searchParam.getAttrs().size() > 0) {
+            List<SearchResult.NavVo> navVos = searchParam.getAttrs().stream().map(attr -> {
+                SearchResult.NavVo navVo = new SearchResult.NavVo();
+                String[] s = attr.split("_");
+                navVo.setNavValue(s[1]);
+                R r = productFeign.getAttrInfo(Long.parseLong(s[0]));
+                result.getAttrIds().add(Long.parseLong(s[0]));
+                AttrRespVo attrRespVo = r.getData(new TypeReference<AttrRespVo>() {
+                });
+                navVo.setNavName(attrRespVo.getAttrName());
+                String link = replaceQueryString(searchParam, attr,"attrs");
+                navVo.setLink("http://search.gulimall.com/list.html?" + link);
+                return navVo;
+            }).collect(Collectors.toList());
+            result.setNavs(navVos);
+        }
+
+        if (searchParam.getBrandId() != null && searchParam.getBrandId().size() > 0) {
+            List<SearchResult.NavVo> navs = result.getNavs();
+            SearchResult.NavVo navVo = new SearchResult.NavVo();
+            navVo.setNavName("品牌");
+            R r = productFeign.getBrands(searchParam.getBrandId());
+            List<BrandVo> brandVos = r.getData(new TypeReference<List<BrandVo>>() {
+            });
+            StringBuffer stringBuffer = new StringBuffer();
+            String link = "";
+            for (BrandVo brandVo : brandVos) {
+                stringBuffer.append(brandVo.getBrandName() + ";");
+                link = replaceQueryString(searchParam, brandVo.getBrandId()+"","brandId");
+
+            }
+            navVo.setNavValue(stringBuffer.toString());
+            navVo.setLink("http://search.gulimall.com/list.html?" + link);
+            navs.add(navVo);
+        }
         return result;
+    }
+
+    private String replaceQueryString(SearchParam searchParam, String attr, String key) {
+        String encodeAttr = null;
+        try {
+            encodeAttr = URLEncoder.encode(attr, "UTF-8");
+            encodeAttr = encodeAttr.replace("+", "%20");
+        } catch (UnsupportedEncodingException e) {
+            logger.error("encode error", e);
+        }
+        String link = searchParam.getQueryString().replace("&" + key + "=" + encodeAttr, "");
+        return link;
     }
 
 

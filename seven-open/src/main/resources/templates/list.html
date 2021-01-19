@@ -765,10 +765,10 @@
             </div>
         </div>
         <!--  便利面包屑  -->
-<!--        <div class="JD_ipone_one c">-->
-<!--            <a th:href="${nav.link}" th:each="nav : ${result.navs}"><span th:text="${nav.name}"></span><span-->
-<!--                    th:text="${nav.navValue}"></span> × </a>-->
-<!--        </div>-->
+        <div class="JD_ipone_one c">
+            <a th:href="${nav.link}" th:each="nav : ${result.navs}"><span th:text="${nav.name}"></span><span
+                    th:text="${nav.navValue}"></span> × </a>
+        </div>
         <i><img src="/static/search/image/right-@1x.png" alt=""></i>
     </div>
 </div>
@@ -1242,13 +1242,13 @@
                                    th:if="${result.pageNum > 1}">
                                     < 上一页
                                 </a>
-<!--                                <a class="page_a"-->
-<!--                                   th:attr="pn=${nav},style=${nav == result.pageNum? 'border: 0;color:#ee2222;background: #fff':''}"-->
-<!--                                   th:each="nav : ${result.pageNavs}">[[${nav}]]</a>-->
-<!--                                <a class="page_a" th:attr="pn=${result.pageNum + 1}" th:href="${result.pageNum + 1}"-->
-<!--                                   th:if="${result.pageNum < result.totalPages}">-->
-<!--                                    下一页 >-->
-<!--                                </a>-->
+                                <a class="page_a"
+                                   th:attr="pn=${nav},style=${nav == result.pageNum? 'border: 0;color:#ee2222;background: #fff':''}"
+                                   th:each="nav : ${result.pageNavs}">[[${nav}]]</a>
+                                <a class="page_a" th:attr="pn=${result.pageNum + 1}" th:href="${result.pageNum + 1}"
+                                   th:if="${result.pageNum < result.totalPages}">
+                                    下一页 >
+                                </a>
                             </span>
                             <span class="page_span2">
                                 <em>共<b>[[${result.totalPages}]]</b>页&nbsp;&nbsp;到第</em>
@@ -2002,7 +2002,7 @@
     })
 
     function searchProduct(name, value) {
-        location.href = replaceAndAddParamVal(location.href, name, value, true);
+        location.href = replaceAndAddParamVal(location.href, name, value, false);
     }
 
     function searchByKeyword() {

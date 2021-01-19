@@ -1,4 +1,4 @@
-package io.github.ihelin.seven.product.vo;
+package io.github.ihelin.seven.common.dto;
 
 import java.util.List;
 

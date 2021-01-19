@@ -2,6 +2,7 @@ package io.github.ihelin.seven.open.vo;
 
 import io.github.ihelin.seven.common.dto.SkuEsModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,10 +15,38 @@ public class SearchResult {
     private Integer pageNum;
     private Long total;
     private Integer totalPages;
+    private List<Integer> pageNavs;
 
     private List<BrandVo> brands;
     private List<CatalogVo> catalogs;
     private List<AttrVo> attrs;
+
+    private List<NavVo> navs = new ArrayList<>();
+    private List<Long> attrIds = new ArrayList<>();
+
+    public List<Long> getAttrIds() {
+        return attrIds;
+    }
+
+    public void setAttrIds(List<Long> attrIds) {
+        this.attrIds = attrIds;
+    }
+
+    public List<NavVo> getNavs() {
+        return navs;
+    }
+
+    public void setNavs(List<NavVo> navs) {
+        this.navs = navs;
+    }
+
+    public List<Integer> getPageNavs() {
+        return pageNavs;
+    }
+
+    public void setPageNavs(List<Integer> pageNavs) {
+        this.pageNavs = pageNavs;
+    }
 
     public List<SkuEsModel> getProducts() {
         return products;
@@ -135,7 +164,7 @@ public class SearchResult {
         }
     }
 
-    public static class CatalogVo{
+    public static class CatalogVo {
         private Long catalogId;
         private String catalogName;
 
@@ -153,6 +182,36 @@ public class SearchResult {
 
         public void setCatalogName(String catalogName) {
             this.catalogName = catalogName;
+        }
+    }
+
+    public static class NavVo {
+        private String navName;
+        private String navValue;
+        private String link;
+
+        public String getNavName() {
+            return navName;
+        }
+
+        public void setNavName(String navName) {
+            this.navName = navName;
+        }
+
+        public String getNavValue() {
+            return navValue;
+        }
+
+        public void setNavValue(String navValue) {
+            this.navValue = navValue;
+        }
+
+        public String getLink() {
+            return link;
+        }
+
+        public void setLink(String link) {
+            this.link = link;
         }
     }
 }

@@ -58,7 +58,12 @@ spring:
           predicates:
             - Host=seven.com,item.seven.com
 
-        - id: seven_search_route
+        - id: host_seven_search_route
           uri: lb://seven-open
           predicates:
             - Host=search.seven.com
+
+        - id: host_seven_member_route
+          uri: lb://seven-member
+          predicates:
+            - Host=auth.seven.com

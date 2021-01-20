@@ -1,9 +1,14 @@
 package io.github.ihelin.seven.member.controller;
 
+import io.github.ihelin.seven.common.exception.BizCodeEnum;
 import io.github.ihelin.seven.common.utils.MemberServerConstant;
+import io.github.ihelin.seven.common.utils.R;
+import io.github.ihelin.seven.member.feign.OpenFeign;
 import io.github.ihelin.seven.member.service.MemberService;
 import io.github.ihelin.seven.member.vo.UserRegisterVo;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -12,12 +17,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -27,14 +35,16 @@ import java.util.stream.Collectors;
 @Controller
 public class LoginController {
 
-//    @Autowired
-//    private ThirdPartFeignService thirdPartFeignService;
+    @Autowired
+    private OpenFeign openFeign;
 
     @Autowired
     private MemberService memberService;
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @GetMapping({"/login.html", "/", "/index", "/index.html"})
     public String loginPage(HttpSession session) {
@@ -64,29 +74,28 @@ public class LoginController {
 //        }
 //    }
 
-//    @ResponseBody
-//    @GetMapping("/sms/snedcode")
-//    public R sendCode(@RequestParam("phone") String phone){
-//
-//        // TODO 接口防刷
-//        String redisCode = stringRedisTemplate.opsForValue().get(AuthServerConstant.SMS_CODE_CACHE_PREFIX + phone);
-//        if(null != redisCode && redisCode.length() > 0){
-//            long CuuTime = Long.parseLong(redisCode.split("_")[1]);
-//            if(System.currentTimeMillis() - CuuTime < 60 * 1000){
-//                return R.error(BizCodeEnum.SMS_CODE_EXCEPTION.getCode(), BizCodeEnum.SMS_CODE_EXCEPTION.getMsg());
-//            }
-//        }
-//        String code = UUID.randomUUID().toString().substring(0, 6);
-//        String redis_code = code + "_" + System.currentTimeMillis();
-//        // 缓存验证码
-//        stringRedisTemplate.opsForValue().set(AuthServerConstant.SMS_CODE_CACHE_PREFIX + phone, redis_code , 10, TimeUnit.MINUTES);
-//        try {
-//            return thirdPartFeignService.sendCode(phone, code);
-//        } catch (Exception e) {
-//            log.warn("远程调用不知名错误 [无需解决]");
-//        }
-//        return R.ok();
-//    }
+    @ResponseBody
+    @GetMapping("/sms/snedcode")
+    public R sendCode(String phone) {
+        // TODO 接口防刷
+        String redisCode = stringRedisTemplate.opsForValue().get(MemberServerConstant.SMS_CODE_CACHE_PREFIX + phone);
+        if (null != redisCode && redisCode.length() > 0) {
+            long cuuTime = Long.parseLong(redisCode.split("_")[1]);
+            if (System.currentTimeMillis() - cuuTime < 60 * 1000) {
+                return R.error(BizCodeEnum.SMS_CODE_EXCEPTION.getCode(), BizCodeEnum.SMS_CODE_EXCEPTION.getMsg());
+            }
+        }
+        String code = UUID.randomUUID().toString().substring(0, 6);
+        String redis_code = code + "_" + System.currentTimeMillis();
+        // 缓存验证码
+        stringRedisTemplate.opsForValue().set(MemberServerConstant.SMS_CODE_CACHE_PREFIX + phone, redis_code, 10, TimeUnit.MINUTES);
+        try {
+            return openFeign.sendCode(phone, code);
+        } catch (Exception e) {
+            logger.warn("远程调用错误",e);
+        }
+        return R.ok();
+    }
 
     /**
      * TODO 重定向携带数据,利用session原理 将数据放在sessoin中 取一次之后删掉

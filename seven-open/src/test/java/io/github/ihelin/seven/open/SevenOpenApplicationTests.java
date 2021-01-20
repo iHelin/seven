@@ -2,6 +2,8 @@ package io.github.ihelin.seven.open;
 
 import com.aliyun.oss.OSSClient;
 import io.github.ihelin.seven.open.config.ESConfig;
+import io.github.ihelin.seven.open.utils.HttpUtils;
+import org.apache.http.HttpResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
@@ -21,6 +23,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootTest
 class SevenOpenApplicationTests {
@@ -34,6 +38,32 @@ class SevenOpenApplicationTests {
 
     @Autowired
     private RestHighLevelClient restHighLevelClient;
+
+    @Test
+    public void testSms() {
+        String host = "https://gyytz.market.alicloudapi.com";
+        String path = "/sms/smsSend";
+        String method = "POST";
+        String appcode = "e54dfdd6982e415c82f7c4f9500ea264";
+        Map<String, String> headers = new HashMap<>();
+        //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+        headers.put("Authorization", "APPCODE " + appcode);
+        Map<String, String> querys = new HashMap<>();
+        querys.put("mobile", "18321558223");
+        querys.put("param", "**验证码**:123455");
+        querys.put("smsSignId", "2e65b1bb3d054466b82f0c9d125465e2");
+        querys.put("templateId", "f5e68c3ad6b6474faa8cd178b21d3377");
+        Map<String, String> bodys = new HashMap<>();
+
+        try {
+            HttpResponse response = HttpUtils.doPost(host, path, method, headers, querys, bodys);
+            System.out.println(response.toString());
+            //获取response的body
+            //System.out.println(EntityUtils.toString(response.getEntity()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     void searchData() throws IOException {
@@ -60,10 +90,10 @@ class SevenOpenApplicationTests {
         IndexRequest indexRequest = new IndexRequest("users");
         indexRequest.id("1");
         indexRequest.source("{\n" +
-                "  \"name\": \"zhangshan\",\n" +
-                "  \"gender\": \"男\",\n" +
-                "  \"age\": 18\n" +
-                "}", XContentType.JSON);
+            "  \"name\": \"zhangshan\",\n" +
+            "  \"gender\": \"男\",\n" +
+            "  \"age\": 18\n" +
+            "}", XContentType.JSON);
 
         IndexResponse indexResponse = restHighLevelClient.index(indexRequest, ESConfig.COMMON_OPTIONS);
         System.out.println(indexResponse.toString());

@@ -3,6 +3,7 @@ package io.github.ihelin.seven.member.feign;
 import io.github.ihelin.seven.common.utils.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author iHelin
@@ -12,5 +13,5 @@ import org.springframework.web.bind.annotation.GetMapping;
 public interface OpenFeign {
 
     @GetMapping("/sms/sendcode")
-    R sendCode(String phone, String code);
+    R sendCode(@RequestParam String phone, @RequestParam String code);
 }

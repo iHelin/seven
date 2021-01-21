@@ -1,4 +1,4 @@
-package io.github.ihelin.seven.open.utils;
+package io.github.ihelin.seven.common.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;

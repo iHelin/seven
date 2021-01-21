@@ -17,6 +17,8 @@ spring:
     time-zone: GMT+8
   thymeleaf:
     cache: false
+  redis:
+    host: 121.4.87.152
 mybatis-plus:
   global-config:
     db-config:

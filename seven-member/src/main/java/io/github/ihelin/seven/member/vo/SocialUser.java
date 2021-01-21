@@ -1,16 +1,24 @@
 package io.github.ihelin.seven.member.vo;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
+/**
+ * @author iHelin
+ */
 public class SocialUser {
 
+    @JsonAlias("access_token")
     private String accessToken;
 
+    @JsonAlias("remind_in")
     private String remindIn;
 
-    private int expiresIn;
+    @JsonAlias("expires_in")
+    private Long expiresIn;
 
     private String uid;
 
-    private String isrealname;
+    private String isRealName;
 
     public String getAccessToken() {
         return accessToken;
@@ -28,11 +36,11 @@ public class SocialUser {
         this.remindIn = remindIn;
     }
 
-    public int getExpiresIn() {
+    public Long getExpiresIn() {
         return expiresIn;
     }
 
-    public void setExpiresIn(int expiresIn) {
+    public void setExpiresIn(Long expiresIn) {
         this.expiresIn = expiresIn;
     }
 
@@ -44,11 +52,11 @@ public class SocialUser {
         this.uid = uid;
     }
 
-    public String getIsrealname() {
-        return isrealname;
+    public String getIsRealName() {
+        return isRealName;
     }
 
-    public void setIsrealname(String isrealname) {
-        this.isrealname = isrealname;
+    public void setIsRealName(String isRealName) {
+        this.isRealName = isRealName;
     }
 }

@@ -3,6 +3,8 @@ package io.github.ihelin.seven.member.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.member.entity.MemberEntity;
+import io.github.ihelin.seven.member.vo.SocialUser;
+import io.github.ihelin.seven.member.vo.UserLoginVo;
 import io.github.ihelin.seven.member.vo.UserRegisterVo;
 
 import java.util.Map;
@@ -19,5 +21,9 @@ public interface MemberService extends IService<MemberEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     void register(UserRegisterVo vo);
+
+    MemberEntity login(UserLoginVo userLoginVo);
+
+    MemberEntity login(SocialUser socialUser);
 }
 

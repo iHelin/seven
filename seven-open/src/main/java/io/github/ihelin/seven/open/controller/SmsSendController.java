@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/sms")
@@ -17,6 +18,7 @@ public class SmsSendController {
     /**
      * 提供给别的服务进行调用的
      */
+    @ResponseBody
     @GetMapping("/sendcode")
     public R sendCode(String phone, String code) {
         smsComponent.sendSmsCode(phone, code);

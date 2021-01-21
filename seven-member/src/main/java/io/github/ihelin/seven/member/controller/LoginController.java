@@ -3,8 +3,10 @@ package io.github.ihelin.seven.member.controller;
 import io.github.ihelin.seven.common.exception.BizCodeEnum;
 import io.github.ihelin.seven.common.utils.MemberServerConstant;
 import io.github.ihelin.seven.common.utils.R;
+import io.github.ihelin.seven.member.entity.MemberEntity;
 import io.github.ihelin.seven.member.feign.OpenFeign;
 import io.github.ihelin.seven.member.service.MemberService;
+import io.github.ihelin.seven.member.vo.UserLoginVo;
 import io.github.ihelin.seven.member.vo.UserRegisterVo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -55,44 +57,43 @@ public class LoginController {
         return "redirect:http://seven.com";
     }
 
-//    @PostMapping("/login")
-//    public String login(UserLoginVo userLoginVo, RedirectAttributes redirectAttributes, HttpSession session){
-//        // 远程登录
-//        R r = memberFeignService.login(userLoginVo);
-//        if(r.getCode() == 0){
-//            // 登录成功
-//            MemberRsepVo rsepVo = r.getData("data", new TypeReference<MemberRsepVo>() {});
-//            session.setAttribute(AuthServerConstant.LOGIN_USER, rsepVo);
-//            log.info("\n欢迎 [" + rsepVo.getUsername() + "] 登录");
-//            return "redirect:http://seven.com";
-//        }else {
-//            HashMap<String, String> error = new HashMap<>();
+    @PostMapping("/login")
+    public String login(UserLoginVo userLoginVo, RedirectAttributes redirectAttributes, HttpSession session) {
+        // 远程登录
+        MemberEntity memberEntity = memberService.login(userLoginVo);
+        if (memberEntity != null) {
+            // 登录成功
+            session.setAttribute(MemberServerConstant.LOGIN_USER, memberEntity);
+            logger.info("\n欢迎 [" + memberEntity.getUsername() + "] 登录");
+            return "redirect:http://seven.com";
+        } else {
+            HashMap<String, String> error = new HashMap<>();
 //            // 获取错误信息
-//            error.put("msg", r.getData("msg",new TypeReference<String>(){}));
-//            redirectAttributes.addFlashAttribute("errors", error);
-//            return "redirect:http://auth.seven.com/login.html";
-//        }
-//    }
+            error.put("msg", "用户名密码不匹配");
+            redirectAttributes.addFlashAttribute("errors", error);
+            return "redirect:http://auth.seven.com/login.html";
+        }
+    }
 
     @ResponseBody
     @GetMapping("/sms/snedcode")
     public R sendCode(String phone) {
         // TODO 接口防刷
         String redisCode = stringRedisTemplate.opsForValue().get(MemberServerConstant.SMS_CODE_CACHE_PREFIX + phone);
-        if (null != redisCode && redisCode.length() > 0) {
-            long cuuTime = Long.parseLong(redisCode.split("_")[1]);
-            if (System.currentTimeMillis() - cuuTime < 60 * 1000) {
+        if (StringUtils.isNotEmpty(redisCode)) {
+            long sendTime = Long.parseLong(redisCode.split("_")[1]);
+            if (System.currentTimeMillis() - sendTime < 60 * 1000) {
                 return R.error(BizCodeEnum.SMS_CODE_EXCEPTION.getCode(), BizCodeEnum.SMS_CODE_EXCEPTION.getMsg());
             }
         }
         String code = UUID.randomUUID().toString().substring(0, 6);
-        String redis_code = code + "_" + System.currentTimeMillis();
+        redisCode = code + "_" + System.currentTimeMillis();
         // 缓存验证码
-        stringRedisTemplate.opsForValue().set(MemberServerConstant.SMS_CODE_CACHE_PREFIX + phone, redis_code, 10, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set(MemberServerConstant.SMS_CODE_CACHE_PREFIX + phone, redisCode, 10, TimeUnit.MINUTES);
         try {
             return openFeign.sendCode(phone, code);
         } catch (Exception e) {
-            logger.warn("远程调用错误",e);
+            logger.warn("远程调用sms错误", e);
         }
         return R.ok();
     }
@@ -107,9 +108,9 @@ public class LoginController {
     @PostMapping("/register")
     public String register(@Valid UserRegisterVo vo, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-
             // 将错误属性与错误信息一一封装
-            Map<String, String> errors = result.getFieldErrors().stream().collect(Collectors.toMap(FieldError::getField, DefaultMessageSourceResolvable::getDefaultMessage));
+            Map<String, String> errors = result.getFieldErrors().stream().collect(Collectors.toMap(FieldError::getField,
+                DefaultMessageSourceResolvable::getDefaultMessage));
             // addFlashAttribute 这个数据只取一次
             redirectAttributes.addFlashAttribute("errors", errors);
             return "redirect:http://auth.seven.com/reg.html";
@@ -118,13 +119,12 @@ public class LoginController {
         // 1.校验验证码
         String code = vo.getCode();
 
-        String redis_code = stringRedisTemplate.opsForValue().get(MemberServerConstant.SMS_CODE_CACHE_PREFIX + vo.getPhone());
-        if (StringUtils.isNotEmpty(redis_code)) {
+        String redisCode = stringRedisTemplate.opsForValue().get(MemberServerConstant.SMS_CODE_CACHE_PREFIX + vo.getPhone());
+        if (StringUtils.isNotEmpty(redisCode)) {
             // 验证码通过
-            if (code.equals(redis_code.split("_")[0])) {
+            if (code.equals(redisCode.split("_")[0])) {
                 // 删除验证码
                 stringRedisTemplate.delete(MemberServerConstant.SMS_CODE_CACHE_PREFIX + vo.getPhone());
-                // 调用远程服务进行注册
                 memberService.register(vo);
                 // 成功
                 return "redirect:http://auth.seven.com/login.html";

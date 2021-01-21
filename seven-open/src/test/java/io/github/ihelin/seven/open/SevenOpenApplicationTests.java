@@ -1,8 +1,8 @@
 package io.github.ihelin.seven.open;
 
 import com.aliyun.oss.OSSClient;
+import io.github.ihelin.seven.common.utils.HttpUtils;
 import io.github.ihelin.seven.open.config.ESConfig;
-import io.github.ihelin.seven.open.utils.HttpUtils;
 import org.apache.http.HttpResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;

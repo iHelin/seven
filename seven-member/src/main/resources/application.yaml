@@ -19,6 +19,8 @@ spring:
     cache: false
   redis:
     host: 121.4.87.152
+  session:
+    store-type: redis
 mybatis-plus:
   global-config:
     db-config:
@@ -28,3 +30,4 @@ mybatis-plus:
 logging:
   level:
     io.github.ihelin.seven: debug
+

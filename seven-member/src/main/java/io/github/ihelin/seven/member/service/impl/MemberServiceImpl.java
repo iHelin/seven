@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.ihelin.seven.common.dto.MemberRsepVo;
 import io.github.ihelin.seven.common.utils.HttpUtils;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.Query;
@@ -21,6 +22,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -79,7 +81,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
     }
 
     @Override
-    public MemberEntity login(UserLoginVo userLoginVo) {
+    public MemberRsepVo login(UserLoginVo userLoginVo) {
         String loginacct = userLoginVo.getLoginacct();
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
@@ -93,7 +95,9 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
             boolean matches = bCryptPasswordEncoder.matches(userLoginVo.getPassword(), entity.getPassword());
             if (matches) {
                 entity.setPassword(null);
-                return entity;
+                MemberRsepVo memberRsepVo = new MemberRsepVo();
+                BeanUtils.copyProperties(entity, memberRsepVo);
+                return memberRsepVo;
             } else {
                 return null;
             }
@@ -101,7 +105,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
     }
 
     @Override
-    public MemberEntity login(SocialUser socialUser) {
+    public MemberRsepVo login(SocialUser socialUser) {
         // 微博的uid
         String uid = socialUser.getUid();
         // 1.判断社交用户登录过系统
@@ -118,7 +122,9 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
             entity.setAccessToken(socialUser.getAccessToken());
             entity.setExpiresIn(socialUser.getExpiresIn());
             entity.setPassword(null);
-            return entity;
+            MemberRsepVo memberRsepVo = new MemberRsepVo();
+            BeanUtils.copyProperties(entity, memberRsepVo);
+            return memberRsepVo;
         } else {
             // 2. 没有查到当前社交用户对应的记录 我们就需要注册一个
             HashMap<String, String> map = new HashMap<>();
@@ -138,7 +144,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
                     memberEntity.setJob("");
                 }
             } catch (Exception e) {
-                logger.warn("社交登录时远程调用出错 [尝试修复]",e);
+                logger.warn("社交登录时远程调用出错 [尝试修复]", e);
             }
             memberEntity.setStatus(0);
             memberEntity.setCreateTime(new Date());
@@ -151,7 +157,9 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
             // 注册 -- 登录成功
             baseMapper.insert(memberEntity);
             memberEntity.setPassword(null);
-            return memberEntity;
+            MemberRsepVo memberRsepVo = new MemberRsepVo();
+            BeanUtils.copyProperties(entity, memberRsepVo);
+            return memberRsepVo;
         }
     }
 

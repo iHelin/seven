@@ -6,9 +6,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * @author iHelin
+ */
 @SpringBootApplication
+@EnableRedisHttpSession
 @EnableTransactionManagement
 @MapperScan("io.github.ihelin.seven.member.dao")
 @EnableFeignClients(basePackages = "io.github.ihelin.seven.member.feign")

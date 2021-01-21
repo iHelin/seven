@@ -23,6 +23,8 @@ spring:
     type: redis
     redis:
       time-to-live: 3600000
+  session:
+    store-type: redis
 mybatis-plus:
   global-config:
     db-config:

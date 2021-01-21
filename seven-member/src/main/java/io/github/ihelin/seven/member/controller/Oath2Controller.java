@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.ihelin.seven.common.dto.MemberRsepVo;
 import io.github.ihelin.seven.common.utils.HttpUtils;
 import io.github.ihelin.seven.common.utils.MemberServerConstant;
-import io.github.ihelin.seven.member.entity.MemberEntity;
 import io.github.ihelin.seven.member.service.MemberService;
 import io.github.ihelin.seven.member.vo.SocialUser;
 import org.apache.http.HttpResponse;
@@ -34,7 +33,7 @@ public class Oath2Controller {
     private ObjectMapper objectMapper;
 
     @GetMapping("/logout")
-    public String login(HttpSession session) {
+    public String logout(HttpSession session) {
         if (session.getAttribute(MemberServerConstant.LOGIN_USER) != null) {
             logger.info("\n[" + ((MemberRsepVo) session.getAttribute(MemberServerConstant.LOGIN_USER)).getUsername() + "] 已下线");
         }
@@ -61,7 +60,7 @@ public class Oath2Controller {
 
             // 相当于我们知道了当前是那个用户
             // 1.如果用户是第一次进来 自动注册进来(为当前社交用户生成一个会员信息 以后这个账户就会关联这个账号)
-            MemberEntity memberEntity = memberService.login(socialUser);
+            MemberRsepVo memberEntity = memberService.login(socialUser);
             logger.info("\n欢迎 [" + memberEntity.getUsername() + "] 使用社交账号登录");
             // 第一次使用session 命令浏览器保存这个用户信息 JESSIONSEID 每次只要访问这个网站就会带上这个cookie
             // 在发卡的时候扩大session作用域 (指定域名为父域名)

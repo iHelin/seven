@@ -1,6 +1,7 @@
 package io.github.ihelin.seven.member.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import io.github.ihelin.seven.common.dto.MemberRsepVo;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.member.entity.MemberEntity;
 import io.github.ihelin.seven.member.vo.SocialUser;
@@ -22,8 +23,8 @@ public interface MemberService extends IService<MemberEntity> {
 
     void register(UserRegisterVo vo);
 
-    MemberEntity login(UserLoginVo userLoginVo);
+    MemberRsepVo login(UserLoginVo userLoginVo);
 
-    MemberEntity login(SocialUser socialUser);
+    MemberRsepVo login(SocialUser socialUser);
 }
 

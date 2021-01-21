@@ -7,6 +7,7 @@ import java.util.Date;
  * @author iHelin
  */
 public class MemberRsepVo implements Serializable {
+
     private Long id;
     /**
      * 会员等级id

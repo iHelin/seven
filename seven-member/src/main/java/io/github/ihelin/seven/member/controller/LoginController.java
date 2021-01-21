@@ -1,9 +1,9 @@
 package io.github.ihelin.seven.member.controller;
 
+import io.github.ihelin.seven.common.dto.MemberRsepVo;
 import io.github.ihelin.seven.common.exception.BizCodeEnum;
 import io.github.ihelin.seven.common.utils.MemberServerConstant;
 import io.github.ihelin.seven.common.utils.R;
-import io.github.ihelin.seven.member.entity.MemberEntity;
 import io.github.ihelin.seven.member.feign.OpenFeign;
 import io.github.ihelin.seven.member.service.MemberService;
 import io.github.ihelin.seven.member.vo.UserLoginVo;
@@ -60,15 +60,14 @@ public class LoginController {
     @PostMapping("/login")
     public String login(UserLoginVo userLoginVo, RedirectAttributes redirectAttributes, HttpSession session) {
         // 远程登录
-        MemberEntity memberEntity = memberService.login(userLoginVo);
-        if (memberEntity != null) {
+        MemberRsepVo memberRsepVo = memberService.login(userLoginVo);
+        if (memberRsepVo != null) {
             // 登录成功
-            session.setAttribute(MemberServerConstant.LOGIN_USER, memberEntity);
-            logger.info("\n欢迎 [" + memberEntity.getUsername() + "] 登录");
+            session.setAttribute(MemberServerConstant.LOGIN_USER, memberRsepVo);
+            logger.info("\n欢迎 [" + memberRsepVo.getUsername() + "] 登录");
             return "redirect:http://seven.com";
         } else {
             HashMap<String, String> error = new HashMap<>();
-//            // 获取错误信息
             error.put("msg", "用户名密码不匹配");
             redirectAttributes.addFlashAttribute("errors", error);
             return "redirect:http://auth.seven.com/login.html";

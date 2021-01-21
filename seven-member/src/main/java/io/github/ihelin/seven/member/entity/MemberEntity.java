@@ -3,6 +3,7 @@ package io.github.ihelin.seven.member.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -12,7 +13,9 @@ import java.util.Date;
  */
 
 @TableName("ums_member")
-public class MemberEntity {
+public class MemberEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * id

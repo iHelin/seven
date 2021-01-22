@@ -53,12 +53,12 @@ spring:
           filters:
             - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
 
-        - id: seven_host_route
+        - id: host_seven_product_route
           uri: lb://seven-product
           predicates:
-            - Host=seven.com,item.seven.com
+            - Host=seven.com,item.seven.com,cart.seven.com
 
-        - id: host_seven_search_route
+        - id: host_seven_open_route
           uri: lb://seven-open
           predicates:
             - Host=search.seven.com
@@ -67,3 +67,8 @@ spring:
           uri: lb://seven-member
           predicates:
             - Host=auth.seven.com
+
+        - id: host_seven_order_route
+          uri: lb://seven-order
+          predicates:
+            - Host=order.seven.com

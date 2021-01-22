@@ -18,7 +18,7 @@ public class JsonUtils {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
-    public static String objectToJson(Object data) {
+    public static String toJSONString(Object data) {
         try {
             return MAPPER.writeValueAsString(data);
         } catch (JsonProcessingException e) {
@@ -27,7 +27,7 @@ public class JsonUtils {
         return null;
     }
 
-    public static <T> T jsonToPojo(String jsonData, Class<T> beanType) {
+    public static <T> T parseObject(String jsonData, Class<T> beanType) {
         try {
             T t = MAPPER.readValue(jsonData, beanType);
             return t;

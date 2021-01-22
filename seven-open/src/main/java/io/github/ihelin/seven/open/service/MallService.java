@@ -167,7 +167,7 @@ public class MallService {
         if (hits.getHits() != null && hits.getHits().length > 0) {
             for (SearchHit hit : hits.getHits()) {
                 String sourceAsString = hit.getSourceAsString();
-                SkuEsModel skuEsModel = JsonUtils.jsonToPojo(sourceAsString, SkuEsModel.class);
+                SkuEsModel skuEsModel = JsonUtils.parseObject(sourceAsString, SkuEsModel.class);
                 if (StringUtils.isNotEmpty(searchParam.getKeyword())) {
                     HighlightField skuTitle = hit.getHighlightFields().get("skuTitle");
                     skuEsModel.setSkuTitle(skuTitle.getFragments()[0].string());

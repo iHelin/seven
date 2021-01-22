@@ -109,18 +109,18 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                 catalogJSONString = redisTemplate.opsForValue().get("catalogJSON");
                 if (StringUtils.isEmpty(catalogJSONString)) {
                     Map<String, List<Catalog2Vo>> catalogJsonFromDb = getCatalogJsonFromDb();
-                    String catalogJson = JsonUtils.objectToJson(catalogJsonFromDb);
+                    String catalogJson = JsonUtils.toJSONString(catalogJsonFromDb);
                     redisTemplate.opsForValue().set("catalogJSON", catalogJson, 1, TimeUnit.DAYS);
                     return catalogJsonFromDb;
                 } else {
-                    return JsonUtils.jsonToPojo(catalogJSONString, Map.class);
+                    return JsonUtils.parseObject(catalogJSONString, Map.class);
                 }
             } finally {
                 //删除锁 必须是原子操作
                 lock.unlock();
             }
         }
-        return JsonUtils.jsonToPojo(catalogJSONString, Map.class);
+        return JsonUtils.parseObject(catalogJSONString, Map.class);
     }
 
     public Map<String, List<Catalog2Vo>> getCatalogJsonWithRedisLock() {
@@ -135,11 +135,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                     catalogJSONString = redisTemplate.opsForValue().get("catalogJSON");
                     if (!StringUtils.isEmpty(catalogJSONString)) {
                         Map<String, List<Catalog2Vo>> catalogJsonFromDb = getCatalogJsonFromDb();
-                        String catalogJson = JsonUtils.objectToJson(catalogJsonFromDb);
+                        String catalogJson = JsonUtils.toJSONString(catalogJsonFromDb);
                         redisTemplate.opsForValue().set("catalogJSON", catalogJson, 1, TimeUnit.DAYS);
                         return catalogJsonFromDb;
                     } else {
-                        return JsonUtils.jsonToPojo(catalogJSONString, Map.class);
+                        return JsonUtils.parseObject(catalogJSONString, Map.class);
                     }
                 } finally {
                     //删除锁 必须是原子操作
@@ -156,7 +156,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             }
 
         }
-        return JsonUtils.jsonToPojo(catalogJSONString, Map.class);
+        return JsonUtils.parseObject(catalogJSONString, Map.class);
     }
 
     public Map<String, List<Catalog2Vo>> getCatalogJsonWithLocalLock() {
@@ -165,15 +165,15 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             synchronized (this) {
                 catalogJSON = redisTemplate.opsForValue().get("catalogJSON");
                 if (!StringUtils.isEmpty(catalogJSON)) {
-                    return JsonUtils.jsonToPojo(catalogJSON, Map.class);
+                    return JsonUtils.parseObject(catalogJSON, Map.class);
                 }
                 Map<String, List<Catalog2Vo>> catalogJsonFromDb = getCatalogJsonFromDb();
-                String catalogJson = JsonUtils.objectToJson(catalogJsonFromDb);
+                String catalogJson = JsonUtils.toJSONString(catalogJsonFromDb);
                 redisTemplate.opsForValue().set("catalogJSON", catalogJson, 1, TimeUnit.DAYS);
                 return catalogJsonFromDb;
             }
         }
-        return JsonUtils.jsonToPojo(catalogJSON, Map.class);
+        return JsonUtils.parseObject(catalogJSON, Map.class);
     }
 
 

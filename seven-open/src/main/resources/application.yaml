@@ -9,7 +9,13 @@ spring:
         server-addr: 121.4.87.152:8848
   thymeleaf:
     cache: false
+  session:
+    store-type: redis
+  redis:
+    host: 121.4.87.152
 logging:
   level:
     io.github.ihelin.seven: debug
+
+
 

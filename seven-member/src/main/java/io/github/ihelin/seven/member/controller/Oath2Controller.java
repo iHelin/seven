@@ -34,9 +34,6 @@ public class Oath2Controller {
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        if (session.getAttribute(MemberServerConstant.LOGIN_USER) != null) {
-            logger.info("\n[" + ((MemberRsepVo) session.getAttribute(MemberServerConstant.LOGIN_USER)).getUsername() + "] 已下线");
-        }
         session.invalidate();
         return "redirect:http://auth.seven.com/login.html";
     }

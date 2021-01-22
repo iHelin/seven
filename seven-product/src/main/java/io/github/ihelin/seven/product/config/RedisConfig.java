@@ -13,6 +13,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RedisConfig {
 
+    /**
+     * redisson分布式锁配置
+     *
+     * @return
+     */
     @Bean(destroyMethod = "shutdown")
     public RedissonClient redissonClient() {
         Config config = new Config();

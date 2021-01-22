@@ -1,9 +1,7 @@
 package io.github.ihelin.seven.product.vo;
 
 /**
- * <p>Title: UserInfoVo</p>
- * Description：
- * date：2020/6/27 22:34
+ * @author iHelin
  */
 public class UserInfoTo {
 

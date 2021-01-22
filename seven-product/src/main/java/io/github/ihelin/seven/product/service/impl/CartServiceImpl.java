@@ -24,6 +24,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
+/**
+ * @author iHelin
+ */
 @Service
 public class CartServiceImpl implements CartService {
 
@@ -41,14 +44,15 @@ public class CartServiceImpl implements CartService {
     @Autowired
     private ThreadPoolExecutor executor;
 
-    private final String CART_PREFIX = "FIRE:cart:";
+    private final String CART_PREFIX = "seven:cart:";
 
     @Override
     public CartItem addToCart(Long skuId, Integer num) throws ExecutionException, InterruptedException {
-        BoundHashOperations<String, Object, Object> cartOps = getCartOps();
-        String res = (String) cartOps.get(skuId.toString());
+        BoundHashOperations<String, Object, Object> cartOperation = getCartOps();
+        String res = (String) cartOperation.get(skuId.toString());
+        CartItem cartItem;
         if (StringUtils.isEmpty(res)) {
-            CartItem cartItem = new CartItem();
+            cartItem = new CartItem();
             // 异步编排
             CompletableFuture<Void> getSkuInfo = CompletableFuture.runAsync(() -> {
                 // 1. 查询当前要添加的商品的信息
@@ -62,20 +66,19 @@ public class CartServiceImpl implements CartService {
                 cartItem.setSkuId(skuId);
             }, executor);
 
-            // 3. 远程查询sku组合信息
             CompletableFuture<Void> getSkuSaleAttrValues = CompletableFuture.runAsync(() -> {
+                // 3. 查询sku组合信息
                 List<String> values = skuSaleAttrValueService.getSkuSaleAttrValuesAsStringList(skuId);
                 cartItem.setSkuAttr(values);
             }, executor);
+
             CompletableFuture.allOf(getSkuInfo, getSkuSaleAttrValues).get();
-            cartOps.put(skuId.toString(), JsonUtils.toJSONString(cartItem));
-            return cartItem;
         } else {
-            CartItem cartItem = JsonUtils.parseObject(res, CartItem.class);
+            cartItem = JsonUtils.parseObject(res, CartItem.class);
             cartItem.setCount(cartItem.getCount() + num);
-            cartOps.put(skuId.toString(), JsonUtils.toJSONString(cartItem));
-            return cartItem;
         }
+        cartOperation.put(skuId.toString(), JsonUtils.toJSONString(cartItem));
+        return cartItem;
     }
 
     @Override
@@ -87,7 +90,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart getCart() throws ExecutionException, InterruptedException {
-        UserInfoTo userInfoTo = CartInterceptor.threadLocal.get();
+        UserInfoTo userInfoTo = CartInterceptor.THREAD_LOCAL.get();
         Cart cart = new Cart();
         // 临时购物车的key
         String tempCartKey = CART_PREFIX + userInfoTo.getUserKey();
@@ -146,15 +149,14 @@ public class CartServiceImpl implements CartService {
     @Override
     public BigDecimal toTrade() throws ExecutionException, InterruptedException {
         BigDecimal amount = getCart().getTotalAmount();
-        UserInfoTo userInfoTo = CartInterceptor.threadLocal.get();
+        UserInfoTo userInfoTo = CartInterceptor.THREAD_LOCAL.get();
         stringRedisTemplate.delete(CART_PREFIX + (userInfoTo.getUserId() != null ? userInfoTo.getUserId().toString() : userInfoTo.getUserKey()));
         return amount;
     }
 
     @Override
     public List<CartItem> getUserCartItems() {
-
-        UserInfoTo userInfoTo = CartInterceptor.threadLocal.get();
+        UserInfoTo userInfoTo = CartInterceptor.THREAD_LOCAL.get();
         if (userInfoTo.getUserId() == null) {
             return null;
         } else {
@@ -190,7 +192,7 @@ public class CartServiceImpl implements CartService {
      * 获取到我们要操作的购物车 [已经包含用户前缀 只需要带上用户id 或者临时id 就能对购物车进行操作]
      */
     private BoundHashOperations<String, Object, Object> getCartOps() {
-        UserInfoTo userInfoTo = CartInterceptor.threadLocal.get();
+        UserInfoTo userInfoTo = CartInterceptor.THREAD_LOCAL.get();
         // 1. 这里我们需要知道操作的是离线购物车还是在线购物车
         String cartKey = CART_PREFIX;
         if (userInfoTo.getUserId() != null) {

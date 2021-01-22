@@ -10,7 +10,7 @@ public class MallWebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new CartInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(new CartInterceptor()).addPathPatterns("/cart/**");
     }
 
 }

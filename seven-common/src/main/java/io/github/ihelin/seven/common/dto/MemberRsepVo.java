@@ -1,5 +1,7 @@
 package io.github.ihelin.seven.common.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -44,6 +46,7 @@ public class MemberRsepVo implements Serializable {
     /**
      * 生日
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date birth;
     /**
      * 所在城市
@@ -76,6 +79,7 @@ public class MemberRsepVo implements Serializable {
     /**
      * 注册时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     private String socialUid;

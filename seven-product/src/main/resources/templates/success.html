@@ -30,7 +30,7 @@
 
             <li class="forel" th:if="${session.loginUser} !=null">
                 <a class="link_login" style="width: 100px">[[${session.loginUser.username}]]</a>&nbsp;
-                <a href="http://auth.seven.com/oauth2.0/logout" class="link_regist">退出登录</a>
+                <a href="http://auth.seven.com/logout" class="link_regist">退出登录</a>
             </li>
             <li class="spacer"></li>
             <li>
@@ -87,7 +87,7 @@
                         <div class="bg_shop">
                             <a class="btn-tobback"
                                th:href="'http://item.seven.com/' + ${item.skuId} + '.html'">查看商品详情</a>
-                            <a class="btn-addtocart" href="http://cart.seven.com/cart.html"
+                            <a class="btn-addtocart" href="http://cart.seven.com/cart/cart.html"
                                id="GotoShoppingCart"><b></b>去购物车结算</a>
                         </div>
                     </div>

@@ -22,17 +22,16 @@ public class JsonUtils {
         try {
             return MAPPER.writeValueAsString(data);
         } catch (JsonProcessingException e) {
-            LOGGER.error("objectToJson", e);
+            LOGGER.error("toJSONString", e);
         }
-        return null;
+        return "";
     }
 
     public static <T> T parseObject(String jsonData, Class<T> beanType) {
         try {
-            T t = MAPPER.readValue(jsonData, beanType);
-            return t;
+            return MAPPER.readValue(jsonData, beanType);
         } catch (Exception e) {
-            LOGGER.error("jsonToPojo", e);
+            LOGGER.error("parseObject", e);
         }
         return null;
     }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -150,7 +151,7 @@ public class IndexController {
 
 
     @GetMapping({"/", "index", "/index.html"})
-    public String indexPage(Model model) {
+    public String indexPage(Model model, HttpSession httpSession) {
         // 获取一级分类所有缓存
         List<CategoryEntity> categorys = categoryService.getLevel1Categories();
         model.addAttribute("categorys", categorys);

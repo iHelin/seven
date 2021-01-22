@@ -65,7 +65,7 @@
                     <!--              <a th:href="'http://member.seven.com/user/' + ${session.loginUser.id}+ '.html'">你好，[[${session.loginUser.username}]]</a>-->
                 </li>
                 <li th:if="${session.loginUser} !=null">
-                    <a href="http://auth.seven.com/oauth2.0/logout">退出登录</a>
+                    <a href="http://auth.seven.com/logout">退出登录</a>
                 </li>
                 <li style="border: 0;" th:if="${session.loginUser} ==null">
                     <a href="http://auth.seven.com/login.html" class="aa">你好，请登录 </a>
@@ -314,7 +314,7 @@
                 <div class="nav_top_two"><input type="text"/>
                     <button>搜索</button>
                 </div>
-                <div class="nav_top_three"><a href="http://cart.seven.com/cart.html">我的购物车</a><span
+                <div class="nav_top_three"><a href="http://cart.seven.com/cart/cart.html">我的购物车</a><span
                         class="glyphicon glyphicon-shopping-cart"></span>
                     <div class="nav_top_three_1">
                         <img src="/static/item/img/44.png"/>购物车还没有商品，赶紧选购吧！
@@ -1587,7 +1587,7 @@
         let num = $("#numInput").val();
         // 获取当前按钮的自定义属性
         let skuId = $(this).attr("skuId");
-        location.href = "http://cart.seven.com/addToCart?skuId=" + skuId + "&num=" + num;
+        location.href = "http://cart.seven.com/cart/addToCart?skuId=" + skuId + "&num=" + num;
         return false;
     })
     $("#secKillA").click(function () {

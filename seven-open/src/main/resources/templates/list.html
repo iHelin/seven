@@ -68,7 +68,7 @@
                 <a class="li_2">欢迎，[[${session.loginUser.username}]]</a>
             </li>
             <li th:if="${session.loginUser} !=null">
-                <a href="http://auth.seven.com/oauth2.0/logout">退出登录</a>
+                <a href="http://auth.seven.com/logout">退出登录</a>
             </li>
             <li th:if="${session.loginUser} ==null">
                 <a href="http://auth.seven.com/reg.html" style="color: red;">免费注册</a>

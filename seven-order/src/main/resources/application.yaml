@@ -15,6 +15,10 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  redis:
+    host: 121.4.87.152
+  session:
+    store-type: redis
 mybatis-plus:
   global-config:
     db-config:

@@ -15,6 +15,13 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  rabbitmq:
+    host: 121.4.87.152
+    virtual-host: /
+    listener:
+      simple:
+        # 手动确认接受消息
+        acknowledge-mode: manual
 mybatis-plus:
   global-config:
     db-config:
@@ -24,3 +31,12 @@ mybatis-plus:
 logging:
   level:
     io.github.ihelin.seven: debug
+myRabbitmq:
+  MQConfig:
+    queues: stock.release.stock.queue
+    delayQueue: stock.delay.queue
+    eventExchange: stock-event-exchange
+    routingKey: stock.locked
+    letterRoutingKey: stock.release
+    # 库存自动过期时间 单位:(毫秒)
+    ttl: 900000

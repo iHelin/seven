@@ -153,31 +153,32 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     //	@GlobalTransactional
     @Transactional
     @Override
-    public SubmitOrderResponseVo submitOrder(OrderSubmitVo vo) {
+    public SubmitOrderResponseVo submitOrder(OrderSubmitVo orderSubmitVo) {
         // 当条线程共享这个对象
-        confirmVoThreadLocal.set(vo);
-        SubmitOrderResponseVo submitVo = new SubmitOrderResponseVo();
+        confirmVoThreadLocal.set(orderSubmitVo);
+        SubmitOrderResponseVo responseVo = new SubmitOrderResponseVo();
         // 0：正常
-        submitVo.setCode(0);
+        responseVo.setCode(0);
         // 去服务器创建订单,验令牌,验价格,所库存
         MemberRsepVo memberRsepVo = LoginUserInterceptor.THREAD_LOCAL.get();
+        String orderToken = orderSubmitVo.getOrderToken();
         // 1. 验证令牌 [必须保证原子性] 返回 0 or 1
         // 0 令牌删除失败 1删除成功
         String script = "if redis.call('get',KEYS[1]) == ARGV[1] then return redis.call('del',KEYS[1]) else return 0 end";
-        String orderToken = vo.getOrderToken();
 
         // 原子验证令牌 删除令牌
-        Long result = stringRedisTemplate.execute(new DefaultRedisScript<>(script, Long.class), Arrays.asList(OrderConstant.USER_ORDER_TOKEN_PREFIX + memberRsepVo.getId()), orderToken);
+        Long result = stringRedisTemplate.execute(new DefaultRedisScript<>(script, Long.class),
+            Collections.singletonList(OrderConstant.USER_ORDER_TOKEN_PREFIX + memberRsepVo.getId()), orderToken);
         if (result == 0L) {
             // 令牌验证失败
-            submitVo.setCode(1);
+            responseVo.setCode(1);
         } else {
             // 令牌验证成功
             // 1 .创建订单等信息
             OrderCreateTo order = createOrder();
             // 2. 验价
             BigDecimal payAmount = order.getOrder().getPayAmount();
-            BigDecimal voPayPrice = vo.getPayPrice();
+            BigDecimal voPayPrice = orderSubmitVo.getPayPrice();
             if (Math.abs(payAmount.subtract(voPayPrice).doubleValue()) < 0.01) {
                 // 金额对比成功
                 // 3.保存订单
@@ -199,7 +200,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
                 R r = wareFeign.orderLockStock(lockVo);
                 if (r.getCode() == 0) {
                     // 库存足够 锁定成功 给MQ发送消息
-                    submitVo.setOrderEntity(order.getOrder());
+                    responseVo.setOrderEntity(order.getOrder());
                     rabbitTemplate.convertAndSend(this.eventExchange, this.createOrder, order.getOrder());
 //					int i = 10/0;
                 } else {
@@ -209,10 +210,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
                 }
             } else {
                 // 价格验证失败
-                submitVo.setCode(2);
+                responseVo.setCode(2);
             }
         }
-        return submitVo;
+        return responseVo;
     }
 
     @Override
@@ -327,7 +328,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         itemEntity.setRealAmount(price);
         itemEntity.setOrderId(entity.getId());
         itemEntity.setSkuQuantity(secKillOrderTo.getNum());
-        R info = productFeign.getSkuInfoBySkuId(secKillOrderTo.getSkuId());
+        R info = productFeign.getSpuInfoBySkuId(secKillOrderTo.getSkuId());
         SpuInfoVo spuInfo = info.getData(new TypeReference<SpuInfoVo>() {
         });
         itemEntity.setSpuId(spuInfo.getId());
@@ -444,7 +445,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
         // 2.商品spu信息
         Long skuId = cartItem.getSkuId();
-        R r = productFeign.getSkuInfoBySkuId(skuId);
+        R r = productFeign.getSpuInfoBySkuId(skuId);
         SpuInfoVo spuInfo = r.getData(new TypeReference<SpuInfoVo>() {
         });
         itemEntity.setSpuId(spuInfo.getId());

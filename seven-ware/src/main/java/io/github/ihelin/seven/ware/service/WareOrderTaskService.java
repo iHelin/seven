@@ -9,12 +9,13 @@ import java.util.Map;
 /**
  * ¿â´æ¹¤×÷µ¥
  *
- * @author iHelin
- * @email ihelin@outlook.com
+ * @author iHelin ihelin@outlook.com
  * @date 2021-01-05 14:18:39
  */
 public interface WareOrderTaskService extends IService<WareOrderTaskEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    WareOrderTaskEntity getOrderTaskByOrderSn(String orderSn);
 }
 

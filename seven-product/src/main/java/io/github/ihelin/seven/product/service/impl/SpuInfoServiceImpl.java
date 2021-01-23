@@ -73,8 +73,8 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SpuInfoEntity> page = this.page(
-                new Query<SpuInfoEntity>().getPage(params),
-                new QueryWrapper<SpuInfoEntity>()
+            new Query<SpuInfoEntity>().getPage(params),
+            new QueryWrapper<SpuInfoEntity>()
         );
 
         return new PageUtils(page);
@@ -161,7 +161,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 BeanUtils.copyProperties(item, skuReductionDTO);
                 skuReductionDTO.setSkuId(skuId);
                 if (skuReductionDTO.getFullCount() > 0
-                        || skuReductionDTO.getFullPrice().compareTo(BigDecimal.ZERO) > 0) {
+                    || skuReductionDTO.getFullPrice().compareTo(BigDecimal.ZERO) > 0) {
                     R subR = couponFeign.saveReduction(skuReductionDTO);
                     if (!subR.success()) {
                         logger.error("远程保存sku优惠信息失败");
@@ -216,12 +216,12 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         Set<Long> searchAttrIds = attrService.selectSearchAttrIds(attrIds);
 
         List<SkuEsModel.Attrs> attrsList = productAttrValueEntities.stream()
-                .filter(item -> searchAttrIds.contains(item.getAttrId()))
-                .map(item -> {
-                    SkuEsModel.Attrs attrs = new SkuEsModel.Attrs();
-                    BeanUtils.copyProperties(item, attrs);
-                    return attrs;
-                }).collect(Collectors.toList());
+            .filter(item -> searchAttrIds.contains(item.getAttrId()))
+            .map(item -> {
+                SkuEsModel.Attrs attrs = new SkuEsModel.Attrs();
+                BeanUtils.copyProperties(item, attrs);
+                return attrs;
+            }).collect(Collectors.toList());
 
         Map<Long, Boolean> stockMap = null;
         try {
@@ -229,7 +229,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             List<SkuHasStockVo> skuHasStockVos = hasStocks.getData(new TypeReference<List<SkuHasStockVo>>() {
             });
             stockMap = skuHasStockVos.stream().collect(Collectors.toMap(SkuHasStockVo::getSkuId,
-                    SkuHasStockVo::getHasStock));
+                SkuHasStockVo::getHasStock));
         } catch (Exception e) {
             logger.error("查询库存服务出现异常", e);
         }
@@ -265,5 +265,11 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         } else {
 
         }
+    }
+
+    @Override
+    public SpuInfoEntity getSpuInfoBySkuId(Long skuId) {
+        SkuInfoEntity skuInfoEntity = skuInfoService.getById(skuId);
+        return getById(skuInfoEntity.getSpuId());
     }
 }

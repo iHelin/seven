@@ -11,8 +11,8 @@ import java.util.List;
 @FeignClient("seven-product")
 public interface ProductFeign {
 
-	@GetMapping("/product/spuinfo/skuId/{id}")
-	R getSkuInfoBySkuId(@PathVariable("id") Long skuId);
+	@GetMapping("/product/spuinfo/skuId/{skuId}")
+	R getSpuInfoBySkuId(@PathVariable("skuId") Long skuId);
 
 	@GetMapping("/cart/currentUserCartItems")
 	List<OrderItemVo> getCurrentUserCartItems();

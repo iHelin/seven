@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 /**
  * ¿â´æ¹¤×÷µ¥
- * 
+ *
  * @author iHelin
  * @email ihelin@outlook.com
  * @date 2021-01-05 14:18:39
@@ -16,67 +16,104 @@ import java.io.Serializable;
 
 @TableName("wms_ware_order_task_detail")
 public class WareOrderTaskDetailEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	private Long id;
-	/**
-	 * sku_id
-	 */
-	private Long skuId;
-	/**
-	 * sku_name
-	 */
-	private String skuName;
-	/**
-	 * ¹ºÂò¸öÊý
-	 */
-	private Integer skuNum;
-	/**
-	 * ¹¤×÷µ¥id
-	 */
-	private Long taskId;
+    /**
+     * id
+     */
+    @TableId
+    private Long id;
+    /**
+     * sku_id
+     */
+    private Long skuId;
+    /**
+     * sku_name
+     */
+    private String skuName;
+    /**
+     * 购买个数
+     */
+    private Integer skuNum;
+    /**
+     * 工作单id
+     */
+    private Long taskId;
+    /**
+     * 仓库id
+     */
+    private Long wareId;
+    /**
+     * 1-已锁定  2-已解锁  3-扣减
+     */
+    private Integer lockStatus;
 
-	public Long getId() {
-		return id;
-	}
+    public WareOrderTaskDetailEntity() {
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public WareOrderTaskDetailEntity(Long id, Long skuId, String skuName, Integer skuNum, Long taskId, Long wareId, Integer lockStatus) {
+        this.id = id;
+        this.skuId = skuId;
+        this.skuName = skuName;
+        this.skuNum = skuNum;
+        this.taskId = taskId;
+        this.wareId = wareId;
+        this.lockStatus = lockStatus;
+    }
 
-	public Long getSkuId() {
-		return skuId;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setSkuId(Long skuId) {
-		this.skuId = skuId;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getSkuName() {
-		return skuName;
-	}
+    public Long getSkuId() {
+        return skuId;
+    }
 
-	public void setSkuName(String skuName) {
-		this.skuName = skuName;
-	}
+    public void setSkuId(Long skuId) {
+        this.skuId = skuId;
+    }
 
-	public Integer getSkuNum() {
-		return skuNum;
-	}
+    public String getSkuName() {
+        return skuName;
+    }
 
-	public void setSkuNum(Integer skuNum) {
-		this.skuNum = skuNum;
-	}
+    public void setSkuName(String skuName) {
+        this.skuName = skuName;
+    }
 
-	public Long getTaskId() {
-		return taskId;
-	}
+    public Integer getSkuNum() {
+        return skuNum;
+    }
 
-	public void setTaskId(Long taskId) {
-		this.taskId = taskId;
-	}
+    public void setSkuNum(Integer skuNum) {
+        this.skuNum = skuNum;
+    }
+
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
+
+    public Long getWareId() {
+        return wareId;
+    }
+
+    public void setWareId(Long wareId) {
+        this.wareId = wareId;
+    }
+
+    public Integer getLockStatus() {
+        return lockStatus;
+    }
+
+    public void setLockStatus(Integer lockStatus) {
+        this.lockStatus = lockStatus;
+    }
 }

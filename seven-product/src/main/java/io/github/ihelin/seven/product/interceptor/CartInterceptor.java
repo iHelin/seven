@@ -32,8 +32,10 @@ public class CartInterceptor implements HandlerInterceptor {
             // 用户登录了
             String loginUserString = JsonUtils.toJSONString(loginUser);
             MemberRsepVo user = JsonUtils.parseObject(loginUserString, MemberRsepVo.class);
-            userInfoTo.setUsername(user.getUsername());
-            userInfoTo.setUserId(user.getId());
+            if (user != null) {
+                userInfoTo.setUsername(user.getUsername());
+                userInfoTo.setUserId(user.getId());
+            }
         }
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length > 0) {

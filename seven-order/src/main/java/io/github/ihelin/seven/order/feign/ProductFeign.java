@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @FeignClient("seven-product")
-public interface ProductFeignService {
+public interface ProductFeign {
 
 	@GetMapping("/product/spuinfo/skuId/{id}")
 	R getSkuInfoBySkuId(@PathVariable("id") Long skuId);
 
-	@GetMapping("/currentUserCartItems")
+	@GetMapping("/cart/currentUserCartItems")
 	List<OrderItemVo> getCurrentUserCartItems();
 }

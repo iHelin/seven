@@ -18,9 +18,9 @@ import io.github.ihelin.seven.order.dao.OrderDao;
 import io.github.ihelin.seven.order.entity.OrderEntity;
 import io.github.ihelin.seven.order.entity.OrderItemEntity;
 import io.github.ihelin.seven.order.entity.PaymentInfoEntity;
-import io.github.ihelin.seven.order.feign.MemberFeignService;
-import io.github.ihelin.seven.order.feign.ProductFeignService;
-import io.github.ihelin.seven.order.feign.WmsFeignService;
+import io.github.ihelin.seven.order.feign.MemberFeign;
+import io.github.ihelin.seven.order.feign.ProductFeign;
+import io.github.ihelin.seven.order.feign.WareFeign;
 import io.github.ihelin.seven.order.interceptor.LoginUserInterceptor;
 import io.github.ihelin.seven.order.service.OrderItemService;
 import io.github.ihelin.seven.order.service.OrderService;
@@ -60,14 +60,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    private MemberFeignService memberFeignService;
+
     @Autowired
     private ThreadPoolExecutor executor;
     @Autowired
-    private WmsFeignService wmsFeignService;
+    private MemberFeign memberFeign;
     @Autowired
-    private ProductFeignService productFeignService;
+    private WareFeign wareFeign;
+    @Autowired
+    private ProductFeign productFeign;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
     @Autowired
@@ -100,18 +101,17 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     @Override
     public OrderConfirmVo confirmOrder() throws ExecutionException, InterruptedException {
         MemberRsepVo memberRsepVo = LoginUserInterceptor.THREAD_LOCAL.get();
-        OrderConfirmVo confirmVo = new OrderConfirmVo();
+        OrderConfirmVo orderConfirmVo = new OrderConfirmVo();
 
-        // 这一步至关重要 从主线程获取用户数据 异步线程来共享
+        // 从主线程获取用户数据，异步线程来共享
         RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
-        CompletableFuture<Void> getAddressFuture = CompletableFuture.runAsync(() -> {
+        CompletableFuture<Void> addressFuture = CompletableFuture.runAsync(() -> {
             // 异步线程共享 RequestContextHolder.getRequestAttributes()
             RequestContextHolder.setRequestAttributes(attributes);
-            // 1.远程查询所有的收获地址列表
-            List<MemberAddressVo> address;
+            // 1.远程查询收获地址列表
             try {
-                address = memberFeignService.getAddress(memberRsepVo.getId());
-                confirmVo.setAddress(address);
+                List<MemberAddressVo> address = memberFeign.getAddress(memberRsepVo.getId());
+                orderConfirmVo.setAddress(address);
             } catch (Exception e) {
                 logger.warn("\n远程调用会员服务失败 [会员服务可能未启动]");
             }
@@ -120,35 +120,34 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         CompletableFuture<Void> cartFuture = CompletableFuture.runAsync(() -> {
             // 异步线程共享 RequestContextHolder.getRequestAttributes()
             RequestContextHolder.setRequestAttributes(attributes);
-            // 2. 远程查询购物车服务
-            // feign在远程调用之前要构造请求 调用很多拦截器
-            List<OrderItemVo> items = productFeignService.getCurrentUserCartItems();
-            confirmVo.setItems(items);
+            // 2. 远程查询购物车列表
+            List<OrderItemVo> items = productFeign.getCurrentUserCartItems();
+            orderConfirmVo.setItems(items);
         }, executor).thenRunAsync(() -> {
             RequestContextHolder.setRequestAttributes(attributes);
-            List<OrderItemVo> items = confirmVo.getItems();
+            List<OrderItemVo> items = orderConfirmVo.getItems();
             // 获取所有商品的id
-            List<Long> collect = items.stream().map(OrderItemVo::getSkuId).collect(Collectors.toList());
-            R hasStock = wmsFeignService.getSkuHasStock(collect);
-            List<SkuStockVo> data = hasStock.getData(new TypeReference<List<SkuStockVo>>() {
+            List<Long> skuIds = items.stream().map(OrderItemVo::getSkuId).collect(Collectors.toList());
+            R hasStock = wareFeign.getSkuHasStock(skuIds);
+            List<SkuStockVo> skuStockVos = hasStock.getData(new TypeReference<List<SkuStockVo>>() {
             });
-            if (data != null) {
+            if (skuStockVos != null) {
                 // 各个商品id 与 他们库存状态的映射
-                Map<Long, Boolean> stocks = data.stream().collect(Collectors.toMap(SkuStockVo::getSkuId, SkuStockVo::getHasStock));
-                confirmVo.setStocks(stocks);
+                Map<Long, Boolean> stocks = skuStockVos.stream().collect(Collectors.toMap(SkuStockVo::getSkuId, SkuStockVo::getHasStock));
+                orderConfirmVo.setStocks(stocks);
             }
         }, executor);
-        // 3.查询用户积分
+        // 3.获取用户积分
         Integer integration = memberRsepVo.getIntegration();
-        confirmVo.setIntegration(integration);
+        orderConfirmVo.setIntegration(integration);
 
         // 4.其他数据在类内部自动计算
         // 5.防重令牌
         String token = UUID.randomUUID().toString().replace("-", "");
-        confirmVo.setOrderToken(token);
+        orderConfirmVo.setOrderToken(token);
         stringRedisTemplate.opsForValue().set(OrderConstant.USER_ORDER_TOKEN_PREFIX + memberRsepVo.getId(), token, 10, TimeUnit.MINUTES);
-        CompletableFuture.allOf(getAddressFuture, cartFuture).get();
-        return confirmVo;
+        CompletableFuture.allOf(addressFuture, cartFuture).get();
+        return orderConfirmVo;
     }
 
     //	@GlobalTransactional
@@ -197,7 +196,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
                 lockVo.setLocks(locks);
                 // 远程锁库存
-                R r = wmsFeignService.orderLockStock(lockVo);
+                R r = wareFeign.orderLockStock(lockVo);
                 if (r.getCode() == 0) {
                     // 库存足够 锁定成功 给MQ发送消息
                     submitVo.setOrderEntity(order.getOrder());
@@ -252,13 +251,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         payVo.setTotal_amount(order.getTotalAmount().add(order.getFreightAmount() == null ? new BigDecimal("0") : order.getFreightAmount()).setScale(2, BigDecimal.ROUND_UP).toString());
         payVo.setOut_trade_no(order.getOrderSn());
         List<OrderItemEntity> entities = orderItemService.list(new QueryWrapper<OrderItemEntity>().eq("order_sn", order.getOrderSn()));
-        payVo.setSubject("glmall");
-        payVo.setBody("glmall");
+        payVo.setSubject("seven");
+        payVo.setBody("seven");
         if (null != entities.get(0).getSkuName() && entities.get(0).getSkuName().length() > 1) {
 //			payVo.setSubject(entities.get(0).getSkuName());
 //			payVo.setBody(entities.get(0).getSkuName());
-            payVo.setSubject("glmall");
-            payVo.setBody("glmall");
+            payVo.setSubject("seven");
+            payVo.setBody("seven");
         }
         return payVo;
     }
@@ -328,7 +327,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         itemEntity.setRealAmount(price);
         itemEntity.setOrderId(entity.getId());
         itemEntity.setSkuQuantity(secKillOrderTo.getNum());
-        R info = productFeignService.getSkuInfoBySkuId(secKillOrderTo.getSkuId());
+        R info = productFeign.getSkuInfoBySkuId(secKillOrderTo.getSkuId());
         SpuInfoVo spuInfo = info.getData(new TypeReference<SpuInfoVo>() {
         });
         itemEntity.setSpuId(spuInfo.getId());
@@ -424,7 +423,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
      */
     private List<OrderItemEntity> buildOrderItems(String orderSn) {
         // 这里是最后一次来确认购物项的价格 这个远程方法还会查询一次数据库
-        List<OrderItemVo> cartItems = productFeignService.getCurrentUserCartItems();
+        List<OrderItemVo> cartItems = productFeign.getCurrentUserCartItems();
         List<OrderItemEntity> itemEntities = null;
         if (cartItems != null && cartItems.size() > 0) {
             itemEntities = cartItems.stream().map(cartItem -> {
@@ -445,7 +444,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
         // 2.商品spu信息
         Long skuId = cartItem.getSkuId();
-        R r = productFeignService.getSkuInfoBySkuId(skuId);
+        R r = productFeign.getSkuInfoBySkuId(skuId);
         SpuInfoVo spuInfo = r.getData(new TypeReference<SpuInfoVo>() {
         });
         itemEntity.setSpuId(spuInfo.getId());
@@ -492,7 +491,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         entity.setBillReceiverEmail(rsepVo.getEmail());
         // 2. 获取收获地址信息
         OrderSubmitVo submitVo = confirmVoThreadLocal.get();
-        R fare = wmsFeignService.getFare(submitVo.getAddrId());
+        R fare = wareFeign.getFare(submitVo.getAddrId());
         FareVo resp = fare.getData(new TypeReference<FareVo>() {
         });
         entity.setFreightAmount(resp.getFare());

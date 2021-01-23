@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @FeignClient("seven-ware")
-public interface WmsFeignService {
+public interface WareFeign {
 
-	@PostMapping("/ware/waresku/hasStock")
-	R getSkuHasStock(@RequestBody List<Long> SkuIds);
+	@PostMapping("/ware/waresku/hasstock")
+	R getSkuHasStock(@RequestBody List<Long> skuIds);
 
 	@GetMapping("/ware/wareinfo/fare")
 	R getFare(@RequestParam("addrId") Long addrId);

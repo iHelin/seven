@@ -52,8 +52,7 @@ public class MemberReceiveAddressController {
     //@RequiresPermissions("member:memberreceiveaddress:info")
     public R info(@PathVariable("id") Long id){
 		MemberReceiveAddressEntity memberReceiveAddress = memberReceiveAddressService.getById(id);
-
-        return R.ok().put("memberReceiveAddress", memberReceiveAddress);
+        return R.ok().put("data", memberReceiveAddress);
     }
 
     /**

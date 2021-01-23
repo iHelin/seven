@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @FeignClient("seven-member")
-public interface MemberFeignService {
+public interface MemberFeign {
 
 	@GetMapping("/member/memberreceiveaddress/{memberId}/addresses")
 	List<MemberAddressVo> getAddress(@PathVariable("memberId") Long memberId);

@@ -4,6 +4,7 @@ import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.R;
 import io.github.ihelin.seven.ware.entity.WareInfoEntity;
 import io.github.ihelin.seven.ware.service.WareInfoService;
+import io.github.ihelin.seven.ware.vo.FareVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,12 @@ public class WareInfoController {
 
     @Autowired
     private WareInfoService wareInfoService;
+
+    @GetMapping("/fare")
+    public R getFare(@RequestParam("addrId") Long addrId){
+        FareVo fare = wareInfoService.getFare(addrId);
+        return R.ok().putData(fare);
+    }
 
     /**
      * 列表

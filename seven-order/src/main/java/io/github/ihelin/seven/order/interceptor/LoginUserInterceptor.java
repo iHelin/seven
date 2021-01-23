@@ -1,6 +1,7 @@
 package io.github.ihelin.seven.order.interceptor;
 
 import io.github.ihelin.seven.common.dto.MemberRsepVo;
+import io.github.ihelin.seven.common.utils.JsonUtils;
 import io.github.ihelin.seven.common.utils.MemberServerConstant;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -22,14 +23,16 @@ public class LoginUserInterceptor implements HandlerInterceptor {
             return true;
         }
         HttpSession session = request.getSession();
-        MemberRsepVo memberRsepVo = (MemberRsepVo) session.getAttribute(MemberServerConstant.LOGIN_USER);
-        if (memberRsepVo != null) {
+        Object loginUser = session.getAttribute(MemberServerConstant.LOGIN_USER);
+        if (loginUser != null) {
+            String loginUserString = JsonUtils.toJSONString(loginUser);
+            MemberRsepVo memberRsepVo = JsonUtils.parseObject(loginUserString, MemberRsepVo.class);
             THREAD_LOCAL.set(memberRsepVo);
             return true;
         } else {
-            // 没登陆就去登录
+            // 没登录就去登录
             session.setAttribute("msg", MemberServerConstant.NOT_LOGIN);
-            response.sendRedirect("http://auth.glmall.com/login.html");
+            response.sendRedirect("http://auth.seven.com/login.html");
             return false;
         }
     }

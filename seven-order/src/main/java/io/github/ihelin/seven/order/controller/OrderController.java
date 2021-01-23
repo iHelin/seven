@@ -3,13 +3,13 @@ package io.github.ihelin.seven.order.controller;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.R;
 import io.github.ihelin.seven.order.entity.OrderEntity;
+import io.github.ihelin.seven.order.feign.WareFeign;
 import io.github.ihelin.seven.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Map;
-
 
 
 /**
@@ -24,14 +24,26 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private WareFeign wareFeign;
+
+    /**
+     * 查询运费
+     *
+     * @param addrId 地址id
+     * @return
+     */
+    @GetMapping("/fare")
+    public R getFare(Long addrId) {
+        return wareFeign.getFare(addrId);
+    }
 
     /**
      * 列表
      */
     @GetMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = orderService.queryPage(params);
-
         return R.ok().put("data", page);
     }
 
@@ -40,8 +52,8 @@ public class OrderController {
      * 信息
      */
     @GetMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id){
-		OrderEntity order = orderService.getById(id);
+    public R info(@PathVariable("id") Long id) {
+        OrderEntity order = orderService.getById(id);
 
         return R.ok().put("data", order);
     }
@@ -50,8 +62,8 @@ public class OrderController {
      * 新增
      */
     @PostMapping("/save")
-    public R save(@RequestBody OrderEntity order){
-		orderService.save(order);
+    public R save(@RequestBody OrderEntity order) {
+        orderService.save(order);
         return R.ok();
     }
 
@@ -59,8 +71,8 @@ public class OrderController {
      * 修改
      */
     @PutMapping("/update")
-    public R update(@RequestBody OrderEntity order){
-		orderService.updateById(order);
+    public R update(@RequestBody OrderEntity order) {
+        orderService.updateById(order);
         return R.ok();
     }
 
@@ -68,8 +80,8 @@ public class OrderController {
      * 删除
      */
     @DeleteMapping("/delete")
-    public R delete(@RequestBody Long[] ids){
-		orderService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestBody Long[] ids) {
+        orderService.removeByIds(Arrays.asList(ids));
         return R.ok();
     }
 

@@ -32,7 +32,6 @@ public class OrderWebController {
 	 */
 	@PostMapping("/submitOrder")
 	public String submitOrder(OrderSubmitVo submitVo, Model model, RedirectAttributes redirectAttributes){
-
 		try {
 			SubmitOrderResponseVo responseVo = orderService.submitOrder(submitVo);
 			// 下单失败回到订单重新确认订单信息
@@ -48,14 +47,14 @@ public class OrderWebController {
 					case 3: msg += "商品库存不足";break;
 				}
 				redirectAttributes.addFlashAttribute("msg", msg);
-				return "redirect:http://order.glmall.com/toTrade";
+				return "redirect:http://order.seven.com/toTrade";
 			}
 		} catch (Exception e) {
 			if (e instanceof NotStockException){
 				String message = e.getMessage();
 				redirectAttributes.addFlashAttribute("msg", message);
 			}
-			return "redirect:http://order.glmall.com/toTrade";
+			return "redirect:http://order.seven.com/toTrade";
 		}
 	}
 }

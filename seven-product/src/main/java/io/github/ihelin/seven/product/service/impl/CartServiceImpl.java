@@ -49,10 +49,11 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartItem addToCart(Long skuId, Integer num) throws ExecutionException, InterruptedException {
-        BoundHashOperations<String, Object, Object> cartOperation = getCartOps();
-        String res = (String) cartOperation.get(skuId.toString());
+        BoundHashOperations<String, Long, String> cartOperation = getCartOps();
+        String res = cartOperation.get(skuId);
         CartItem cartItem;
         if (StringUtils.isEmpty(res)) {
+            //如果购物车没有当前商品，就添加
             cartItem = new CartItem();
             // 异步编排
             CompletableFuture<Void> getSkuInfo = CompletableFuture.runAsync(() -> {
@@ -75,17 +76,21 @@ public class CartServiceImpl implements CartService {
 
             CompletableFuture.allOf(getSkuInfo, getSkuSaleAttrValues).get();
         } else {
+            //如果购物车有当前商品，就修改数量
             cartItem = JsonUtils.parseObject(res, CartItem.class);
-            cartItem.setCount(cartItem.getCount() + num);
+            if (cartItem != null) {
+                cartItem.setCount(cartItem.getCount() + num);
+                cartItem.setCheck(true);
+            }
         }
-        cartOperation.put(skuId.toString(), JsonUtils.toJSONString(cartItem));
+        cartOperation.put(skuId, JsonUtils.toJSONString(cartItem));
         return cartItem;
     }
 
     @Override
     public CartItem getCartItem(Long skuId) {
-        BoundHashOperations<String, Object, Object> cartOps = getCartOps();
-        String o = (String) cartOps.get(skuId.toString());
+        BoundHashOperations<String, Long, String> cartOps = getCartOps();
+        String o = cartOps.get(skuId);
         return JsonUtils.parseObject(o, CartItem.class);
     }
 
@@ -129,22 +134,22 @@ public class CartServiceImpl implements CartService {
         // 获取要选中的购物项
         CartItem cartItem = getCartItem(skuId);
         cartItem.setCheck(check == 1);
-        BoundHashOperations<String, Object, Object> cartOps = getCartOps();
-        cartOps.put(skuId.toString(), JsonUtils.toJSONString(cartItem));
+        BoundHashOperations<String, Long, String> cartOps = getCartOps();
+        cartOps.put(skuId, JsonUtils.toJSONString(cartItem));
     }
 
     @Override
     public void changeItemCount(Long skuId, Integer num) {
         CartItem cartItem = getCartItem(skuId);
         cartItem.setCount(num);
-        BoundHashOperations<String, Object, Object> cartOps = getCartOps();
-        cartOps.put(skuId.toString(), JsonUtils.toJSONString(cartItem));
+        BoundHashOperations<String, Long, String> cartOps = getCartOps();
+        cartOps.put(skuId, JsonUtils.toJSONString(cartItem));
     }
 
     @Override
     public void deleteItem(Long skuId) {
-        BoundHashOperations<String, Object, Object> cartOps = getCartOps();
-        cartOps.delete(skuId.toString());
+        BoundHashOperations<String, Long, String> cartOps = getCartOps();
+        cartOps.delete(skuId);
     }
 
     @Override
@@ -175,18 +180,19 @@ public class CartServiceImpl implements CartService {
      * 获取购物车所有项
      */
     private List<CartItem> getCartItems(String cartKey) {
-        BoundHashOperations<String, Object, Object> hashOps = stringRedisTemplate.boundHashOps(cartKey);
-        List<Object> values = hashOps.values();
+        BoundHashOperations<String, Long, String> hashOps = stringRedisTemplate.boundHashOps(cartKey);
+        List<String> values = hashOps.values();
+        List<CartItem> results = new ArrayList<>();
         if (values != null && values.size() > 0) {
-            return values.stream().map(obj -> JsonUtils.parseObject((String) obj, CartItem.class)).collect(Collectors.toList());
+            results = values.stream().map(obj -> JsonUtils.parseObject(obj, CartItem.class)).collect(Collectors.toList());
         }
-        return new ArrayList<>();
+        return results;
     }
 
     /**
      * 获取到我们要操作的购物车 [已经包含用户前缀 只需要带上用户id 或者临时id 就能对购物车进行操作]
      */
-    private BoundHashOperations<String, Object, Object> getCartOps() {
+    private BoundHashOperations<String, Long, String> getCartOps() {
         UserInfoTo userInfoTo = CartInterceptor.THREAD_LOCAL.get();
         // 1. 这里我们需要知道操作的是离线购物车还是在线购物车
         String cartKey = CART_PREFIX;

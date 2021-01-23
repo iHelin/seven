@@ -21,11 +21,11 @@ public class AlipayTemplate {
     private  String alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkw7OmxubpJqkqhsdu3yPRVRnDJTjs1Cfl2lox10kv8sKkQwYwtojJQ45RgoSnn1vo/rda/F73pLoANYgE+RpNx8kghatwYDsqQm3S4B84aMR+7GMN9qMm6dXXxoKGn5aY+9NPjkCDO9YeZ4HPn1Yqndj7Y//YfHVSmQQPQKvuWRGGr1bVYUW/IpKBOGr77oSgea0sm42GxPoLypuTiVfq/7AcjmZ3wbTYF2NMwebFXUJmwR5EjdBQa/CnVDKDwpB4doqlP/HpXaepadHYWJZEPokt+nZyiW5l9HrsHU/67A/BSpC/MX/nrtonjnK+j0w/ywvUIIPbzDUpwuTClnNGQIDAQAB";
 	// 服务器[异步通知]页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
     // 支付宝会悄悄的给我们发送一个请求，告诉我们支付成功的信息
-    private  String notify_url = "http://member.glmall.com/memberOrder.html";
+    private  String notify_url = "http://member.seven.com/memberOrder.html";
 
     // 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
     //同步通知，支付成功，一般跳转到成功页
-    private  String return_url = "http://member.glmall.com/memberOrder.html";
+    private  String return_url = "http://member.seven.com/memberOrder.html";
 
     // 签名方式
     private  String sign_type = "RSA2";

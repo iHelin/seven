@@ -19,10 +19,10 @@ public class HelloController {
 
     /**
      * 用于测试各个页面是否能正常访问
-     * http://order.glmall.com/confirm.html
-     * http://order.glmall.com/detai.html
-     * http://order.glmall.com/list.html
-     * http://order.glmall.com/pay.html
+     * http://order.seven.com/confirm.html
+     * http://order.seven.com/detai.html
+     * http://order.seven.com/list.html
+     * http://order.seven.com/pay.html
      */
     @GetMapping("/{page}.html")
     public String listPage(@PathVariable("page") String page) {

@@ -68,6 +68,10 @@ public class CartInterceptor implements HandlerInterceptor {
             cookie.setMaxAge(CartConstant.TEMP_USER_COOKIE_TIME_OUT);
             response.addCookie(cookie);
         }
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         THREAD_LOCAL.remove();
     }
 }

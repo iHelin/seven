@@ -18,6 +18,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -157,23 +158,17 @@ public class CartServiceImpl implements CartService {
     @Override
     public List<CartItem> getUserCartItems() {
         UserInfoTo userInfoTo = CartInterceptor.THREAD_LOCAL.get();
-        if (userInfoTo.getUserId() == null) {
-            return null;
-        } else {
+        List<CartItem> result = new ArrayList<>();
+        if (userInfoTo.getUserId() != null) {
             String cartKey = CART_PREFIX + userInfoTo.getUserId();
             List<CartItem> cartItems = getCartItems(cartKey);
             // 获取所有被选中的购物项
-            List<CartItem> collect = cartItems.stream().filter(item -> item.getCheck()).map(item -> {
-                try {
-                    SkuInfoEntity skuInfoEntity = skuInfoService.getById(item.getSkuId());
-                    item.setPrice(skuInfoEntity.getPrice());
-                } catch (Exception e) {
-                    logger.warn("远程查询商品价格出错 [商品服务未启动]");
-                }
-                return item;
+            result = cartItems.stream().filter(CartItem::getCheck).peek(item -> {
+                SkuInfoEntity skuInfoEntity = skuInfoService.getById(item.getSkuId());
+                item.setPrice(skuInfoEntity.getPrice());
             }).collect(Collectors.toList());
-            return collect;
         }
+        return result;
     }
 
     /**
@@ -185,7 +180,7 @@ public class CartServiceImpl implements CartService {
         if (values != null && values.size() > 0) {
             return values.stream().map(obj -> JsonUtils.parseObject((String) obj, CartItem.class)).collect(Collectors.toList());
         }
-        return null;
+        return new ArrayList<>();
     }
 
     /**

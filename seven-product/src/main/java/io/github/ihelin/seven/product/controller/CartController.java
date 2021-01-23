@@ -32,6 +32,11 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
+    /**
+     * 获取当前用户购物车信息
+     *
+     * @return
+     */
     @ResponseBody
     @GetMapping("/currentUserCartItems")
     public List<CartItem> getCurrentUserCartItems() {

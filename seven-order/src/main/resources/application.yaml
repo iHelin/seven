@@ -17,8 +17,21 @@ spring:
     time-zone: GMT+8
   redis:
     host: 121.4.87.152
+  thymeleaf:
+    cache: false
   session:
     store-type: redis
+  rabbitmq:
+    host: 121.4.87.152
+    port: 5672
+    virtual-host: /
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    template:
+      mandatory: true
+    listener:
+      simple:
+        acknowledge-mode: manual
 mybatis-plus:
   global-config:
     db-config:
@@ -28,3 +41,32 @@ mybatis-plus:
 logging:
   level:
     io.github.ihelin.seven: debug
+seven:
+  thread:
+    core-size: 20
+    max-size: 200
+    keep-alive-time: 10
+
+myRabbitmq:
+  queue: mall-queue
+  exchange: mall-exchange
+  routeKey: mall
+  MQConfig:
+    # 订单队列
+    queues: order.release.order.queue
+    delayQueue: order.delay.queue
+    eventExchange: order-event-exchange
+    routingKey: order.release.order
+    createOrder: order.create.order
+    # 订单自动过期时间 单位:(毫秒)
+    ttl: 900000
+    # 库存解锁队列
+    ReleaseOther: stock.release.stock.queue
+    ReleaseOtherKey: order.release.other
+
+alipay:
+  app_id: 2016102100732649
+  # 支付宝异步回调通知 这个来感应订单是否完成
+  notify_url: http://sthwsr.natappfree.cc/payed/notify
+  return_url: http://member.glmall.com/memberOrder.html
+  timeout: 15m

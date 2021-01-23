@@ -60,7 +60,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-
     @Autowired
     private ThreadPoolExecutor executor;
     @Autowired
@@ -86,8 +85,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     @Value("${myRabbitmq.MQConfig.ReleaseOtherKey}")
     private String ReleaseOtherKey;
-
-    private ThreadLocal<OrderSubmitVo> confirmVoThreadLocal = new ThreadLocal<>();
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -151,21 +148,18 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     }
 
     //	@GlobalTransactional
-    @Transactional
     @Override
+    @Transactional
     public SubmitOrderResponseVo submitOrder(OrderSubmitVo orderSubmitVo) {
-        // 当条线程共享这个对象
-        confirmVoThreadLocal.set(orderSubmitVo);
+        Long addrId = orderSubmitVo.getAddrId();
         SubmitOrderResponseVo responseVo = new SubmitOrderResponseVo();
         // 0：正常
         responseVo.setCode(0);
         // 去服务器创建订单,验令牌,验价格,所库存
         MemberRsepVo memberRsepVo = LoginUserInterceptor.THREAD_LOCAL.get();
         String orderToken = orderSubmitVo.getOrderToken();
-        // 1. 验证令牌 [必须保证原子性] 返回 0 or 1
-        // 0 令牌删除失败 1删除成功
+        // 1. 验证令牌 [必须保证原子性] 返回 0 or 1,0 令牌删除失败 1删除成功
         String script = "if redis.call('get',KEYS[1]) == ARGV[1] then return redis.call('del',KEYS[1]) else return 0 end";
-
         // 原子验证令牌 删除令牌
         Long result = stringRedisTemplate.execute(new DefaultRedisScript<>(script, Long.class),
             Collections.singletonList(OrderConstant.USER_ORDER_TOKEN_PREFIX + memberRsepVo.getId()), orderToken);
@@ -175,7 +169,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         } else {
             // 令牌验证成功
             // 1 .创建订单等信息
-            OrderCreateTo order = createOrder();
+            OrderCreateTo order = createOrder(addrId);
             // 2. 验价
             BigDecimal payAmount = order.getOrder().getPayAmount();
             BigDecimal voPayPrice = orderSubmitVo.getPayPrice();
@@ -352,11 +346,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         this.save(orderEntity);
 
         List<OrderItemEntity> orderItems = order.getOrderItems();
-        orderItems = orderItems.stream().map(item -> {
+        orderItems = orderItems.stream().peek(item -> {
             item.setOrderId(orderEntity.getId());
             item.setSpuName(item.getSpuName());
             item.setOrderSn(order.getOrder().getOrderSn());
-            return item;
         }).collect(Collectors.toList());
         orderItemService.saveBatch(orderItems);
     }
@@ -364,16 +357,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     /**
      * 创建订单
      */
-    private OrderCreateTo createOrder() {
-
+    private OrderCreateTo createOrder(Long addrId) {
         OrderCreateTo orderCreateTo = new OrderCreateTo();
-        // 1. 生成一个订单号
+        // 1. 生成订单号
         String orderSn = IdWorker.getTimeId();
-        OrderEntity orderEntity = buildOrderSn(orderSn);
-
+        OrderEntity orderEntity = buildOrderSn(orderSn, addrId);
         // 2. 获取所有订单项
         List<OrderItemEntity> items = buildOrderItems(orderSn);
-
         // 3.验价	传入订单 、订单项 计算价格、积分、成长值等相关信息
         computerPrice(orderEntity, items);
         orderCreateTo.setOrder(orderEntity);
@@ -477,33 +467,32 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     }
 
     /**
-     * 构建一个订单
+     * 构建 OrderEntity
      */
-    private OrderEntity buildOrderSn(String orderSn) {
+    private OrderEntity buildOrderSn(String orderSn, Long addrId) {
         OrderEntity entity = new OrderEntity();
         entity.setOrderSn(orderSn);
         entity.setCreateTime(new Date());
         entity.setCommentTime(new Date());
         entity.setReceiveTime(new Date());
         entity.setDeliveryTime(new Date());
-        MemberRsepVo rsepVo = LoginUserInterceptor.THREAD_LOCAL.get();
-        entity.setMemberId(rsepVo.getId());
-        entity.setMemberUsername(rsepVo.getUsername());
-        entity.setBillReceiverEmail(rsepVo.getEmail());
+        MemberRsepVo memberRsepVo = LoginUserInterceptor.THREAD_LOCAL.get();
+        entity.setMemberId(memberRsepVo.getId());
+        entity.setMemberUsername(memberRsepVo.getUsername());
+        entity.setBillReceiverEmail(memberRsepVo.getEmail());
         // 2. 获取收获地址信息
-        OrderSubmitVo submitVo = confirmVoThreadLocal.get();
-        R fare = wareFeign.getFare(submitVo.getAddrId());
-        FareVo resp = fare.getData(new TypeReference<FareVo>() {
+        R r = wareFeign.getFare(addrId);
+        FareVo fareVo = r.getData(new TypeReference<FareVo>() {
         });
-        entity.setFreightAmount(resp.getFare());
-        entity.setReceiverCity(resp.getMemberAddressVo().getCity());
-        entity.setReceiverDetailAddress(resp.getMemberAddressVo().getDetailAddress());
+        entity.setFreightAmount(fareVo.getFare());
+        entity.setReceiverCity(fareVo.getMemberAddressVo().getCity());
+        entity.setReceiverDetailAddress(fareVo.getMemberAddressVo().getDetailAddress());
         entity.setDeleteStatus(OrderStatusEnum.CREATE_NEW.getCode());
-        entity.setReceiverPhone(resp.getMemberAddressVo().getPhone());
-        entity.setReceiverName(resp.getMemberAddressVo().getName());
-        entity.setReceiverPostCode(resp.getMemberAddressVo().getPostCode());
-        entity.setReceiverProvince(resp.getMemberAddressVo().getProvince());
-        entity.setReceiverRegion(resp.getMemberAddressVo().getRegion());
+        entity.setReceiverPhone(fareVo.getMemberAddressVo().getPhone());
+        entity.setReceiverName(fareVo.getMemberAddressVo().getName());
+        entity.setReceiverPostCode(fareVo.getMemberAddressVo().getPostCode());
+        entity.setReceiverProvince(fareVo.getMemberAddressVo().getProvince());
+        entity.setReceiverRegion(fareVo.getMemberAddressVo().getRegion());
         // 设置订单状态
         entity.setStatus(OrderStatusEnum.CREATE_NEW.getCode());
         entity.setAutoConfirmDay(7);

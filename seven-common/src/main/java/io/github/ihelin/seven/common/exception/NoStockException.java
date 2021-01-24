@@ -5,11 +5,11 @@ package io.github.ihelin.seven.common.exception;
  * Description：
  * date：2020/7/2 11:43
  */
-public class NotStockException extends RuntimeException{
+public class NoStockException extends RuntimeException{
 
 	private Long skuId;
 
-	public NotStockException(String msg) {
+	public NoStockException(String msg) {
 		super(msg + "号商品没有足够的库存了");
 	}
 

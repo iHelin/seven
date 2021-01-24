@@ -2,7 +2,7 @@ package io.github.ihelin.seven.ware.controller;
 
 import io.github.ihelin.seven.common.dto.SkuHasStockVo;
 import io.github.ihelin.seven.common.exception.BizCodeEnum;
-import io.github.ihelin.seven.common.exception.NotStockException;
+import io.github.ihelin.seven.common.exception.NoStockException;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.R;
 import io.github.ihelin.seven.ware.entity.WareSkuEntity;
@@ -38,10 +38,10 @@ public class WareSkuController {
         try {
             wareSkuService.orderLockStock(vo);
             return R.ok();
-        } catch (NotStockException e) {
+        } catch (NoStockException e) {
             logger.error("orderLockStock error", e);
+            return R.error(BizCodeEnum.NOT_STOCK_EXCEPTION.getCode(), BizCodeEnum.NOT_STOCK_EXCEPTION.getMsg());
         }
-        return R.error(BizCodeEnum.NOT_STOCK_EXCEPTION.getCode(), BizCodeEnum.NOT_STOCK_EXCEPTION.getMsg());
     }
 
     @PostMapping("/hasstock")

@@ -9,7 +9,7 @@ import io.github.ihelin.seven.common.dto.MemberRsepVo;
 import io.github.ihelin.seven.common.dto.mq.OrderTo;
 import io.github.ihelin.seven.common.dto.mq.SecKillOrderTo;
 import io.github.ihelin.seven.common.enums.OrderStatusEnum;
-import io.github.ihelin.seven.common.exception.NotStockException;
+import io.github.ihelin.seven.common.exception.NoStockException;
 import io.github.ihelin.seven.common.utils.OrderConstant;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.Query;
@@ -180,7 +180,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
                 // 4.库存锁定
                 WareSkuLockVo lockVo = new WareSkuLockVo();
                 lockVo.setOrderSn(order.getOrder().getOrderSn());
-                List<OrderItemVo> locks = order.getOrderItems().stream().map(item -> {
+                List<OrderItemVo> orderItemVos = order.getOrderItems().stream().map(item -> {
                     OrderItemVo itemVo = new OrderItemVo();
                     // 锁定的skuId 这个skuId要锁定的数量
                     itemVo.setSkuId(item.getSkuId());
@@ -189,18 +189,18 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
                     return itemVo;
                 }).collect(Collectors.toList());
 
-                lockVo.setLocks(locks);
-                // 远程锁库存
+                lockVo.setLocks(orderItemVos);
+//                 远程锁库存
                 R r = wareFeign.orderLockStock(lockVo);
                 if (r.getCode() == 0) {
                     // 库存足够 锁定成功 给MQ发送消息
                     responseVo.setOrderEntity(order.getOrder());
                     rabbitTemplate.convertAndSend(this.eventExchange, this.createOrder, order.getOrder());
-//					int i = 10/0;
                 } else {
                     // 锁定失败
+                    responseVo.setCode(3);
                     String msg = (String) r.get("msg");
-                    throw new NotStockException(msg);
+                    throw new NoStockException(msg);
                 }
             } else {
                 // 价格验证失败
@@ -362,24 +362,24 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         // 1. 生成订单号
         String orderSn = IdWorker.getTimeId();
         OrderEntity orderEntity = buildOrderSn(orderSn, addrId);
-        // 2. 获取所有订单项
-        List<OrderItemEntity> items = buildOrderItems(orderSn);
-        // 3.验价	传入订单 、订单项 计算价格、积分、成长值等相关信息
-        computerPrice(orderEntity, items);
+        // 2. 创建所有订单项
+        List<OrderItemEntity> orderItemEntities = buildOrderItems(orderSn);
+        // 3.验价 传入订单 、订单项 计算价格、积分、成长值等相关信息
+        computerPrice(orderEntity, orderItemEntities);
         orderCreateTo.setOrder(orderEntity);
-        orderCreateTo.setOrderItems(items);
+        orderCreateTo.setOrderItems(orderItemEntities);
         return orderCreateTo;
     }
 
-    private void computerPrice(OrderEntity orderEntity, List<OrderItemEntity> items) {
-        BigDecimal totalPrice = new BigDecimal("0.0");
+    private void computerPrice(OrderEntity orderEntity, List<OrderItemEntity> orderItemEntities) {
+        BigDecimal totalPrice = BigDecimal.ZERO;
         // 叠加每一个订单项的金额
-        BigDecimal coupon = new BigDecimal("0.0");
-        BigDecimal integration = new BigDecimal("0.0");
-        BigDecimal promotion = new BigDecimal("0.0");
-        BigDecimal gift = new BigDecimal("0.0");
-        BigDecimal growth = new BigDecimal("0.0");
-        for (OrderItemEntity item : items) {
+        BigDecimal coupon = BigDecimal.ZERO;
+        BigDecimal integration = BigDecimal.ZERO;
+        BigDecimal promotion = BigDecimal.ZERO;
+        BigDecimal gift = BigDecimal.ZERO;
+        BigDecimal growth = BigDecimal.ZERO;
+        for (OrderItemEntity item : orderItemEntities) {
             // 优惠券的金额
             coupon = coupon.add(item.getCouponAmount());
             // 积分优惠的金额
@@ -388,23 +388,20 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
             promotion = promotion.add(item.getPromotionAmount());
             BigDecimal realAmount = item.getRealAmount();
             totalPrice = totalPrice.add(realAmount);
-
             // 购物获取的积分、成长值
-            gift.add(new BigDecimal(item.getGiftIntegration().toString()));
-            growth.add(new BigDecimal(item.getGiftGrowth().toString()));
+            gift = gift.add(BigDecimal.valueOf(item.getGiftIntegration()));
+            growth = growth.add(BigDecimal.valueOf(item.getGiftGrowth()));
         }
-        // 1.订单价格相关 总额、应付总额
+        // 订单价格相关 总额、应付总额
         orderEntity.setTotalAmount(totalPrice);
         orderEntity.setPayAmount(totalPrice.add(orderEntity.getFreightAmount()));
-
         orderEntity.setPromotionAmount(promotion);
         orderEntity.setIntegrationAmount(integration);
         orderEntity.setCouponAmount(coupon);
-
         // 设置积分、成长值
         orderEntity.setIntegration(gift.intValue());
         orderEntity.setGrowth(growth.intValue());
-
+        orderEntity.setAutoConfirmDay(14);
         // 设置订单的删除状态
         orderEntity.setDeleteStatus(OrderStatusEnum.CREATE_NEW.getCode());
     }
@@ -427,43 +424,41 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     }
 
     /**
-     * 构建某一个订单项
+     * 构建订单项
      */
     private OrderItemEntity buildOrderItem(OrderItemVo cartItem) {
-        OrderItemEntity itemEntity = new OrderItemEntity();
-        // 1.订单信息： 订单号
-
+        OrderItemEntity orderItemEntity = new OrderItemEntity();
         // 2.商品spu信息
         Long skuId = cartItem.getSkuId();
         R r = productFeign.getSpuInfoBySkuId(skuId);
         SpuInfoVo spuInfo = r.getData(new TypeReference<SpuInfoVo>() {
         });
-        itemEntity.setSpuId(spuInfo.getId());
-        itemEntity.setSpuBrand(spuInfo.getBrandId().toString());
-        itemEntity.setSpuName(spuInfo.getSpuName());
-        itemEntity.setCategoryId(spuInfo.getCatalogId());
+        orderItemEntity.setSpuId(spuInfo.getId());
+        orderItemEntity.setSpuBrand(spuInfo.getBrandId().toString());
+        orderItemEntity.setSpuName(spuInfo.getSpuName());
+        orderItemEntity.setCategoryId(spuInfo.getCatalogId());
         // 3.商品的sku信息
-        itemEntity.setSkuId(cartItem.getSkuId());
-        itemEntity.setSkuName(cartItem.getTitle());
-        itemEntity.setSkuPic(cartItem.getImage());
-        itemEntity.setSkuPrice(cartItem.getPrice());
+        orderItemEntity.setSkuId(cartItem.getSkuId());
+        orderItemEntity.setSkuName(cartItem.getTitle());
+        orderItemEntity.setSkuPic(cartItem.getImage());
+        orderItemEntity.setSkuPrice(cartItem.getPrice());
         // 把一个集合按照指定的字符串进行分割得到一个字符串
         String skuAttr = StringUtils.collectionToDelimitedString(cartItem.getSkuAttr(), ";");
-        itemEntity.setSkuAttrsVals(skuAttr);
-        itemEntity.setSkuQuantity(cartItem.getCount());
+        orderItemEntity.setSkuAttrsVals(skuAttr);
+        orderItemEntity.setSkuQuantity(cartItem.getCount());
         // 4.积分信息 买的数量越多积分越多 成长值越多
-        itemEntity.setGiftGrowth(cartItem.getPrice().multiply(new BigDecimal(cartItem.getCount())).intValue());
-        itemEntity.setGiftIntegration(cartItem.getPrice().multiply(new BigDecimal(cartItem.getCount())).intValue());
+        orderItemEntity.setGiftGrowth(cartItem.getPrice().multiply(BigDecimal.valueOf(cartItem.getCount())).intValue());
+        orderItemEntity.setGiftIntegration(cartItem.getPrice().multiply(BigDecimal.valueOf(cartItem.getCount())).intValue());
         // 5.订单项的价格信息 优惠金额
-        itemEntity.setPromotionAmount(new BigDecimal("0.0"));
-        itemEntity.setCouponAmount(new BigDecimal("0.0"));
-        itemEntity.setIntegrationAmount(new BigDecimal("0.0"));
+        orderItemEntity.setPromotionAmount(BigDecimal.ZERO);
+        orderItemEntity.setCouponAmount(BigDecimal.ZERO);
+        orderItemEntity.setIntegrationAmount(BigDecimal.ZERO);
         // 当前订单项的实际金额
-        BigDecimal orign = itemEntity.getSkuPrice().multiply(new BigDecimal(itemEntity.getSkuQuantity().toString()));
+        BigDecimal originPrice = orderItemEntity.getSkuPrice().multiply(BigDecimal.valueOf(orderItemEntity.getSkuQuantity()));
         // 减去各种优惠的价格
-        BigDecimal subtract = orign.subtract(itemEntity.getCouponAmount()).subtract(itemEntity.getPromotionAmount()).subtract(itemEntity.getIntegrationAmount());
-        itemEntity.setRealAmount(subtract);
-        return itemEntity;
+        BigDecimal realPrice = originPrice.subtract(orderItemEntity.getCouponAmount()).subtract(orderItemEntity.getPromotionAmount()).subtract(orderItemEntity.getIntegrationAmount());
+        orderItemEntity.setRealAmount(realPrice);
+        return orderItemEntity;
     }
 
     /**

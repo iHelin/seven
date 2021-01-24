@@ -9,7 +9,7 @@ import io.github.ihelin.seven.common.dto.mq.OrderTo;
 import io.github.ihelin.seven.common.dto.mq.StockDetailTo;
 import io.github.ihelin.seven.common.dto.mq.StockLockedTo;
 import io.github.ihelin.seven.common.enums.OrderStatusEnum;
-import io.github.ihelin.seven.common.exception.NotStockException;
+import io.github.ihelin.seven.common.exception.NoStockException;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.Query;
 import io.github.ihelin.seven.common.utils.R;
@@ -173,7 +173,7 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
     }
 
     @Override
-    @Transactional(rollbackFor = NotStockException.class)
+    @Transactional(rollbackFor = NoStockException.class)
     public Boolean orderLockStock(WareSkuLockVo vo) {
 // 当定库存之前先保存订单 以便后来消息撤回
         WareOrderTaskEntity taskEntity = new WareOrderTaskEntity();
@@ -194,12 +194,12 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
         }).collect(Collectors.toList());
 
         for (SkuWareHasStock hasStock : collect) {
-            Boolean skuStocked = true;
+            boolean skuLocked = false;
             Long skuId = hasStock.getSkuId();
             List<Long> wareIds = hasStock.getWareId();
             if (wareIds == null || wareIds.size() == 0) {
                 // 没有任何仓库有这个库存
-                throw new NotStockException(skuId.toString());
+                throw new NoStockException(skuId.toString());
             }
             // 如果每一个商品都锁定成功 将当前商品锁定了几件的工作单记录发送给MQ
             // 如果锁定失败 前面保存的工作单信息回滚了
@@ -218,14 +218,14 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
                     stockLockedTo.setDetailTo(detailTo);
 
                     rabbitTemplate.convertAndSend(eventExchange, routingKey, stockLockedTo);
-                    skuStocked = false;
+                    skuLocked = true;
                     break;
                 }
                 // 当前仓库锁定失败 重试下一个仓库
             }
-            if (skuStocked) {
+            if (!skuLocked) {
                 // 当前商品在所有仓库都没锁柱
-                throw new NotStockException(skuId.toString());
+                throw new NoStockException(skuId.toString());
             }
         }
         // 3.全部锁定成功

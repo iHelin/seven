@@ -1,10 +1,12 @@
 package io.github.ihelin.seven.order.web;
 
-import io.github.ihelin.seven.common.exception.NotStockException;
+import io.github.ihelin.seven.common.exception.NoStockException;
 import io.github.ihelin.seven.order.service.OrderService;
 import io.github.ihelin.seven.order.vo.OrderConfirmVo;
 import io.github.ihelin.seven.order.vo.OrderSubmitVo;
 import io.github.ihelin.seven.order.vo.SubmitOrderResponseVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,8 @@ import java.util.concurrent.ExecutionException;
 
 @Controller
 public class OrderWebController {
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private OrderService orderService;
@@ -56,7 +60,8 @@ public class OrderWebController {
                 return "redirect:http://order.seven.com/toTrade";
             }
         } catch (Exception e) {
-            if (e instanceof NotStockException) {
+            logger.warn("submitOrder error", e);
+            if (e instanceof NoStockException) {
                 String message = e.getMessage();
                 redirectAttributes.addAttribute("msg", message);
             }

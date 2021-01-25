@@ -3,20 +3,15 @@ package io.github.ihelin.seven.order.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rabbitmq.client.Channel;
 import io.github.ihelin.seven.common.utils.PageUtils;
 import io.github.ihelin.seven.common.utils.Query;
 import io.github.ihelin.seven.order.dao.OrderItemDao;
 import io.github.ihelin.seven.order.entity.OrderItemEntity;
-import io.github.ihelin.seven.order.entity.OrderReturnReasonEntity;
 import io.github.ihelin.seven.order.service.OrderItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -43,16 +38,16 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemDao, OrderItemEnt
     /**
      * @param message org.springframework.amqp.core.Message
      */
-    @RabbitListener(queues = {"hello-seven-queue"})
-    public void receiveMsg(Message message, OrderReturnReasonEntity entity, Channel channel) {
-        logger.debug("msg:{}", message);
-        logger.debug("entity:{}", entity);
-        long deliveryTag = message.getMessageProperties().getDeliveryTag();
-        try {
-            channel.basicAck(deliveryTag, false);
-        } catch (IOException e) {
-            logger.error("签收失败", e);
-        }
-    }
+//    @RabbitListener(queues = {"hello-seven-queue"})
+//    public void receiveMsg(Message message, OrderReturnReasonEntity entity, Channel channel) {
+//        logger.debug("msg:{}", message);
+//        logger.debug("entity:{}", entity);
+//        long deliveryTag = message.getMessageProperties().getDeliveryTag();
+//        try {
+//            channel.basicAck(deliveryTag, false);
+//        } catch (IOException e) {
+//            logger.error("签收失败", e);
+//        }
+//    }
 
 }

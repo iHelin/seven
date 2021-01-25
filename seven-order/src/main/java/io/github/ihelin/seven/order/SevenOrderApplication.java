@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.zaxxer.hikari.HikariDataSource;
 import io.seata.rm.datasource.DataSourceProxy;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -20,7 +21,7 @@ import javax.sql.DataSource;
  * raft 算法演示：http://thesecretlivesofdata.com/raft/
  */
 @EnableFeignClients
-//@EnableRabbit
+@EnableRabbit
 @EnableAspectJAutoProxy(exposeProxy = true)
 @EnableRedisHttpSession
 @SpringBootApplication

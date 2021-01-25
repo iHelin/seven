@@ -11,37 +11,32 @@ import org.springframework.context.annotation.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * <p>Title: MyMQConfig</p>
- * Description：容器中的所有bean都会自动创建到RabbitMQ中 [RabbitMQ没有这个队列、交换机、绑定]
- * date：2020/7/3 17:03
- */
 @Configuration
 public class MyMQConfig {
 
 	@Value("${myRabbitmq.MQConfig.queues}")
 	private String queues;
 
-	@Value("${myRabbitmq.MQConfig.eventExchange}")
-	private String eventExchange;
+	@Value("${myRabbitmq.MQConfig.orderEventExchange}")
+	private String orderEventExchange;
 
-	@Value("${myRabbitmq.MQConfig.routingKey}")
-	private String routingKey;
+	@Value("${myRabbitmq.MQConfig.createOrderRoutingKey}")
+	private String createOrderRoutingKey;
+
+	@Value("${myRabbitmq.MQConfig.releaseOrderRoutingKey}")
+	private String releaseOrderRoutingKey;
 
 	@Value("${myRabbitmq.MQConfig.delayQueue}")
 	private String delayQueue;
 
-	@Value("${myRabbitmq.MQConfig.createOrder}")
-	private String createOrder;
-
 	@Value("${myRabbitmq.MQConfig.ReleaseOther}")
-	private String ReleaseOther;
+	private String releaseOtherQueue;
 
 	@Value("${myRabbitmq.MQConfig.ReleaseOtherKey}")
-	private String ReleaseOtherKey;
+	private String releaseOtherKeyRoutingKey;
 
 	@Value("${myRabbitmq.MQConfig.ttl}")
-	private String ttl;
+	private Long ttl;
 
 	/**
 	 * String name, boolean durable, boolean exclusive, boolean autoDelete,  @Nullable Map<String, Object> arguments
@@ -49,17 +44,15 @@ public class MyMQConfig {
 	@Bean
 	public Queue orderDelayQueue(){
 		Map<String ,Object> arguments = new HashMap<>();
-		arguments.put("x-dead-letter-exchange", eventExchange);
-		arguments.put("x-dead-letter-routing-key", routingKey);
+		arguments.put("x-dead-letter-exchange", orderEventExchange);
+		arguments.put("x-dead-letter-routing-key", releaseOrderRoutingKey);
 		arguments.put("x-message-ttl", ttl);
-		Queue queue = new Queue(delayQueue, true, false, false, arguments);
-		return queue;
+		return new Queue(delayQueue, true, false, false, arguments);
 	}
 
 	@Bean
 	public Queue orderReleaseOrderQueue(){
-		Queue queue = new Queue(queues, true, false, false);
-		return queue;
+		return new Queue(queues, true, false, false);
 	}
 
 	/**
@@ -68,8 +61,7 @@ public class MyMQConfig {
 	 */
 	@Bean
 	public Exchange orderEventExchange(){
-
-		return new TopicExchange(eventExchange, true, false);
+		return new TopicExchange(orderEventExchange, true, false);
 	}
 
 	/**
@@ -77,14 +69,12 @@ public class MyMQConfig {
 	 */
 	@Bean
 	public Binding orderCreateOrderBinding(){
-
-		return new Binding(delayQueue, Binding.DestinationType.QUEUE, eventExchange, createOrder, null);
+		return new Binding(delayQueue, Binding.DestinationType.QUEUE, orderEventExchange, createOrderRoutingKey, null);
 	}
 
 	@Bean
 	public Binding orderReleaseOrderBinding(){
-
-		return new Binding(queues, Binding.DestinationType.QUEUE, eventExchange, routingKey, null);
+		return new Binding(queues, Binding.DestinationType.QUEUE, orderEventExchange, releaseOrderRoutingKey, null);
 	}
 
 	/**
@@ -92,8 +82,7 @@ public class MyMQConfig {
 	 */
 	@Bean
 	public Binding orderReleaseOtherBinding(){
-
-		return new Binding(ReleaseOther, Binding.DestinationType.QUEUE, eventExchange, ReleaseOtherKey + ".#", null);
+		return new Binding(releaseOtherQueue, Binding.DestinationType.QUEUE, orderEventExchange, releaseOtherKeyRoutingKey + ".#", null);
 	}
 
 	@Bean

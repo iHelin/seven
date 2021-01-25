@@ -19,6 +19,7 @@ import io.github.ihelin.seven.product.feign.SearchFeign;
 import io.github.ihelin.seven.product.feign.WareFeign;
 import io.github.ihelin.seven.product.service.*;
 import io.github.ihelin.seven.product.vo.*;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,6 +81,11 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         return new PageUtils(page);
     }
 
+    /**
+     * @GlobalTransactional：后台管理比较适合AT模式
+     * @param spuSaveVo
+     */
+    @GlobalTransactional
     @Override
     @Transactional
     public void saveSpuInfo(SpuSaveVo spuSaveVo) {

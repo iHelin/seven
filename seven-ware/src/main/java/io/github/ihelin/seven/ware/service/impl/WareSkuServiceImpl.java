@@ -61,11 +61,11 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
     @Autowired
     private OrderFeign orderFeign;
 
-    @Value("${myRabbitmq.MQConfig.eventExchange}")
-    private String eventExchange;
+    @Value("${myRabbitmq.MQConfig.stockEventExchange}")
+    private String stockEventExchange;
 
-    @Value("${myRabbitmq.MQConfig.routingKey}")
-    private String routingKey;
+    @Value("${myRabbitmq.MQConfig.lockStockRoutingKey}")
+    private String lockStockRoutingKey;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -172,6 +172,13 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
         return skuHasStockVos;
     }
 
+    /**
+     * 库存解锁的场景
+     * 1.下订单成功，订单过期没有支付被系统或用户取消
+     * 2.下单成功，库存锁定成功，接下来的业务调用失败，导致订单回滚，但库存没有回滚，之前锁定的库存就需要自动解锁
+     * @param vo
+     * @return
+     */
     @Override
     @Transactional(rollbackFor = NoStockException.class)
     public Boolean orderLockStock(WareSkuLockVo vo) {
@@ -207,7 +214,8 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
                 // 成功就返回 1 失败返回0
                 Long count = wareSkuDao.lockSkuStock(skuId, wareId, hasStock.getNum());
                 if (count == 1) {
-                    // TODO 告诉MQ库存锁定成功 一个订单锁定成功 消息队列就会有一个消息
+                    skuLocked = true;
+                    // 告诉MQ库存锁定成功 一个订单锁定成功 消息队列就会有一个消息
                     WareOrderTaskDetailEntity detailEntity = new WareOrderTaskDetailEntity(null, skuId, "", hasStock.getNum(), taskEntity.getId(), wareId, 1);
                     orderTaskDetailService.save(detailEntity);
                     StockLockedTo stockLockedTo = new StockLockedTo();
@@ -217,8 +225,8 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
                     // 防止回滚以后找不到数据 把详细信息页
                     stockLockedTo.setDetailTo(detailTo);
 
-                    rabbitTemplate.convertAndSend(eventExchange, routingKey, stockLockedTo);
-                    skuLocked = true;
+                    rabbitTemplate.convertAndSend(stockEventExchange, lockStockRoutingKey, stockLockedTo);
+
                     break;
                 }
                 // 当前仓库锁定失败 重试下一个仓库

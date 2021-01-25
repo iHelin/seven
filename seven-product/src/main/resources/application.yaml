@@ -39,3 +39,13 @@ seven:
     core-size: 20
     max-size: 200
     keep-alive-time: 10
+seata:
+  registry:
+    type: nacos
+    nacos:
+      group: DEFAULT_GROUP
+      server-addr: ${spring.cloud.nacos.discovery.server-addr}
+  tx-service-group: ${spring.application.name}-group
+  service:
+    vgroup-mapping:
+      seven-product-group: default

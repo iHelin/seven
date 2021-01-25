@@ -26,7 +26,6 @@ import io.github.ihelin.seven.order.service.OrderItemService;
 import io.github.ihelin.seven.order.service.OrderService;
 import io.github.ihelin.seven.order.service.PaymentInfoService;
 import io.github.ihelin.seven.order.vo.*;
-import io.seata.spring.annotation.GlobalTransactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.AmqpException;
@@ -78,11 +77,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     @Autowired
     private PaymentInfoService paymentInfoService;
 
-    @Value("${myRabbitmq.MQConfig.eventExchange}")
-    private String eventExchange;
+    @Value("${myRabbitmq.MQConfig.orderEventExchange}")
+    private String orderEventExchange;
 
-    @Value("${myRabbitmq.MQConfig.createOrder}")
-    private String createOrder;
+    @Value("${myRabbitmq.MQConfig.createOrderRoutingKey}")
+    private String createOrderRoutingKey;
 
     @Value("${myRabbitmq.MQConfig.ReleaseOtherKey}")
     private String ReleaseOtherKey;
@@ -148,7 +147,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         return orderConfirmVo;
     }
 
-    @GlobalTransactional
+    /**
+     * @param orderSubmitVo
+     * @return
+     * @GlobalTransactional AT模式 在高并发场景不适合
+     * 高并发场景使用柔性事务，即可靠消息+最终一致性方案（异步确保型）
+     */
+//    @GlobalTransactional
     @Override
     @Transactional
     public SubmitOrderResponseVo submitOrder(OrderSubmitVo orderSubmitVo) {
@@ -196,7 +201,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
                 if (r.getCode() == 0) {
                     // 库存足够 锁定成功 给MQ发送消息
                     responseVo.setOrderEntity(order.getOrder());
-                    rabbitTemplate.convertAndSend(this.eventExchange, this.createOrder, order.getOrder());
+                    rabbitTemplate.convertAndSend(orderEventExchange, createOrderRoutingKey, order.getOrder());
                 } else {
                     // 锁定失败
                     responseVo.setCode(3);
@@ -232,7 +237,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
             try {
                 // 保证消息 100% 发出去 每一个消息在数据库保存详细信息
                 // 定期扫描数据库 将失败的消息在发送一遍
-                rabbitTemplate.convertAndSend(eventExchange, ReleaseOtherKey, orderTo);
+                rabbitTemplate.convertAndSend(orderEventExchange, ReleaseOtherKey, orderTo);
             } catch (AmqpException e) {
                 // 将没发送成功的消息进行重试发送.
             }

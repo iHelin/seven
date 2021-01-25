@@ -25,10 +25,10 @@ spring:
     host: 121.4.87.152
     port: 5672
     virtual-host: /
-    publisher-confirm-type: correlated
-    publisher-returns: true
-    template:
-      mandatory: true
+#    publisher-confirm-type: correlated
+#    publisher-returns: true
+#    template:
+#      mandatory: true
     listener:
       simple:
         acknowledge-mode: manual
@@ -70,3 +70,14 @@ alipay:
   notify_url: http://sthwsr.natappfree.cc/payed/notify
   return_url: http://member.seven.com/memberOrder.html
   timeout: 15m
+
+seata:
+  registry:
+    type: nacos
+    nacos:
+      group: DEFAULT_GROUP
+      server-addr: ${spring.cloud.nacos.discovery.server-addr}
+  tx-service-group: ${spring.application.name}-group
+  service:
+    vgroup-mapping:
+      seven-order-group: default

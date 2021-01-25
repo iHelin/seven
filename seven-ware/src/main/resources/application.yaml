@@ -40,3 +40,14 @@ myRabbitmq:
     letterRoutingKey: stock.release
     # 库存自动过期时间 单位:(毫秒)
     ttl: 900000
+
+seata:
+  registry:
+    type: nacos
+    nacos:
+      group: DEFAULT_GROUP
+      server-addr: ${spring.cloud.nacos.discovery.server-addr}
+  tx-service-group: ${spring.application.name}-group
+  service:
+    vgroup-mapping:
+      seven-ware-group: default

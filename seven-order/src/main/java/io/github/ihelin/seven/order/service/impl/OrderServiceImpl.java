@@ -26,6 +26,7 @@ import io.github.ihelin.seven.order.service.OrderItemService;
 import io.github.ihelin.seven.order.service.OrderService;
 import io.github.ihelin.seven.order.service.PaymentInfoService;
 import io.github.ihelin.seven.order.vo.*;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.AmqpException;
@@ -147,7 +148,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         return orderConfirmVo;
     }
 
-    //	@GlobalTransactional
+    @GlobalTransactional
     @Override
     @Transactional
     public SubmitOrderResponseVo submitOrder(OrderSubmitVo orderSubmitVo) {

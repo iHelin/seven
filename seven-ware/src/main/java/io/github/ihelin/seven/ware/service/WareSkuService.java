@@ -22,8 +22,6 @@ public interface WareSkuService extends IService<WareSkuEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    void unlockStock(StockLockedTo to);
-
     void addStock(Long skuId, Long wareId, Integer skuNum);
 
     List<SkuHasStockVo> getSkuHasStock(List<Long> skuIds);
@@ -34,5 +32,7 @@ public interface WareSkuService extends IService<WareSkuEntity> {
      * 由于订单超时而自动释放订单之后来解锁库存
      */
     void unlockStock(OrderTo to);
+
+    void unlockStock(StockLockedTo stockLockedTo);
 }
 

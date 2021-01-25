@@ -82,7 +82,8 @@ public class MyMQConfig {
 	 */
 	@Bean
 	public Binding orderReleaseOtherBinding(){
-		return new Binding(releaseOtherQueue, Binding.DestinationType.QUEUE, orderEventExchange, releaseOtherKeyRoutingKey + ".#", null);
+		return new Binding(releaseOtherQueue, Binding.DestinationType.QUEUE, orderEventExchange,
+			releaseOtherKeyRoutingKey + ".#", null);
 	}
 
 	@Bean
@@ -92,6 +93,7 @@ public class MyMQConfig {
 
 	@Bean
 	public Binding orderSecKillQueueBinding(){
-		return new Binding("order.seckill.order.queue", Binding.DestinationType.QUEUE, "order-event-exchange", "order.seckill.order", null);
+		return new Binding("order.seckill.order.queue", Binding.DestinationType.QUEUE,
+			"order-event-exchange", "order.seckill.order", null);
 	}
 }

@@ -24,6 +24,7 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
     @Autowired
     private WareFeign wareFeign;
 
@@ -36,6 +37,12 @@ public class OrderController {
     @GetMapping("/fare")
     public R getFare(Long addrId) {
         return wareFeign.getFare(addrId);
+    }
+
+    @GetMapping("/status/{orderSn}")
+    public R getOrderStatus(@PathVariable String orderSn) {
+        OrderEntity orderEntity = orderService.getOrderByOrderSn(orderSn);
+        return R.ok().putData(orderEntity == null ? null : orderEntity.getStatus());
     }
 
     /**

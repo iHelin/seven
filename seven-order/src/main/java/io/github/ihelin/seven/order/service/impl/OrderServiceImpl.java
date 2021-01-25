@@ -205,8 +205,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
                 } else {
                     // 锁定失败
                     responseVo.setCode(3);
-                    String msg = (String) r.get("msg");
-                    throw new NoStockException(msg);
+                    Long skuId = r.getData(new TypeReference<Long>() {
+                    });
+                    throw new NoStockException(skuId);
                 }
             } else {
                 // 价格验证失败
@@ -223,10 +224,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     @Override
     public void closeOrder(OrderEntity entity) {
-        logger.info("\n收到过期的订单信息--准关闭订单:" + entity.getOrderSn());
         // 查询这个订单的最新状态
-        OrderEntity orderEntity = this.getById(entity.getId());
-        if (orderEntity.getStatus() == OrderStatusEnum.CREATE_NEW.getCode()) {
+        OrderEntity orderEntity = getById(entity.getId());
+        if (OrderStatusEnum.CREATE_NEW.getCode().equals(orderEntity.getStatus())) {
             OrderEntity update = new OrderEntity();
             update.setId(entity.getId());
             update.setStatus(OrderStatusEnum.CANCLED.getCode());
@@ -236,7 +236,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
             BeanUtils.copyProperties(orderEntity, orderTo);
             try {
                 // 保证消息 100% 发出去 每一个消息在数据库保存详细信息
-                // 定期扫描数据库 将失败的消息在发送一遍
+                // 定期扫描数据库 将失败的消息再发送一遍
                 rabbitTemplate.convertAndSend(orderEventExchange, ReleaseOtherKey, orderTo);
             } catch (AmqpException e) {
                 // 将没发送成功的消息进行重试发送.

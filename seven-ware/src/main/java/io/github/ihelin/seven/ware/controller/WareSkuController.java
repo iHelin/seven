@@ -40,7 +40,7 @@ public class WareSkuController {
             return R.ok();
         } catch (NoStockException e) {
             logger.error("orderLockStock error", e);
-            return R.error(BizCodeEnum.NOT_STOCK_EXCEPTION.getCode(), BizCodeEnum.NOT_STOCK_EXCEPTION.getMsg());
+            return R.error(BizCodeEnum.NOT_STOCK_EXCEPTION.getCode(), BizCodeEnum.NOT_STOCK_EXCEPTION.getMsg()).putData(e.getSkuId());
         }
     }
 

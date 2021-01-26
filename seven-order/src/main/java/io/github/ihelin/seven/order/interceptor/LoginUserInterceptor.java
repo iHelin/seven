@@ -17,9 +17,8 @@ public class LoginUserInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String uri = request.getRequestURI();
-        // 这个请求直接放行
-        boolean match = new AntPathMatcher().match("/order/order/status/**", uri);
-        if (match) {
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
+        if (antPathMatcher.match("/order/order/status/**", uri)) {
             return true;
         }
         HttpSession session = request.getSession();

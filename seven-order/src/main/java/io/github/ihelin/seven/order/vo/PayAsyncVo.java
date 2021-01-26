@@ -1,16 +1,14 @@
 package io.github.ihelin.seven.order.vo;
 
-import java.util.Date;
-
 public class PayAsyncVo {
 
-	private Date gmt_create;
+	private String gmt_create;
 
 	private String charset;
 
 	private String gmt_payment;
 
-	private Date notify_time;
+	private String notify_time;
 
 	private String subject;
 
@@ -80,11 +78,11 @@ public class PayAsyncVo {
 				"\nseller_id --> '" + seller_id + '\'';
 	}
 
-	public Date getGmt_create() {
+	public String getGmt_create() {
 		return gmt_create;
 	}
 
-	public void setGmt_create(Date gmt_create) {
+	public void setGmt_create(String gmt_create) {
 		this.gmt_create = gmt_create;
 	}
 
@@ -104,11 +102,11 @@ public class PayAsyncVo {
 		this.gmt_payment = gmt_payment;
 	}
 
-	public Date getNotify_time() {
+	public String getNotify_time() {
 		return notify_time;
 	}
 
-	public void setNotify_time(Date notify_time) {
+	public void setNotify_time(String notify_time) {
 		this.notify_time = notify_time;
 	}
 

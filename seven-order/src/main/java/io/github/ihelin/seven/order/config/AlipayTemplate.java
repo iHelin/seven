@@ -36,7 +36,7 @@ public class AlipayTemplate {
     // 自动关单时间
     private String timeout = "15m";
 
-    // 支付宝网关； https://openapi.alipaydev.com/gateway.do
+    // 支付宝网关
     private  String gatewayUrl = "https://openapi.alipaydev.com/gateway.do";
 
     public  String pay(PayVo vo) throws AlipayApiException {

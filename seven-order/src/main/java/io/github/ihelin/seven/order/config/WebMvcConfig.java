@@ -6,11 +6,13 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class MallWebConfig implements WebMvcConfigurer {
+public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 放行支付宝回调请求
-        registry.addInterceptor(new LoginUserInterceptor()).addPathPatterns("/**").excludePathPatterns("/payed/notify");
+        registry.addInterceptor(new LoginUserInterceptor())
+            .addPathPatterns("/**")
+            .excludePathPatterns("/payed/notify","/error");
     }
 }

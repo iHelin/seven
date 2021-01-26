@@ -10,7 +10,6 @@
 
 	<body>
 		<div id="max">
-
 			<!--顶部-->
 			<header>
 				<div class="min">
@@ -21,16 +20,16 @@
 					</ul>
 					<ul class="header_ul_right">
 						<li style="border: 0;" th:if="${session.loginUser} !=null">
-            <a class="aa" style="width: 300px">[[${session.loginUser.username}]]</a>
-          </li>
-            <li th:if="${session.loginUser} !=null">
-              <a href="http://auth.seven.com/logout">退出登录</a>
-            </li>
-            <li th:if="${session.loginUser} ==null" style="border: 0;">
-              <a href="http://auth.seven.com/login.html" class="aa">你好，请登录 </a>
-            </li>
-            <li th:if="${session.loginUser} ==null">
-              <a href="http://auth.seven.com/reg.html" style="color: red;">免费注册</a> |</li>
+							<a class="aa" style="width: 300px">[[${session.loginUser.username}]]</a>
+					  	</li>
+            			<li th:if="${session.loginUser} !=null">
+						  <a href="http://auth.seven.com/logout">退出登录</a>
+						</li>
+						<li th:if="${session.loginUser} ==null" style="border: 0;">
+						  <a href="http://auth.seven.com/login.html" class="aa">你好，请登录 </a>
+						</li>
+						<li th:if="${session.loginUser} ==null">
+						  <a href="http://auth.seven.com/reg.html" style="color: red;">免费注册</a> |</li>
 						<li th:if="${session.loginUser} !=null">
 							<a href="http://order.seven.com/list.html" class="aa">我的订单</a> |</li>
 						<li class="jingdong" style="width:95px;">
@@ -126,128 +125,6 @@
 								</li>
 								<li>
 									<a href="/static/order/detail/javascript:;">规则平台</a>
-								</li>
-							</ol>
-						</li>
-						<li class="daohang">
-							<a href="/static/order/detail/javascript:;">网站导航</a><span class="glyphicon glyphicon-menu-down"></span> |
-							<ol class="daohang_ol">
-								<li style="width: 34%;">
-									<h5>特色主题</h5>
-									<p>
-										<a href="/static/order/detail/javascript:;">谷粒商城试用</a>
-										<a href="/static/order/detail/javascript:;">谷粒商城金融</a>
-										<a href="/static/order/detail/javascript:;">全球售</a>
-										<a href="/static/order/detail/javascript:;">国际站</a>
-									</p>
-									<p>
-										<a href="/static/order/detail/javascript:;">谷粒商城会员</a>
-										<a href="/static/order/detail/javascript:;">谷粒商城预售</a>
-										<a href="/static/order/detail/javascript:;">买什么</a>
-										<a href="/static/order/detail/javascript:;">俄语站</a>
-									</p>
-									<p>
-										<a href="/static/order/detail/javascript:;">装机大师</a>
-										<a href="/static/order/detail/javascript:;">0元评测</a>
-										<a href="/static/order/detail/javascript:;">定期送</a>
-										<a href="/static/order/detail/javascript:;">港澳售</a>
-									</p>
-									<p>
-										<a href="/static/order/detail/javascript:;">优惠券</a>
-										<a href="/static/order/detail/javascript:;">秒杀</a>
-										<a href="/static/order/detail/javascript:;">闪购</a>
-										<a href="/static/order/detail/javascript:;">印尼站</a>
-									</p>
-									<p>
-										<a href="/static/order/detail/javascript:;">谷粒商城金融科技</a>
-										<a href="/static/order/detail/javascript:;">In货推荐</a>
-										<a href="/static/order/detail/javascript:;">陪伴计划</a>
-										<a href="/static/order/detail/javascript:;">出海招商</a>
-									</p>
-								</li>
-								<li>
-									<h5>行业频道</h5>
-									<p>
-										<a href="/static/order/detail/javascript:;" class="aa_2">手机</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">智能数码</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">玩3C</a>
-									</p>
-									<p>
-										<a href="/static/order/detail/javascript:;" class="aa_2">电脑办公</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">家用电器</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">谷粒商城智能</a>
-									</p>
-									<p>
-										<a href="/static/order/detail/javascript:;" class="aa_2">服装城</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">美妆馆</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">家装城</a>
-									</p>
-									<p>
-										<a href="/static/order/detail/javascript:;" class="aa_2">母婴</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">食品</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">运动户外</a>
-									</p>
-									<p>
-										<a href="/static/order/detail/javascript:;" class="aa_2">农资频道</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">整车</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">图书</a>
-									</p>
-								</li>
-								<li>
-									<h5>生活服务</h5>
-									<p>
-										<a href="/static/order/detail/javascript:;" class="aa_2">谷粒商城众筹</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">白条</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">谷粒商城金融APP</a>
-									</p>
-									<p>
-										<a href="/static/order/detail/javascript:;" class="aa_2">谷粒商城小金库</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">理财</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">智能家电</a>
-									</p>
-									<p>
-										<a href="/static/order/detail/javascript:;" class="aa_2">话费</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">水电煤</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">彩票</a>
-									</p>
-									<p>
-										<a href="/static/order/detail/javascript:;" class="aa_2">旅行</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">机票酒店</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">电影票</a>
-									</p>
-									<p>
-										<a href="/static/order/detail/javascript:;" class="aa_2">谷粒商城到家</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">谷粒商城众测</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">游戏</a>
-									</p>
-								</li>
-								<li style="border: 0;">
-									<h5>更多精选</h5>
-									<p>
-										<a href="/static/order/detail/javascript:;" class="aa_2">合作招商</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">谷粒商城通信</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">谷粒商城E卡</a>
-									</p>
-									<p>
-										<a href="/static/order/detail/javascript:;" class="aa_2">企业采购</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">服务市场</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">办公生活馆</a>
-									</p>
-									<p>
-										<a href="/static/order/detail/javascript:;" class="aa_2">乡村招募</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">校园加盟</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">京友邦</a>
-									</p>
-									<p>
-										<a href="/static/order/detail/javascript:;" class="aa_2">谷粒商城社区</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">智能社区</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2">游戏社区</a>
-									</p>
-									<p>
-										<a href="/static/order/detail/javascript:;" class="aa_2">知识产权维权</a>
-										<a href="/static/order/detail/javascript:;" class="aa_2"></a>
-										<a href="/static/order/detail/javascript:;" class="aa_2"></a>
-									</p>
 								</li>
 							</ol>
 						</li>

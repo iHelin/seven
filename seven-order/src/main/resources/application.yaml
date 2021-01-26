@@ -32,6 +32,9 @@ spring:
     listener:
       simple:
         acknowledge-mode: manual
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
 mybatis-plus:
   global-config:
     db-config:

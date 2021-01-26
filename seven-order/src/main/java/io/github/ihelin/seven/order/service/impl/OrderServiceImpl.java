@@ -42,6 +42,8 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -292,14 +294,27 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         infoEntity.setOrderSn(vo.getOut_trade_no());
         //		TRADE_SUCCESS
         infoEntity.setPaymentStatus(vo.getTrade_status());
-        infoEntity.setCallbackTime(vo.getNotify_time());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date callbackTime = null;
+        try {
+            callbackTime = sdf.parse(vo.getNotify_time());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        infoEntity.setCallbackTime(callbackTime);
         infoEntity.setSubject(vo.getSubject());
         infoEntity.setTotalAmount(new BigDecimal(vo.getTotal_amount()));
-        infoEntity.setCreateTime(vo.getGmt_create());
+        Date createTime = null;
+        try {
+            createTime = sdf.parse(vo.getGmt_create());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        infoEntity.setCreateTime(createTime);
         paymentInfoService.save(infoEntity);
 
         // 2.修改订单状态信息
-        if (vo.getTrade_status().equals("TRADE_SUCCESS") || vo.getTrade_status().equals("TRADE_FINISHED")) {
+        if ("TRADE_SUCCESS".equals(vo.getTrade_status()) || "TRADE_FINISHED".equals(vo.getTrade_status())) {
             // 支付成功
             String orderSn = vo.getOut_trade_no();
             this.baseMapper.updateOrderStatus(orderSn, OrderStatusEnum.PAYED.getCode());

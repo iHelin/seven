@@ -15,49 +15,7 @@
         <!--品牌官方网站-->
         <div class="min">
             <ul class="header_ul_left">
-                <li class="glyphicon glyphicon-home"><a href="http://seven.com/" class="aa">京东首页</a></li>
-                <li class="glyphicon glyphicon-map-marker"><a
-                        th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">北京</a>
-                    <ol id="beijing">
-                        <li style="background: red;"><a
-                                th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}" style="color: white;">北京</a>
-                        </li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">上海</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">天津</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">重庆</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">河北</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">山西</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">河南</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">辽宁</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">吉林</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">黑龙江</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">内蒙古</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">江苏</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">山东</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">安徽</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">浙江</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">福建</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">湖北</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">湖南</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">广东</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">广西</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">江西</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">四川</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">海南</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">贵州</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">云南</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">西藏</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">陕西</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">甘肃</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">青海</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">宁夏</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">新疆</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">港澳</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">台湾</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">钓鱼岛</a></li>
-                        <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">海外</a></li>
-                    </ol>
-                </li>
+                <li class="glyphicon glyphicon-home"><a href="http://seven.com/" class="aa">首页</a></li>
             </ul>
             <ul class="header_ul_right">
                 <li style="border: 0;" th:if="${session.loginUser} !=null">
@@ -73,10 +31,11 @@
                 <li th:if="${session.loginUser} ==null">
                     <a href="http://auth.seven.com/reg.html" style="color: red;">免费注册</a> |
                 </li>
-                <li th:if="${session.loginUser} !=null"><a href="http://member.seven.com/memberOrder.html" class="aa">我的订单</a>
-                    |
+                <li th:if="${session.loginUser} !=null">
+                    <a href="http://member.seven.com/memberOrder.html" class="aa">我的订单</a>
                 </li>
-                <li class="jingdong"><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">我的京东</a><span
+                <li class="jingdong">
+                    <a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">我的京东</a><span
                         class="glyphicon glyphicon-menu-down">|</span>
                     <ol class="jingdong_ol">
                         <li><a th:href="${'http://item.seven.com/' + item.info.skuId + '.html'}">待处理订单</a></li>

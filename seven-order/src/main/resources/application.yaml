@@ -25,10 +25,10 @@ spring:
     host: 121.4.87.152
     port: 5672
     virtual-host: /
-#    publisher-confirm-type: correlated
-#    publisher-returns: true
-#    template:
-#      mandatory: true
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    template:
+      mandatory: true
     listener:
       simple:
         acknowledge-mode: manual
@@ -65,9 +65,9 @@ myRabbitmq:
     ReleaseOtherKey: order.release.other
 
 alipay:
-  app_id: 2016102100732649
+  app_id: 2021000117605584
   # 支付宝异步回调通知 这个来感应订单是否完成
-  notify_url: http://sthwsr.natappfree.cc/payed/notify
+  notify_url: http://helinux.cn1.utools.club/payed/notify
   return_url: http://member.seven.com/memberOrder.html
   timeout: 15m
 

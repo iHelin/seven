@@ -110,7 +110,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
                 List<MemberAddressVo> address = memberFeign.getAddress(memberRsepVo.getId());
                 orderConfirmVo.setAddress(address);
             } catch (Exception e) {
-                logger.warn("\n远程调用会员服务失败 [会员服务可能未启动]");
+                logger.warn("远程调用会员服务失败 [会员服务可能未启动]");
             }
         }, executor);
 
@@ -235,7 +235,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
             OrderTo orderTo = new OrderTo();
             BeanUtils.copyProperties(orderEntity, orderTo);
             try {
-                // 保证消息 100% 发出去 每一个消息在数据库保存详细信息
+                // 保证消息100%发出去 每一个消息在数据库保存详细信息
                 // 定期扫描数据库 将失败的消息再发送一遍
                 rabbitTemplate.convertAndSend(orderEventExchange, ReleaseOtherKey, orderTo);
             } catch (AmqpException e) {
@@ -249,14 +249,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         PayVo payVo = new PayVo();
         OrderEntity order = this.getOrderByOrderSn(orderSn);
         // 保留2位小数位向上补齐
-        payVo.setTotal_amount(order.getTotalAmount().add(order.getFreightAmount() == null ? new BigDecimal("0") : order.getFreightAmount()).setScale(2, BigDecimal.ROUND_UP).toString());
+        payVo.setTotal_amount(order.getTotalAmount().add(order.getFreightAmount() == null ? BigDecimal.ZERO : order.getFreightAmount()).setScale(2, BigDecimal.ROUND_UP).toString());
         payVo.setOut_trade_no(order.getOrderSn());
-        List<OrderItemEntity> entities = orderItemService.list(new QueryWrapper<OrderItemEntity>().eq("order_sn", order.getOrderSn()));
+        List<OrderItemEntity> entities = orderItemService.list(
+            new QueryWrapper<OrderItemEntity>()
+                .eq("order_sn", order.getOrderSn()));
         payVo.setSubject("seven");
         payVo.setBody("seven");
-        if (null != entities.get(0).getSkuName() && entities.get(0).getSkuName().length() > 1) {
-//			payVo.setSubject(entities.get(0).getSkuName());
-//			payVo.setBody(entities.get(0).getSkuName());
+        if (entities.get(0).getSkuName() != null && entities.get(0).getSkuName().length() > 1) {
+			payVo.setSubject(entities.get(0).getSkuName());
+			payVo.setBody(entities.get(0).getSkuName());
             payVo.setSubject("seven");
             payVo.setBody("seven");
         }

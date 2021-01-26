@@ -83,7 +83,7 @@ public class LoginController {
     }
 
     @ResponseBody
-    @GetMapping("/sms/snedcode")
+    @GetMapping("/sms/sendcode")
     public R sendCode(String phone) {
         // TODO 接口防刷
         String redisCode = stringRedisTemplate.opsForValue().get(MemberServerConstant.SMS_CODE_CACHE_PREFIX + phone);
@@ -159,7 +159,6 @@ public class LoginController {
 
     @GetMapping("/oauth2.0/weibo/success")
     public String weiBo(@RequestParam("code") String code, HttpSession session) throws Exception {
-
         // 根据code换取 Access Token
         Map<String, String> map = new HashMap<>();
         map.put("client_id", "166097238");

@@ -39,6 +39,12 @@ public class OrderController {
         return wareFeign.getFare(addrId);
     }
 
+    @PostMapping("/listWithItem")
+    public R listWithItem(@RequestBody Map<String, Object> params){
+        PageUtils page = orderService.queryPageWithItem(params);
+        return R.ok().put("page", page);
+    }
+
     @GetMapping("/status/{orderSn}")
     public R getOrderStatus(@PathVariable String orderSn) {
         OrderEntity orderEntity = orderService.getOrderByOrderSn(orderSn);
